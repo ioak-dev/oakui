@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>&lt;my-element> Demo</title>
+    <script
+      type="module"
+      src="../dist/components/public/oak-input/index.js"
+    ></script>
+    <script
+      type="module"
+      src="../dist/components/private/oak-internal-form-error/index.js"
+    ></script>
+    <script
+      type="module"
+      src="../dist/components/private/oak-internal-label/index.js"
+    ></script>
+    <script
+      type="module"
+      src="../dist/components/public/oak-form/index.js"
+    ></script>
+    <script
+      type="module"
+      src="../dist/components/public/oak-button/index.js"
+    ></script>
+    <script
+      type="module"
+      src="../dist/components/public/oak-select-modern/index.js"
+    ></script>
+    <script
+      type="module"
+      src="../dist/components/public/oak-modal/index.js"
+    ></script>
+    <script
+      type="module"
+      src="../dist/components/public/oak-modal-header/index.js"
+    ></script>
+    <style>
+      p {
+        border: solid 1px blue;
+        padding: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <oak-form formgroupname="one">
+      <oak-modal showModal>
+        <oak-modal-header slot="header"></oak-modal-header>
+      </oak-modal>
+      <oak-input
+        label="test label"
+        value="one two three"
+        placeholder="test placeholder text"
+        formgroupname="one"
+        minLength="3"
+        maxLength="10"
+        tooltip="test tip"
+      ></oak-input>
+      <oak-button theme="primary">
+        <div slot>test</div>
+      </oak-button>
+    </oak-form>
+  </body>
+</html>
