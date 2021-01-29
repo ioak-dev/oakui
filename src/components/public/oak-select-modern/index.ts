@@ -29,7 +29,8 @@ const rootClass = 'oak-select-modern';
 export class OakSelect extends LitElement {
   private elementId = `oak-select-modern-${elementIdCounter++}`;
   private resultsLiElementId = `${this.elementId}-results-li`;
-  private inputElementId = `${this.elementId}-input`;
+  // private inputElementId = `${this.elementId}-input`;
+  private valueElementId = `${this.elementId}-value`;
   private resultsUlElementId = `${this.elementId}-results-ul`;
 
   @property({type: Boolean})
@@ -129,23 +130,28 @@ export class OakSelect extends LitElement {
   private keydownEventHandler = (event: any) => {
     switch (event.key) {
       case 'ArrowDown':
-        this.activate();
+        event.preventDefault();
+        // this.activate();
         this.navigateDown();
         break;
       case 'ArrowUp':
-        this.activate();
+        event.preventDefault();
+        // this.activate();
         this.navigateUp();
         break;
       case 'Home':
-        this.activate();
+        event.preventDefault();
+        // this.activate();
         this.navigateHome();
         break;
       case 'End':
-        this.activate();
+        event.preventDefault();
+        // this.activate();
         this.navigateEnd();
         break;
       case 'Enter':
-        this.handleChange();
+        event.preventDefault();
+        this._isActivated ? this.handleChange() : this.activate();
         break;
       default:
         break;
@@ -253,13 +259,13 @@ export class OakSelect extends LitElement {
 
   private adjustPositioning = () => {
     const ulElRef = this.shadowRoot?.getElementById(this.resultsUlElementId);
-    const inputElRef = this.shadowRoot?.getElementById(this.inputElementId);
-    if (inputElRef && ulElRef) {
-      ulElRef.style.left = `${inputElRef.getBoundingClientRect().left}px`;
-      ulElRef.style.top = `${inputElRef.getBoundingClientRect().bottom + 6}px`;
+    const valueElRef = this.shadowRoot?.getElementById(this.valueElementId);
+    if (valueElRef && ulElRef) {
+      ulElRef.style.left = `${valueElRef.getBoundingClientRect().left}px`;
+      ulElRef.style.top = `${valueElRef.getBoundingClientRect().bottom + 6}px`;
       ulElRef.style.width = `${
-        inputElRef.getBoundingClientRect().right -
-        inputElRef.getBoundingClientRect().left
+        valueElRef.getBoundingClientRect().right -
+        valueElRef.getBoundingClientRect().left
       }px`;
     }
   };
@@ -304,74 +310,60 @@ export class OakSelect extends LitElement {
     });
   };
 
-  private getClassMap = (baseClass: 'base' | 'input' | 'results'): any => {
+  private getClassMap = (baseClass: 'base' | 'value' | 'results'): any => {
     switch (baseClass) {
       case 'base':
         return {
           [rootClass]: true,
         };
-      case 'input':
+      case 'value':
         return {
           [`${rootClass}--${baseClass}`]: true,
         };
       case 'results':
         return {
           [`${rootClass}--${baseClass}`]: true,
+          activated: this._isActivated,
         };
       default:
         return {};
     }
   };
 
-  // update(changedProperties: any) {
-  //   console.log(changedProperties);
-  //   this.searchResults() = this.options || [];
-  //   this.searchResults() = ['test', 'testtwo', 'sfsdf', 'lorem ipsum'];
-  // }
-
-  private handleSearchCriteriaChange = (event: any) => {
-    this._searchCriteria = event.detail.value;
-  };
+  // private handleSearchCriteriaChange = (event: any) => {
+  //   this._searchCriteria = event.detail.value;
+  // };
 
   private handleInputFocused = () => {
-    this.activate();
-    // popupActivatedSubject.next({id: this.elementId});
-    window.addEventListener('keydown', (e: any) => {
-      if (['Tab', 'Escape'].includes(e.key)) {
-        this.deactivate();
+    if (this._isActivated) {
+      this.deactivate();
+    } else {
+      this.activate();
+      window.addEventListener('keydown', (e: any) => {
+        if (['Tab', 'Escape'].includes(e.key)) {
+          this.deactivate();
+        }
+      });
+      window.addEventListener('click', (e: any) => {
+        if (
+          !e.target.shadowRoot ||
+          !e.target.shadowRoot.contains(
+            this.shadowRoot?.getElementById(this.elementId)
+          )
+        ) {
+          this.deactivate();
+        }
+      });
+      const docRef = this.shadowRoot?.getElementById(this.elementId);
+      if (docRef) {
+        docRef.addEventListener('keydown', this.keydownEventHandler);
       }
-    });
-    window.addEventListener('click', (e: any) => {
-      // this.deactivate();
-      if (
-        !e.target.shadowRoot ||
-        !e.target.shadowRoot.contains(
-          this.shadowRoot?.getElementById(this.elementId)
-        )
-      ) {
-        this.deactivate();
-      }
-    });
-    const docRef = this.shadowRoot?.getElementById(this.elementId);
-    if (docRef) {
-      docRef.addEventListener('keydown', this.keydownEventHandler);
     }
   };
 
   static get styles() {
     return [...globalStyles, oakSelectModernStyles];
   }
-
-  // private handleInput = (event: any) => {
-  //   console.log('input', event);
-  //   this.propagateEvent(INPUT_INPUT_EVENT, event);
-  // };
-
-  // private handleChange = (event: any) => {
-  //   console.log('change', event);
-  //   this.propagateEvent(INPUT_CHANGE_EVENT, event);
-  //   // (this.closest('FORM') as any)?.dispatchEvent(new Event('submit'));
-  // };
 
   private propagateCustomEvent = (eventName: string, value?: any) => {
     this.dispatchEvent(
@@ -388,21 +380,28 @@ export class OakSelect extends LitElement {
   };
 
   render() {
+    const labelId = `${this.elementId}-label`;
+
     return html`
       <div class=${classMap(this.getClassMap('base'))} id=${this.elementId}>
-        <div
-          class=${classMap(this.getClassMap('input'))}
-          id=${this.inputElementId}
+        <oak-internal-label
+          label=${this.label}
+          elementId=${labelId}
+          elementFor=${this.elementId}
+        ></oak-internal-label>
+        <button
+          class=${classMap(this.getClassMap('value'))}
+          @click=${this.handleInputFocused}
+          id=${this.valueElementId}
+          type="button"
         >
-          <oak-input
-            .value=${this._isActivated ? this._searchCriteria : this.value}
-            name=${this.name}
-            label=${this.label}
-            @input-focus=${this.handleInputFocused}
-            @input-input=${this.handleSearchCriteriaChange}
-          />
-        </div>
-        ${this.scrollableContainers}
+          <div>
+            ${this.value || this.placeholder}
+          </div>
+          <div>
+            down
+          </div>
+        </button>
         ${this._isActivated
           ? html`
               <div class=${classMap(this.getClassMap('results'))}>
@@ -427,6 +426,12 @@ export class OakSelect extends LitElement {
               </div>
             `
           : html``}
+        <oak-internal-form-tooltip
+          .tooltip=${this.tooltip}
+        ></oak-internal-form-tooltip>
+        <oak-internal-form-error
+          .errors=${this._errors}
+        ></oak-internal-form-error>
       </div>
     `;
   }
