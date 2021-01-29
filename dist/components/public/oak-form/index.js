@@ -21,7 +21,7 @@ let OakForm = class OakForm extends LitElement {
     constructor() {
         super();
         this.elementId = `oak-form-${elementIdCounter++}`;
-        this.formGroupName = "";
+        this.formGroupName = '';
         this.formControlNameList = [];
         this.validationResults = [];
         this.handleSubmit = (formControlEvent) => {
@@ -29,7 +29,7 @@ let OakForm = class OakForm extends LitElement {
             this.validationResults = [];
         };
         this.propagateEvent = (eventName, formControlEvent) => {
-            console.log("****" + eventName, formControlEvent);
+            console.log('****' + eventName, formControlEvent);
             this.dispatchEvent(new CustomEvent(eventName, {
                 bubbles: true,
                 composed: true,
@@ -42,25 +42,25 @@ let OakForm = class OakForm extends LitElement {
         this.init();
     }
     init() {
-        formControlRegisterSubject.asObservable().subscribe(message => {
+        formControlRegisterSubject.asObservable().subscribe((message) => {
             if (message.formGroupName === this.formGroupName) {
                 this.formControlNameList.push(message.formControlName);
             }
         });
-        formControlSubmitSubject.asObservable().subscribe(message => {
+        formControlSubmitSubject.asObservable().subscribe((message) => {
             if (message.formGroupName === this.formGroupName) {
                 formControlValidateSubject.next({
-                    formGroupName: message.formGroupName
+                    formGroupName: message.formGroupName,
                 });
             }
         });
-        formControlValidatedSubject.asObservable().subscribe(message => {
+        formControlValidatedSubject.asObservable().subscribe((message) => {
             if (message.formGroupName === this.formGroupName) {
                 this.validationResults.push(message);
                 if (this.validationResults.length === this.formControlNameList.length) {
                     this.handleSubmit({
-                        isValid: !this.validationResults.find(item => !item.isValid),
-                        validationResults: this.validationResults
+                        isValid: !this.validationResults.find((item) => !item.isValid),
+                        validationResults: this.validationResults,
                     });
                 }
             }
@@ -71,7 +71,12 @@ let OakForm = class OakForm extends LitElement {
     }
     render() {
         return html `
-      <form method="GET" onSubmit=${this.handleSubmit} noValidate id=${this.elementId}>
+      <form
+        method="GET"
+        onSubmit=${this.handleSubmit}
+        novalidate
+        id=${this.elementId}
+      >
         <slot :testdata="rest"></slot>
       </form>
     `;

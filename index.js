@@ -1,6 +1,9 @@
-import './dist/components/public/oak-input/index'
-import './dist/components/public/oak-button/index'
-import './dist/components/public/oak-form/index'
-import './dist/components/public/oak-select/index'
-import './dist/components/public/oak-modal/index';
-import './dist/components/public/oak-container/index';
+import './dist/components/public/oak-input/index.js';
+import './dist/components/public/oak-button/index.js';
+import './dist/components/public/oak-form/index.js';
+import './dist/components/public/oak-select/index.js';
+import './dist/components/public/oak-modal/index.js';
+import './dist/components/public/oak-container/index.js';
+import './dist/components/public/oak-form-actions-container/index.js';
+import './dist/components/public/oak-popover/index.js';
+import './dist/components/public/oak-select-modern/index.js';

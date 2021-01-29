@@ -1,4 +1,5 @@
 import {LitElement, html, customElement, property} from 'lit-element';
+import {classMap} from 'lit-html/directives/class-map';
 import {formControlRegisterSubject} from '../../../events/FormControlRegisterEvent';
 import {formControlValidatedSubject} from '../../../events/FormControlValidatedEvent';
 import {formControlValidateSubject} from '../../../events/FormControlValidateEvent';
@@ -8,9 +9,17 @@ import '../../private/oak-internal-label';
 import '../../private/oak-internal-form-tooltip';
 import '../../private/oak-internal-form-error';
 import '../../public/oak-button';
+import '../../public/oak-input';
 import {oakSelectModernStyles} from './index-styles';
+import {isEmptyOrSpaces, toString} from '../../../utils/StringUtils';
+import {
+  INPUT_CHANGE_EVENT,
+  INPUT_INPUT_EVENT,
+} from '../../../types/InputEventTypes';
+import {containerScrolledSubject} from '../../../events/ContainerScrolledEvent';
 
 let elementIdCounter = 0;
+const rootClass = 'oak-select-modern';
 
 /**
  * Select drop down (native) form element.
@@ -19,18 +28,18 @@ let elementIdCounter = 0;
 @customElement('oak-select-modern')
 export class OakSelect extends LitElement {
   private elementId = `oak-select-modern-${elementIdCounter++}`;
+  private resultsLiElementId = `${this.elementId}-results-li`;
+  private inputElementId = `${this.elementId}-input`;
+  private resultsUlElementId = `${this.elementId}-results-ul`;
 
-  list: any;
-  listContainer: any;
-  dropdownArrow: any;
-  listItems: any;
-  dropdownSelectedNode: any;
-  listItemIds: any;
-  SPACEBAR_KEY_CODE = [0, 32];
-  ENTER_KEY_CODE = 13;
-  DOWN_ARROW_KEY_CODE = 40;
-  UP_ARROW_KEY_CODE = 38;
-  ESCAPE_KEY_CODE = 27;
+  @property({type: Boolean})
+  private _isActivated = false;
+
+  @property({type: Number})
+  private _currentIndex = 0;
+
+  @property({type: String})
+  private _searchCriteria = '';
 
   @property({type: String})
   formGroupName?: string;
@@ -54,13 +63,16 @@ export class OakSelect extends LitElement {
   name: string = this.elementId;
 
   @property({type: Boolean})
-  disabled: boolean = false;
+  disabled = false;
 
   @property({type: Array})
-  options?: any[] | null;
+  options: any[] = [];
 
   @property({type: Array})
   optionsAsKeyValue?: {key: string | number; value: string | number}[] | null;
+
+  @property({type: Array})
+  scrollableContainers: string[] = [];
 
   /**
    * Validators
@@ -79,10 +91,17 @@ export class OakSelect extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.init();
+    this._registerEvents();
   }
 
-  private init() {
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this._unregisterEvents();
+  }
+
+  private _registerEvents() {
+    window.addEventListener('resize', this.adjustPositioning);
+    window.addEventListener('scroll', this.adjustPositioning);
     if (this.formGroupName) {
       formControlRegisterSubject.next({
         formControlName: this.name,
@@ -97,128 +116,185 @@ export class OakSelect extends LitElement {
           }
         });
     }
-
-    this.list = document.querySelector('.dropdown__list');
-    this.listContainer = document.querySelector('.dropdown__list-container');
-    this.dropdownArrow = document.querySelector('.dropdown__arrow');
-    this.listItems = document.querySelectorAll('.dropdown__list-item');
-    // this.dropdownSelectedNode = document.querySelector('#dropdown__selected');
-    // this.listItemIds = [];
-    // this.dropdownSelectedNode?.addEventListener('click', (e: any) =>
-    //   this.toggleListVisibility(e)
-    // );
-    // this.dropdownSelectedNode?.addEventListener('keydown', (e: any) =>
-    //   this.toggleListVisibility(e)
-    // );
-
-    // Add each list item's id to the listItems array
-    this.listItems.forEach((item: any) => this.listItemIds.push(item.id));
-
-    this.listItems.forEach((item: any) => {
-      item.addEventListener('click', (e: any) => {
-        this.setSelectedListItem(e);
-        this.closeList();
-      });
-
-      item.addEventListener('keydown', (e: any) => {
-        switch (e.keyCode) {
-          case this.ENTER_KEY_CODE:
-            this.setSelectedListItem(e);
-            this.closeList();
-            return;
-
-          case this.DOWN_ARROW_KEY_CODE:
-            this.focusNextListItem(this.DOWN_ARROW_KEY_CODE);
-            return;
-
-          case this.UP_ARROW_KEY_CODE:
-            this.focusNextListItem(this.UP_ARROW_KEY_CODE);
-            return;
-
-          case this.ESCAPE_KEY_CODE:
-            this.closeList();
-            return;
-
-          default:
-            return;
-        }
-      });
+    containerScrolledSubject.asObservable().subscribe(() => {
+      this.adjustPositioning();
     });
   }
 
-  private setSelectedListItem(e: any) {
-    let selectedTextToAppend = document.createTextNode(e.target.innerText);
-    this.dropdownSelectedNode.innerHTML = null;
-    this.dropdownSelectedNode.appendChild(selectedTextToAppend);
+  private _unregisterEvents() {
+    window.removeEventListener('resize', this.adjustPositioning);
+    window.removeEventListener('scroll', this.adjustPositioning);
   }
 
-  private closeList() {
-    this.list.classList.remove('open');
-    this.dropdownArrow.classList.remove('expanded');
-    this.listContainer.setAttribute('aria-expanded', false);
-  }
-
-  private toggleListVisibility(e: any) {
-    let openDropDown =
-      this.SPACEBAR_KEY_CODE.includes(e.keyCode) ||
-      e.keyCode === this.ENTER_KEY_CODE;
-
-    if (e.keyCode === this.ESCAPE_KEY_CODE) {
-      this.closeList();
+  private keydownEventHandler = (event: any) => {
+    switch (event.key) {
+      case 'ArrowDown':
+        this.activate();
+        this.navigateDown();
+        break;
+      case 'ArrowUp':
+        this.activate();
+        this.navigateUp();
+        break;
+      case 'Home':
+        this.activate();
+        this.navigateHome();
+        break;
+      case 'End':
+        this.activate();
+        this.navigateEnd();
+        break;
+      case 'Enter':
+        this.handleChange();
+        break;
+      default:
+        break;
     }
+  };
 
-    if (e.type === 'click' || openDropDown) {
-      this.list = document.querySelector('.dropdown__list');
-      this.list?.classList.toggle('open');
-      this.dropdownArrow?.classList.toggle('expanded');
-      this.listContainer?.setAttribute(
-        'aria-expanded',
-        this.list?.classList.contains('open')
+  private navigateDown() {
+    if (this._currentIndex < this.searchResults().length - 1) {
+      const elRef = this.shadowRoot?.getElementById(
+        `${this.resultsLiElementId}-${this._currentIndex + 1}`
       );
-    }
-
-    if (e.keyCode === this.DOWN_ARROW_KEY_CODE) {
-      this.focusNextListItem(this.DOWN_ARROW_KEY_CODE);
-    }
-
-    if (e.keyCode === this.UP_ARROW_KEY_CODE) {
-      this.focusNextListItem(this.UP_ARROW_KEY_CODE);
-    }
-  }
-
-  private focusNextListItem(direction: any) {
-    const activeElementId = (document.activeElement as any).id;
-    if (activeElementId === 'dropdown__selected') {
-      (document.querySelector(`#${this.listItemIds[0]}`) as any).focus();
+      if (elRef && !this.isScrolledIntoView(elRef, true)) {
+        elRef.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'start',
+        });
+      }
+      this._currentIndex = this._currentIndex + 1;
     } else {
-      const currentActiveElementIndex = this.listItemIds.indexOf(
-        activeElementId
+      this._currentIndex = 0;
+    }
+  }
+
+  private navigateUp = () => {
+    if (this._currentIndex > 0) {
+      const elRef = this.shadowRoot?.getElementById(
+        `${this.resultsLiElementId}-${this._currentIndex - 1}`
       );
-      if (direction === this.DOWN_ARROW_KEY_CODE) {
-        const currentActiveElementIsNotLastItem =
-          currentActiveElementIndex < this.listItemIds.length - 1;
-        if (currentActiveElementIsNotLastItem) {
-          const nextListItemId = this.listItemIds[
-            currentActiveElementIndex + 1
-          ];
-          (document.querySelector(`#${nextListItemId}`) as any).focus();
-        }
-      } else if (direction === this.UP_ARROW_KEY_CODE) {
-        const currentActiveElementIsNotFirstItem =
-          currentActiveElementIndex > 0;
-        if (currentActiveElementIsNotFirstItem) {
-          const nextListItemId = this.listItemIds[
-            currentActiveElementIndex - 1
-          ];
-          (document.querySelector(`#${nextListItemId}`) as any).focus();
-        }
+      if (elRef && !this.isScrolledIntoView(elRef)) {
+        elRef.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'start',
+        });
+      }
+      this._currentIndex = this._currentIndex - 1;
+    } else {
+      this._currentIndex = 0;
+    }
+  };
+
+  private navigateHome = () => {
+    const elRef = this.shadowRoot?.getElementById(
+      `${this.resultsLiElementId}-0`
+    );
+    if (elRef) {
+      elRef.scrollIntoView();
+    }
+    this._currentIndex = 0;
+  };
+
+  private navigateEnd = () => {
+    const elRef = this.shadowRoot?.getElementById(
+      `${this.resultsLiElementId}-${this.searchResults().length - 1}`
+    );
+    if (elRef) {
+      elRef.scrollIntoView();
+    }
+    this._currentIndex = this.searchResults().length - 1;
+  };
+
+  private isScrolledIntoView = (el: any, invertDirection = false) => {
+    const rect = el.getBoundingClientRect();
+    const elemTop = rect.top;
+    const elemBottom = rect.bottom;
+
+    const containerEl = this.shadowRoot?.getElementById(
+      `${this.elementId}-results-ul`
+    );
+    if (!containerEl) {
+      return true;
+    }
+
+    // Only completely visible elements return true:
+    let isVisible = true;
+    if (invertDirection) {
+      isVisible =
+        elemTop >= 0 &&
+        elemBottom <=
+          containerEl.getBoundingClientRect().height +
+            containerEl.getBoundingClientRect().top;
+    } else {
+      isVisible =
+        elemTop >= 0 &&
+        elemTop >=
+          containerEl.getBoundingClientRect().height +
+            containerEl.getBoundingClientRect().top;
+    }
+
+    // Partially visible elements return true:
+    //isVisible = elemTop < containerEl.getBoundingClientRect().height && elemBottom >= 0;
+    return isVisible;
+  };
+
+  private activate = () => {
+    if (!this._isActivated) {
+      this._isActivated = true;
+      setTimeout(() => this.adjustPositioning());
+      if (this.scrollableContainers.length > 0) {
+        console.log('*******', this.scrollableContainers);
       }
     }
-  }
+  };
 
-  private validate() {
+  private adjustPositioning = () => {
+    const ulElRef = this.shadowRoot?.getElementById(this.resultsUlElementId);
+    const inputElRef = this.shadowRoot?.getElementById(this.inputElementId);
+    if (inputElRef && ulElRef) {
+      ulElRef.style.left = `${inputElRef.getBoundingClientRect().left}px`;
+      ulElRef.style.top = `${inputElRef.getBoundingClientRect().bottom + 6}px`;
+      ulElRef.style.width = `${
+        inputElRef.getBoundingClientRect().right -
+        inputElRef.getBoundingClientRect().left
+      }px`;
+    }
+  };
+
+  private deactivate = () => {
+    this._isActivated = false;
+    this._searchCriteria = '';
+  };
+
+  private handleChange = (index?: number) => {
+    if (this._isActivated) {
+      this.propagateCustomEvent(
+        INPUT_CHANGE_EVENT,
+        this.searchResults()[index || this._currentIndex]
+      );
+      this.propagateCustomEvent(
+        INPUT_INPUT_EVENT,
+        this.searchResults()[index || this._currentIndex]
+      );
+      this.deactivate();
+    }
+  };
+
+  private searchResults = () => {
+    if (isEmptyOrSpaces(this._searchCriteria)) {
+      return this.options;
+    } else {
+      return this.options.filter((option: any) =>
+        toString(option).includes(this._searchCriteria)
+      );
+    }
+  };
+
+  private validate = () => {
     this._errors = [];
-
     formControlValidatedSubject.next({
       formGroupName: this.formGroupName || '',
       formControlName: this.name,
@@ -226,7 +302,61 @@ export class OakSelect extends LitElement {
       formControlValue: this.value,
       errors: this._errors,
     });
-  }
+  };
+
+  private getClassMap = (baseClass: 'base' | 'input' | 'results'): any => {
+    switch (baseClass) {
+      case 'base':
+        return {
+          [rootClass]: true,
+        };
+      case 'input':
+        return {
+          [`${rootClass}--${baseClass}`]: true,
+        };
+      case 'results':
+        return {
+          [`${rootClass}--${baseClass}`]: true,
+        };
+      default:
+        return {};
+    }
+  };
+
+  // update(changedProperties: any) {
+  //   console.log(changedProperties);
+  //   this.searchResults() = this.options || [];
+  //   this.searchResults() = ['test', 'testtwo', 'sfsdf', 'lorem ipsum'];
+  // }
+
+  private handleSearchCriteriaChange = (event: any) => {
+    this._searchCriteria = event.detail.value;
+  };
+
+  private handleInputFocused = () => {
+    this.activate();
+    // popupActivatedSubject.next({id: this.elementId});
+    window.addEventListener('keydown', (e: any) => {
+      if (['Tab', 'Escape'].includes(e.key)) {
+        this.deactivate();
+      }
+    });
+    window.addEventListener('click', (e: any) => {
+      // this.deactivate();
+      if (
+        !e.target.shadowRoot ||
+        !e.target.shadowRoot.contains(
+          this.shadowRoot?.getElementById(this.elementId)
+        )
+      ) {
+        this.deactivate();
+      }
+    });
+    const docRef = this.shadowRoot?.getElementById(this.elementId);
+    if (docRef) {
+      docRef.addEventListener('keydown', this.keydownEventHandler);
+    }
+  };
 
   static get styles() {
     return [...globalStyles, oakSelectModernStyles];
@@ -243,75 +373,60 @@ export class OakSelect extends LitElement {
   //   // (this.closest('FORM') as any)?.dispatchEvent(new Event('submit'));
   // };
 
-  // private propagateEvent = (eventName: string, event: any, value?: any) => {
-  //   this.value = event.srcElement.value;
-  //   this.dispatchEvent(
-  //     new CustomEvent(eventName, {
-  //       bubbles: true,
-  //       composed: true,
-  //       detail: {
-  //         id: event.srcElement.id,
-  //         name: event.srcElement.name,
-  //         value: value || event.srcElement.value,
-  //       },
-  //     })
-  //   );
-  // };
+  private propagateCustomEvent = (eventName: string, value?: any) => {
+    this.dispatchEvent(
+      new CustomEvent(eventName, {
+        bubbles: true,
+        composed: true,
+        detail: {
+          id: this.elementId,
+          name: this.name,
+          value: value,
+        },
+      })
+    );
+  };
 
   render() {
-    const labelId = `${this.elementId}-label`;
-
     return html`
-      <div class="oak-select-modern">
-        <oak-internal-label
-          label=${this.label}
-          elementId=${labelId}
-          elementFor=${this.elementId}
-        ></oak-internal-label>
-        <ul class="dropdown">
-          <li id="dropdown-label" class="dropdown__label">
-            Label
-          </li>
-
-          <oak-button
-            aria-labelledby="dropdown-label"
-            id="dropdown__selected"
-            @click=${this.toggleListVisibility}
-          >
-            Option 1
-          </oak-button>
-
-          <svg
-            class="dropdown__arrow"
-            width="10"
-            height="5"
-            viewBox="0 0 10 5"
-            fill-rule="evenodd"
-          >
-            <title>Open drop down</title>
-            <path d="M10 0L5 5 0 0z"></path>
-          </svg>
-          <li
-            aria-expanded="false"
-            role="list"
-            class="dropdown__list-container"
-          >
-            <ul class="dropdown__list">
-              <li class="dropdown__list-item" tabindex="0" id="option-1">
-                Option 1
-              </li>
-              <li class="dropdown__list-item" tabindex="0" id="option-2">
-                Option 2
-              </li>
-            </ul>
-          </li>
-        </ul>
-        <oak-internal-form-tooltip
-          .tooltip=${this.tooltip}
-        ></oak-internal-form-tooltip>
-        <oak-internal-form-error
-          .errors=${this._errors}
-        ></oak-internal-form-error>
+      <div class=${classMap(this.getClassMap('base'))} id=${this.elementId}>
+        <div
+          class=${classMap(this.getClassMap('input'))}
+          id=${this.inputElementId}
+        >
+          <oak-input
+            .value=${this._isActivated ? this._searchCriteria : this.value}
+            name=${this.name}
+            label=${this.label}
+            @input-focus=${this.handleInputFocused}
+            @input-input=${this.handleSearchCriteriaChange}
+          />
+        </div>
+        ${this.scrollableContainers}
+        ${this._isActivated
+          ? html`
+              <div class=${classMap(this.getClassMap('results'))}>
+                <ul role="listbox" id=${this.resultsUlElementId}>
+                  ${this.searchResults().map(
+                    (item, index) =>
+                      html`<li
+                        id=${`${this.resultsLiElementId}-${index}`}
+                        role="option"
+                        class=${this._currentIndex === index
+                          ? 'option-active'
+                          : ''}
+                        @click=${() => this.handleChange(index)}
+                      >
+                        ${item}
+                      </li>`
+                  )}
+                  ${this.searchResults().length === 0
+                    ? html` <li>No results found</li>`
+                    : html``}
+                </ul>
+              </div>
+            `
+          : html``}
       </div>
     `;
   }

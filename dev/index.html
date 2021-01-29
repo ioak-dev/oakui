@@ -30,11 +30,7 @@
     ></script>
     <script
       type="module"
-      src="../dist/components/public/oak-modal/index.js"
-    ></script>
-    <script
-      type="module"
-      src="../dist/components/public/oak-modal-header/index.js"
+      src="../dist/components/public/oak-popover/index.js"
     ></script>
     <style>
       p {
@@ -44,22 +40,6 @@
     </style>
   </head>
   <body>
-    <oak-form formgroupname="one">
-      <oak-modal showModal>
-        <oak-modal-header slot="header"></oak-modal-header>
-      </oak-modal>
-      <oak-input
-        label="test label"
-        value="one two three"
-        placeholder="test placeholder text"
-        formgroupname="one"
-        minLength="3"
-        maxLength="10"
-        tooltip="test tip"
-      ></oak-input>
-      <oak-button theme="primary">
-        <div slot>test</div>
-      </oak-button>
-    </oak-form>
+    <oak-select-modern value="test"></oak-select-modern>
   </body>
 </html>

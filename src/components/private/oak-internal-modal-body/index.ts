@@ -1,4 +1,5 @@
 import {LitElement, html, customElement, property} from 'lit-element';
+import {containerScrolledSubject} from '../../../events/ContainerScrolledEvent';
 import {globalStyles} from '../../../global-styles';
 
 import {oakInternalModalBodyStyles} from './index-styles';
@@ -14,11 +15,31 @@ export class OakModalBody extends LitElement {
   private elementId = `oak-internal-modal-body-${elementIdCounter++}`;
 
   @property({type: String})
-  heading: string = "";
+  heading = '';
 
   constructor() {
     super();
   }
+
+  connectedCallback() {
+    super.connectedCallback();
+  }
+
+  firstUpdated(changedProperties: any) {
+    super.firstUpdated(changedProperties);
+    this.init();
+  }
+
+  private init = () => {
+    this.shadowRoot
+      ?.getElementById(this.elementId)
+      ?.addEventListener('scroll', () =>
+        containerScrolledSubject.next({
+          component: 'oak-internal-modal-body',
+          id: this.elementId,
+        })
+      );
+  };
 
   static get styles() {
     return [...globalStyles, oakInternalModalBodyStyles];

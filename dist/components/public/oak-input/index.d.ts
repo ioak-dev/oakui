@@ -55,6 +55,7 @@ export declare class OakInput extends LitElement {
     private handleChange;
     private processFiles;
     private handleKeydown;
+    private handleFocus;
     private handleSubmit;
     private propagateEvent;
     render(): import("lit-element").TemplateResult;

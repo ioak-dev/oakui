@@ -10,7 +10,7 @@ import { formControlSubmitSubject } from '../../../events/FormControlSubmitEvent
 import { formControlValidatedSubject } from '../../../events/FormControlValidatedEvent';
 import { formControlValidateSubject } from '../../../events/FormControlValidateEvent';
 import { globalStyles } from '../../../global-styles';
-import { INPUT_SUBMIT_EVENT, INPUT_CHANGE_EVENT, INPUT_INPUT_EVENT, FILE_SELECTED_EVENT, } from '../../../types/InputEventTypes';
+import { INPUT_SUBMIT_EVENT, INPUT_CHANGE_EVENT, INPUT_INPUT_EVENT, FILE_SELECTED_EVENT, INPUT_FOCUS_EVENT, } from '../../../types/InputEventTypes';
 import { RegexValidator } from '../../../validation/RegexValidator';
 import { TextLengthValidator } from '../../../validation/TextLengthValidator';
 import '../../private/oak-internal-label';
@@ -56,6 +56,9 @@ let OakInput = class OakInput extends LitElement {
             if (event.key === 'Enter' && this.type !== 'file') {
                 this.handleSubmit(event);
             }
+        };
+        this.handleFocus = (event) => {
+            this.propagateEvent(INPUT_FOCUS_EVENT, event);
         };
         this.handleSubmit = (event) => {
             if (this.formGroupName) {
@@ -155,6 +158,7 @@ let OakInput = class OakInput extends LitElement {
           @change=${this.handleChange}
           @input=${this.handleInput}
           @keydown=${this.handleKeydown}
+          @focus=${this.handleFocus}
         />
         <oak-internal-form-tooltip
           .tooltip=${this.tooltip}

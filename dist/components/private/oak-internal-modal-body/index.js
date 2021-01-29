@@ -5,6 +5,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { LitElement, html, customElement, property } from 'lit-element';
+import { containerScrolledSubject } from '../../../events/ContainerScrolledEvent';
 import { globalStyles } from '../../../global-styles';
 import { oakInternalModalBodyStyles } from './index-styles';
 let elementIdCounter = 0;
@@ -16,7 +17,21 @@ let OakModalBody = class OakModalBody extends LitElement {
     constructor() {
         super();
         this.elementId = `oak-internal-modal-body-${elementIdCounter++}`;
-        this.heading = "";
+        this.heading = '';
+        this.init = () => {
+            var _a, _b;
+            (_b = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById(this.elementId)) === null || _b === void 0 ? void 0 : _b.addEventListener('scroll', () => containerScrolledSubject.next({
+                component: 'oak-internal-modal-body',
+                id: this.elementId,
+            }));
+        };
+    }
+    connectedCallback() {
+        super.connectedCallback();
+    }
+    firstUpdated(changedProperties) {
+        super.firstUpdated(changedProperties);
+        this.init();
     }
     static get styles() {
         return [...globalStyles, oakInternalModalBodyStyles];

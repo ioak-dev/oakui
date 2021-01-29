@@ -9,6 +9,7 @@ import {
   INPUT_CHANGE_EVENT,
   INPUT_INPUT_EVENT,
   FILE_SELECTED_EVENT,
+  INPUT_FOCUS_EVENT,
 } from '../../../types/InputEventTypes';
 import {RegexValidator} from '../../../validation/RegexValidator';
 import {TextLengthValidator} from '../../../validation/TextLengthValidator';
@@ -55,7 +56,7 @@ export class OakInput extends LitElement {
   name: string = this.elementId;
 
   @property({type: Boolean})
-  disabled: boolean = false;
+  disabled = false;
 
   /**
    * Validators
@@ -205,6 +206,10 @@ export class OakInput extends LitElement {
     }
   };
 
+  private handleFocus = (event: any) => {
+    this.propagateEvent(INPUT_FOCUS_EVENT, event);
+  };
+
   private handleSubmit = (event: any) => {
     if (this.formGroupName) {
       formControlSubmitSubject.next({
@@ -257,6 +262,7 @@ export class OakInput extends LitElement {
           @change=${this.handleChange}
           @input=${this.handleInput}
           @keydown=${this.handleKeydown}
+          @focus=${this.handleFocus}
         />
         <oak-internal-form-tooltip
           .tooltip=${this.tooltip}

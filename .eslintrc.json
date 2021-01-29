@@ -21,6 +21,7 @@
       {
         "argsIgnorePattern": "^_"
       }
-    ]
+    ],
+    "no-case-declarations": "off"
   }
 }

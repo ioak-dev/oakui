@@ -1,91 +1,37 @@
 import { css } from 'lit-element';
 export const oakSelectModernStyles = css `
-  .dropdown {
-    list-style: none;
-    position: relative;
-    border: 1px solid #a2a4b2;
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
-    width: 250px;
-    height: 40px;
-    cursor: pointer;
-    margin: 100px;
-    padding: 0;
-  }
-  .dropdown__label {
-    position: absolute;
-    top: -9px;
-    left: 15px;
-    background: #fff;
-    color: #444;
-    font-size: 0.8em;
-    font-family: Lato, sans-serif;
-  }
-  .dropdown__arrow {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transition: transform 0.2s linear;
-  }
-  .dropdown__arrow.expanded {
-    transform: rotate(-180deg);
-  }
-  .dropdown__list {
-    width: 100%;
-    position: absolute;
-    left: 0;
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
-    box-shadow: 0px 3px 2px 0 #a2a4b2;
-    transition: opacity 0.1s cubic-bezier(0, 0, 0.38, 0.9),
-      max-height 0.5s cubic-bezier(0, 0, 0.38, 0.9);
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-  }
-  .dropdown__list-container {
+  .oak-select-modern {
     position: relative;
   }
-  .dropdown ul {
+  .oak-select-modern .oak-select-modern--results ul {
+    font-size: 14px;
+    border-radius: 4px;
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 6px 0;
+    background-color: var(--formelement-color-bg);
+    box-shadow: var(--oak-bs-elevation10);
+    position: absolute;
+    z-index: 10;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    max-height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100%;
+    position: fixed;
+    width: auto;
   }
-  .dropdown__list-item {
-    font-family: Lato, sans-serif;
-    color: #444444;
-    padding: 10px 0px;
-    padding-left: 15px;
-    transition: background-color 0.1s linear, color 0.1s linear;
-    color: #444444;
-    list-style-position: inside;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .oak-select-modern .oak-select-modern--results ul li {
+    padding: 8px 5px;
+    background-color: var(--formelement-color-bg);
+    cursor: pointer;
   }
-  .dropdown__list-item:hover,
-  .dropdown__list-item:focus {
-    background-color: #00c2ff;
-    color: white;
-  }
-  #dropdown__selected {
-    font-family: Lato, sans-serif;
-    color: #444444;
-    padding: 10px 0px;
-    padding-left: 15px;
-    list-style-position: inside;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 80%;
-  }
-  #dropdown__selected:focus {
-    outline: 1px solid #00c2ff;
-  }
-  .open {
-    opacity: 1;
-    overflow: auto;
-    max-height: 15rem;
+  .oak-select-modern .oak-select-modern--results ul li:hover,
+  .oak-select-modern .oak-select-modern--results ul li.option-active {
+    background-color: var(--color-primary-1);
+    color: #fff;
   }
 `;
 //# sourceMappingURL=index-styles.js.map

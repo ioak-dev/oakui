@@ -2,11 +2,11 @@ import {LitElement, html, customElement, property} from 'lit-element';
 import {globalStyles} from '../../../global-styles';
 import '../../private/oak-internal-label';
 import {formControlRegisterSubject} from '../../../events/FormControlRegisterEvent';
-import { formControlSubmitSubject } from '../../../events/FormControlSubmitEvent';
+import {formControlSubmitSubject} from '../../../events/FormControlSubmitEvent';
 import {FORM_SUBMIT_EVENT} from '../../../types/FormEventTypes';
-import { formControlValidateSubject } from '../../../events/FormControlValidateEvent';
-import { formControlValidatedSubject } from '../../../events/FormControlValidatedEvent';
-import { ValidationResultType } from '../../../validation/types/ValidationResultType';
+import {formControlValidateSubject} from '../../../events/FormControlValidateEvent';
+import {formControlValidatedSubject} from '../../../events/FormControlValidatedEvent';
+import {ValidationResultType} from '../../../validation/types/ValidationResultType';
 
 let elementIdCounter = 0;
 
@@ -19,7 +19,7 @@ export class OakForm extends LitElement {
   private elementId = `oak-form-${elementIdCounter++}`;
 
   @property({type: String})
-  formGroupName: string = "";
+  formGroupName = '';
 
   private formControlNameList: string[] = [];
   private validationResults: ValidationResultType[] = [];
@@ -34,27 +34,27 @@ export class OakForm extends LitElement {
   }
 
   private init() {
-    formControlRegisterSubject.asObservable().subscribe(message => {
+    formControlRegisterSubject.asObservable().subscribe((message) => {
       if (message.formGroupName === this.formGroupName) {
         this.formControlNameList.push(message.formControlName);
       }
     });
 
-    formControlSubmitSubject.asObservable().subscribe(message => {
+    formControlSubmitSubject.asObservable().subscribe((message) => {
       if (message.formGroupName === this.formGroupName) {
         formControlValidateSubject.next({
-          formGroupName: message.formGroupName
-        })
+          formGroupName: message.formGroupName,
+        });
       }
     });
 
-    formControlValidatedSubject.asObservable().subscribe(message => {
+    formControlValidatedSubject.asObservable().subscribe((message) => {
       if (message.formGroupName === this.formGroupName) {
         this.validationResults.push(message);
         if (this.validationResults.length === this.formControlNameList.length) {
           this.handleSubmit({
-            isValid: !this.validationResults.find(item => !item.isValid),
-            validationResults: this.validationResults
+            isValid: !this.validationResults.find((item) => !item.isValid),
+            validationResults: this.validationResults,
           });
         }
       }
@@ -68,10 +68,10 @@ export class OakForm extends LitElement {
   private handleSubmit = (formControlEvent: any) => {
     this.propagateEvent(FORM_SUBMIT_EVENT, formControlEvent);
     this.validationResults = [];
-  }
+  };
 
   private propagateEvent = (eventName: string, formControlEvent: any) => {
-    console.log("****" + eventName, formControlEvent);
+    console.log('****' + eventName, formControlEvent);
     this.dispatchEvent(
       new CustomEvent(eventName, {
         bubbles: true,
@@ -83,7 +83,12 @@ export class OakForm extends LitElement {
 
   render() {
     return html`
-      <form method="GET" onSubmit=${this.handleSubmit} noValidate id=${this.elementId}>
+      <form
+        method="GET"
+        onSubmit=${this.handleSubmit}
+        novalidate
+        id=${this.elementId}
+      >
         <slot :testdata="rest"></slot>
       </form>
     `;

@@ -1,3 +1,4 @@
+export declare const INPUT_FOCUS_EVENT = "input-focus";
 export declare const INPUT_SUBMIT_EVENT = "input-submit";
 export declare const INPUT_INPUT_EVENT = "input-input";
 export declare const INPUT_CHANGE_EVENT = "input-change";
