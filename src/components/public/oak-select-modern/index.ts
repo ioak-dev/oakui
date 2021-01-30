@@ -28,11 +28,11 @@ const customElementName = 'oak-select-modern';
 @customElement(customElementName)
 export class OakSelect extends LitElement {
   private elementId = `${customElementName}-${elementIdCounter++}`;
-  private liElementId = `${this.elementId}-results-li`;
+  private liElementId = `${this.elementId}-popup-li`;
   // private inputElementId = `${this.elementId}-input`;
   private valueContainerElementId = `${this.elementId}-value-container`;
-  private ulElementId = `${this.elementId}-results-ul`;
-  private resultsContainerElementId = `${this.elementId}-results-container`;
+  private ulElementId = `${this.elementId}-popup-ul`;
+  private popupContainerElementId = `${this.elementId}-popup-container`;
 
   @property({type: Boolean})
   private _isActivated = false;
@@ -140,16 +140,6 @@ export class OakSelect extends LitElement {
         // this.activate();
         this.navigateUp();
         break;
-      case 'Home':
-        event.preventDefault();
-        // this.activate();
-        this.navigateHome();
-        break;
-      case 'End':
-        event.preventDefault();
-        // this.activate();
-        this.navigateEnd();
-        break;
       case 'Enter':
         event.preventDefault();
         this._isActivated ? this.handleChange() : this.activate();
@@ -160,7 +150,7 @@ export class OakSelect extends LitElement {
   };
 
   private navigateDown() {
-    if (this._currentIndex < this.searchResults().length - 1) {
+    if (this._currentIndex < this.searchpopup().length - 1) {
       const elRef = this.shadowRoot?.getElementById(
         `${this.liElementId}-${this._currentIndex + 1}`
       );
@@ -195,31 +185,13 @@ export class OakSelect extends LitElement {
     }
   };
 
-  private navigateHome = () => {
-    const elRef = this.shadowRoot?.getElementById(`${this.liElementId}-0`);
-    if (elRef) {
-      elRef.scrollIntoView();
-    }
-    this._currentIndex = 0;
-  };
-
-  private navigateEnd = () => {
-    const elRef = this.shadowRoot?.getElementById(
-      `${this.liElementId}-${this.searchResults().length - 1}`
-    );
-    if (elRef) {
-      elRef.scrollIntoView();
-    }
-    this._currentIndex = this.searchResults().length - 1;
-  };
-
   private isScrolledIntoView = (el: any, invertDirection = false) => {
     const rect = el.getBoundingClientRect();
     const elemTop = rect.top;
     const elemBottom = rect.bottom;
 
     const containerEl = this.shadowRoot?.getElementById(
-      this.resultsContainerElementId
+      this.popupContainerElementId
     );
     if (!containerEl) {
       return true;
@@ -265,20 +237,20 @@ export class OakSelect extends LitElement {
   };
 
   private adjustPositioning = () => {
-    const resultsContainerElRef = this.shadowRoot?.getElementById(
-      this.resultsContainerElementId
+    const popupContainerElRef = this.shadowRoot?.getElementById(
+      this.popupContainerElementId
     );
     const valueContainerElRef = this.shadowRoot?.getElementById(
       this.valueContainerElementId
     );
-    if (valueContainerElRef && resultsContainerElRef) {
-      resultsContainerElRef.style.left = `${
+    if (valueContainerElRef && popupContainerElRef) {
+      popupContainerElRef.style.left = `${
         valueContainerElRef.getBoundingClientRect().left
       }px`;
-      resultsContainerElRef.style.top = `${
-        valueContainerElRef.getBoundingClientRect().bottom + 6
+      popupContainerElRef.style.top = `${
+        valueContainerElRef.getBoundingClientRect().bottom + 8
       }px`;
-      resultsContainerElRef.style.width = `${
+      popupContainerElRef.style.width = `${
         valueContainerElRef.getBoundingClientRect().width
       }px`;
     }
@@ -299,17 +271,17 @@ export class OakSelect extends LitElement {
     if (this._isActivated) {
       this.propagateCustomEvent(
         INPUT_CHANGE_EVENT,
-        this.searchResults()[index || this._currentIndex]
+        this.searchpopup()[index || this._currentIndex]
       );
       this.propagateCustomEvent(
         INPUT_INPUT_EVENT,
-        this.searchResults()[index || this._currentIndex]
+        this.searchpopup()[index || this._currentIndex]
       );
       this.deactivate();
     }
   };
 
-  private searchResults = () => {
+  private searchpopup = () => {
     if (isEmptyOrSpaces(this._searchCriteria)) {
       return this.options;
     } else {
@@ -336,9 +308,10 @@ export class OakSelect extends LitElement {
       | 'value-container'
       | 'value'
       | 'placeholder'
-      | 'results-container'
-      | 'results'
+      | 'popup-container'
+      | 'popup'
       | 'ul'
+      | 'search-filter'
   ): any => {
     switch (baseClass) {
       case 'base':
@@ -357,14 +330,18 @@ export class OakSelect extends LitElement {
         return {
           [`${customElementName}--${baseClass}`]: true,
         };
-      case 'results':
+      case 'popup':
         return {
           [`${customElementName}--${baseClass}`]: true,
         };
-      case 'results-container':
+      case 'popup-container':
         return {
           [`${customElementName}--${baseClass}`]: true,
           activated: this._isActivated,
+        };
+      case 'search-filter':
+        return {
+          [`${customElementName}--${baseClass}`]: true,
         };
       case 'ul':
         return {
@@ -386,7 +363,7 @@ export class OakSelect extends LitElement {
     } else {
       this.activate();
       window.addEventListener('keydown', (e: any) => {
-        if (['Tab', 'Escape'].includes(e.key)) {
+        if (['Escape'].includes(e.key)) {
           this.deactivate();
         }
       });
@@ -452,17 +429,26 @@ export class OakSelect extends LitElement {
             down
           </div>
         </button>
-        <div class=${classMap(this.getClassMap('results'))}>
+        <div class=${classMap(this.getClassMap('popup'))}>
           <div
-            class=${classMap(this.getClassMap('results-container'))}
-            id=${this.resultsContainerElementId}
+            class=${classMap(this.getClassMap('popup-container'))}
+            id=${this.popupContainerElementId}
           >
+            <div class=${classMap(this.getClassMap('search-filter'))}>
+              <input
+                autofocus
+                type="text"
+                placeholder="Type to filter"
+                autocomplete="off"
+                spellcheck="false"
+              />
+            </div>
             <ul
               role="listbox"
               id=${this.ulElementId}
               class=${classMap(this.getClassMap('ul'))}
             >
-              ${this.searchResults().map(
+              ${this.searchpopup().map(
                 (item, index) =>
                   html`<li
                     id=${`${this.liElementId}-${index}`}
@@ -473,8 +459,8 @@ export class OakSelect extends LitElement {
                     ${item}
                   </li>`
               )}
-              ${this.searchResults().length === 0
-                ? html` <li>No results found</li>`
+              ${this.searchpopup().length === 0
+                ? html` <li>No popup found</li>`
                 : html``}
             </ul>
           </div>

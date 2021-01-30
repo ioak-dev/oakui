@@ -29,11 +29,11 @@ let OakSelect = class OakSelect extends LitElement {
     constructor() {
         super();
         this.elementId = `${customElementName}-${elementIdCounter++}`;
-        this.liElementId = `${this.elementId}-results-li`;
+        this.liElementId = `${this.elementId}-popup-li`;
         // private inputElementId = `${this.elementId}-input`;
         this.valueContainerElementId = `${this.elementId}-value-container`;
-        this.ulElementId = `${this.elementId}-results-ul`;
-        this.resultsContainerElementId = `${this.elementId}-results-container`;
+        this.ulElementId = `${this.elementId}-popup-ul`;
+        this.popupContainerElementId = `${this.elementId}-popup-container`;
         this._isActivated = false;
         this._currentIndex = 0;
         this._searchCriteria = '';
@@ -64,16 +64,6 @@ let OakSelect = class OakSelect extends LitElement {
                     // this.activate();
                     this.navigateUp();
                     break;
-                case 'Home':
-                    event.preventDefault();
-                    // this.activate();
-                    this.navigateHome();
-                    break;
-                case 'End':
-                    event.preventDefault();
-                    // this.activate();
-                    this.navigateEnd();
-                    break;
                 case 'Enter':
                     event.preventDefault();
                     this._isActivated ? this.handleChange() : this.activate();
@@ -99,28 +89,12 @@ let OakSelect = class OakSelect extends LitElement {
                 this._currentIndex = 0;
             }
         };
-        this.navigateHome = () => {
-            var _a;
-            const elRef = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById(`${this.liElementId}-0`);
-            if (elRef) {
-                elRef.scrollIntoView();
-            }
-            this._currentIndex = 0;
-        };
-        this.navigateEnd = () => {
-            var _a;
-            const elRef = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById(`${this.liElementId}-${this.searchResults().length - 1}`);
-            if (elRef) {
-                elRef.scrollIntoView();
-            }
-            this._currentIndex = this.searchResults().length - 1;
-        };
         this.isScrolledIntoView = (el, invertDirection = false) => {
             var _a;
             const rect = el.getBoundingClientRect();
             const elemTop = rect.top;
             const elemBottom = rect.bottom;
-            const containerEl = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById(this.resultsContainerElementId);
+            const containerEl = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById(this.popupContainerElementId);
             if (!containerEl) {
                 return true;
             }
@@ -161,12 +135,12 @@ let OakSelect = class OakSelect extends LitElement {
         };
         this.adjustPositioning = () => {
             var _a, _b;
-            const resultsContainerElRef = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById(this.resultsContainerElementId);
+            const popupContainerElRef = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById(this.popupContainerElementId);
             const valueContainerElRef = (_b = this.shadowRoot) === null || _b === void 0 ? void 0 : _b.getElementById(this.valueContainerElementId);
-            if (valueContainerElRef && resultsContainerElRef) {
-                resultsContainerElRef.style.left = `${valueContainerElRef.getBoundingClientRect().left}px`;
-                resultsContainerElRef.style.top = `${valueContainerElRef.getBoundingClientRect().bottom + 6}px`;
-                resultsContainerElRef.style.width = `${valueContainerElRef.getBoundingClientRect().width}px`;
+            if (valueContainerElRef && popupContainerElRef) {
+                popupContainerElRef.style.left = `${valueContainerElRef.getBoundingClientRect().left}px`;
+                popupContainerElRef.style.top = `${valueContainerElRef.getBoundingClientRect().bottom + 8}px`;
+                popupContainerElRef.style.width = `${valueContainerElRef.getBoundingClientRect().width}px`;
             }
         };
         // private addTransitions = () => {
@@ -181,12 +155,12 @@ let OakSelect = class OakSelect extends LitElement {
         // };
         this.handleChange = (index) => {
             if (this._isActivated) {
-                this.propagateCustomEvent(INPUT_CHANGE_EVENT, this.searchResults()[index || this._currentIndex]);
-                this.propagateCustomEvent(INPUT_INPUT_EVENT, this.searchResults()[index || this._currentIndex]);
+                this.propagateCustomEvent(INPUT_CHANGE_EVENT, this.searchpopup()[index || this._currentIndex]);
+                this.propagateCustomEvent(INPUT_INPUT_EVENT, this.searchpopup()[index || this._currentIndex]);
                 this.deactivate();
             }
         };
-        this.searchResults = () => {
+        this.searchpopup = () => {
             if (isEmptyOrSpaces(this._searchCriteria)) {
                 return this.options;
             }
@@ -222,14 +196,18 @@ let OakSelect = class OakSelect extends LitElement {
                     return {
                         [`${customElementName}--${baseClass}`]: true,
                     };
-                case 'results':
+                case 'popup':
                     return {
                         [`${customElementName}--${baseClass}`]: true,
                     };
-                case 'results-container':
+                case 'popup-container':
                     return {
                         [`${customElementName}--${baseClass}`]: true,
                         activated: this._isActivated,
+                    };
+                case 'search-filter':
+                    return {
+                        [`${customElementName}--${baseClass}`]: true,
                     };
                 case 'ul':
                     return {
@@ -251,7 +229,7 @@ let OakSelect = class OakSelect extends LitElement {
             else {
                 this.activate();
                 window.addEventListener('keydown', (e) => {
-                    if (['Tab', 'Escape'].includes(e.key)) {
+                    if (['Escape'].includes(e.key)) {
                         this.deactivate();
                     }
                 });
@@ -314,7 +292,7 @@ let OakSelect = class OakSelect extends LitElement {
     }
     navigateDown() {
         var _a;
-        if (this._currentIndex < this.searchResults().length - 1) {
+        if (this._currentIndex < this.searchpopup().length - 1) {
             const elRef = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById(`${this.liElementId}-${this._currentIndex + 1}`);
             if (elRef && !this.isScrolledIntoView(elRef, true)) {
                 elRef.scrollIntoView({
@@ -358,17 +336,26 @@ let OakSelect = class OakSelect extends LitElement {
             down
           </div>
         </button>
-        <div class=${classMap(this.getClassMap('results'))}>
+        <div class=${classMap(this.getClassMap('popup'))}>
           <div
-            class=${classMap(this.getClassMap('results-container'))}
-            id=${this.resultsContainerElementId}
+            class=${classMap(this.getClassMap('popup-container'))}
+            id=${this.popupContainerElementId}
           >
+            <div class=${classMap(this.getClassMap('search-filter'))}>
+              <input
+                autofocus
+                type="text"
+                placeholder="Type to filter"
+                autocomplete="off"
+                spellcheck="false"
+              />
+            </div>
             <ul
               role="listbox"
               id=${this.ulElementId}
               class=${classMap(this.getClassMap('ul'))}
             >
-              ${this.searchResults().map((item, index) => html `<li
+              ${this.searchpopup().map((item, index) => html `<li
                     id=${`${this.liElementId}-${index}`}
                     role="option"
                     class=${this._currentIndex === index ? 'option-active' : ''}
@@ -376,8 +363,8 @@ let OakSelect = class OakSelect extends LitElement {
                   >
                     ${item}
                   </li>`)}
-              ${this.searchResults().length === 0
-            ? html ` <li>No results found</li>`
+              ${this.searchpopup().length === 0
+            ? html ` <li>No popup found</li>`
             : html ``}
             </ul>
           </div>

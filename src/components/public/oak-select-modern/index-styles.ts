@@ -4,6 +4,29 @@ export const oakSelectModernStyles = css`
   .oak-select-modern {
     position: relative;
   }
+  .oak-select-modern .oak-select-modern--search-filter {
+    padding: 8px;
+    border-bottom: 1px solid var(--global-border-color);
+  }
+  .oak-select-modern .oak-select-modern--search-filter input {
+    width: 100%;
+    font-size: 14px;
+    border: 1px solid var(--global-border-color);
+    background-color: var(--formelement-color-bg);
+    color: var(--formelement-color-fg);
+    box-sizing: border-box;
+    padding: 0 5px;
+    min-height: 30px;
+    border-radius: var(--formelement-border-radius);
+    outline: none;
+  }
+  .oak-select-modern .oak-select-modern--search-filter input:focus {
+    box-shadow: var(--formelement-outline-box-shadow);
+    border-color: var(--formelement-outline-border-color);
+    // background-color: var(--formelement-color-bg-active);
+    // color: var(--formelement-color-fg-active);
+  }
+
   .oak-select-modern .oak-select-modern--value-container {
     width: 100%;
     font-size: 14px;
@@ -26,8 +49,8 @@ export const oakSelectModernStyles = css`
     background-color: var(--formelement-color-bg-active);
   }
   .oak-select-modern
-    .oak-select-modern--results
-    .oak-select-modern--results-container {
+    .oak-select-modern--popup
+    .oak-select-modern--popup-container {
     font-size: 14px;
     border-radius: 4px;
     // padding: 6px 0;
@@ -46,12 +69,13 @@ export const oakSelectModernStyles = css`
     width: auto;
     visibility: hidden;
     opacity: 0;
+    border: 1px solid var(--global-border-color);
     transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
       visibility 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   }
   .oak-select-modern
-    .oak-select-modern--results
-    .oak-select-modern--results-container.activated {
+    .oak-select-modern--popup
+    .oak-select-modern--popup-container.activated {
     visibility: visible;
     opacity: 1;
     transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
@@ -59,8 +83,8 @@ export const oakSelectModernStyles = css`
   }
 
   .oak-select-modern
-    .oak-select-modern--results
-    .oak-select-modern--results-container
+    .oak-select-modern--popup
+    .oak-select-modern--popup-container
     ul {
     list-style: none;
     margin: 0;
@@ -70,29 +94,30 @@ export const oakSelectModernStyles = css`
   }
 
   .oak-select-modern
-    .oak-select-modern--results
-    .oak-select-modern--results-container
+    .oak-select-modern--popup
+    .oak-select-modern--popup-container
     ul.activated {
     // visibility: visible;
     // opacity: 1;
   }
   .oak-select-modern
-    .oak-select-modern--results
-    .oak-select-modern--results-container
+    .oak-select-modern--popup
+    .oak-select-modern--popup-container
     ul
     li {
-    padding: 8px 5px;
+    padding: 7px 16px;
     background-color: var(--formelement-color-bg-active);
+    border-bottom: 1px solid var(--global-border-color);
     cursor: pointer;
   }
   .oak-select-modern
-    .oak-select-modern--results
-    .oak-select-modern--results-container
+    .oak-select-modern--popup
+    .oak-select-modern--popup-container
     ul
     li:hover,
   .oak-select-modern
-    .oak-select-modern--results
-    .oak-select-modern--results-container
+    .oak-select-modern--popup
+    .oak-select-modern--popup-container
     ul
     li.option-active {
     background-color: var(--color-primary-1);

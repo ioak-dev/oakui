@@ -13,7 +13,7 @@ export declare class OakSelect extends LitElement {
     private liElementId;
     private valueContainerElementId;
     private ulElementId;
-    private resultsContainerElementId;
+    private popupContainerElementId;
     private _isActivated;
     private _currentIndex;
     private _searchCriteria;
@@ -47,14 +47,12 @@ export declare class OakSelect extends LitElement {
     private keydownEventHandler;
     private navigateDown;
     private navigateUp;
-    private navigateHome;
-    private navigateEnd;
     private isScrolledIntoView;
     private activate;
     private deactivate;
     private adjustPositioning;
     private handleChange;
-    private searchResults;
+    private searchpopup;
     private validate;
     private getClassMap;
     private handleInputFocused;
