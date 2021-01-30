@@ -8,7 +8,6 @@ import {ValidationErrorType} from '../../../validation/types/ValidationResultTyp
 import '../../private/oak-internal-label';
 import '../../private/oak-internal-form-tooltip';
 import '../../private/oak-internal-form-error';
-import '../../private/oak-internal-select-list';
 import '../../public/oak-button';
 import '../../public/oak-input';
 import {oakSelectModernStyles} from './index-styles';
