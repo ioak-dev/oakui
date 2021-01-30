@@ -8,6 +8,7 @@ import {ValidationErrorType} from '../../../validation/types/ValidationResultTyp
 import '../../private/oak-internal-label';
 import '../../private/oak-internal-form-tooltip';
 import '../../private/oak-internal-form-error';
+import '../../private/oak-internal-select-list';
 import '../../public/oak-button';
 import '../../public/oak-input';
 import {oakSelectModernStyles} from './index-styles';
@@ -19,19 +20,20 @@ import {
 import {containerScrolledSubject} from '../../../events/ContainerScrolledEvent';
 
 let elementIdCounter = 0;
-const rootClass = 'oak-select-modern';
+const customElementName = 'oak-select-modern';
 
 /**
  * Select drop down (native) form element.
  *
  */
-@customElement('oak-select-modern')
+@customElement(customElementName)
 export class OakSelect extends LitElement {
-  private elementId = `oak-select-modern-${elementIdCounter++}`;
-  private resultsLiElementId = `${this.elementId}-results-li`;
+  private elementId = `${customElementName}-${elementIdCounter++}`;
+  private liElementId = `${this.elementId}-results-li`;
   // private inputElementId = `${this.elementId}-input`;
-  private valueElementId = `${this.elementId}-value`;
-  private resultsUlElementId = `${this.elementId}-results-ul`;
+  private valueContainerElementId = `${this.elementId}-value-container`;
+  private ulElementId = `${this.elementId}-results-ul`;
+  private resultsContainerElementId = `${this.elementId}-results-container`;
 
   @property({type: Boolean})
   private _isActivated = false;
@@ -161,7 +163,7 @@ export class OakSelect extends LitElement {
   private navigateDown() {
     if (this._currentIndex < this.searchResults().length - 1) {
       const elRef = this.shadowRoot?.getElementById(
-        `${this.resultsLiElementId}-${this._currentIndex + 1}`
+        `${this.liElementId}-${this._currentIndex + 1}`
       );
       if (elRef && !this.isScrolledIntoView(elRef, true)) {
         elRef.scrollIntoView({
@@ -179,7 +181,7 @@ export class OakSelect extends LitElement {
   private navigateUp = () => {
     if (this._currentIndex > 0) {
       const elRef = this.shadowRoot?.getElementById(
-        `${this.resultsLiElementId}-${this._currentIndex - 1}`
+        `${this.liElementId}-${this._currentIndex - 1}`
       );
       if (elRef && !this.isScrolledIntoView(elRef)) {
         elRef.scrollIntoView({
@@ -195,9 +197,7 @@ export class OakSelect extends LitElement {
   };
 
   private navigateHome = () => {
-    const elRef = this.shadowRoot?.getElementById(
-      `${this.resultsLiElementId}-0`
-    );
+    const elRef = this.shadowRoot?.getElementById(`${this.liElementId}-0`);
     if (elRef) {
       elRef.scrollIntoView();
     }
@@ -206,7 +206,7 @@ export class OakSelect extends LitElement {
 
   private navigateEnd = () => {
     const elRef = this.shadowRoot?.getElementById(
-      `${this.resultsLiElementId}-${this.searchResults().length - 1}`
+      `${this.liElementId}-${this.searchResults().length - 1}`
     );
     if (elRef) {
       elRef.scrollIntoView();
@@ -220,7 +220,7 @@ export class OakSelect extends LitElement {
     const elemBottom = rect.bottom;
 
     const containerEl = this.shadowRoot?.getElementById(
-      `${this.elementId}-results-ul`
+      this.resultsContainerElementId
     );
     if (!containerEl) {
       return true;
@@ -258,15 +258,16 @@ export class OakSelect extends LitElement {
   };
 
   private adjustPositioning = () => {
-    const ulElRef = this.shadowRoot?.getElementById(this.resultsUlElementId);
-    const valueElRef = this.shadowRoot?.getElementById(this.valueElementId);
+    const ulElRef = this.shadowRoot?.getElementById(
+      this.resultsContainerElementId
+    );
+    const valueElRef = this.shadowRoot?.getElementById(
+      this.valueContainerElementId
+    );
     if (valueElRef && ulElRef) {
       ulElRef.style.left = `${valueElRef.getBoundingClientRect().left}px`;
       ulElRef.style.top = `${valueElRef.getBoundingClientRect().bottom + 6}px`;
-      ulElRef.style.width = `${
-        valueElRef.getBoundingClientRect().right -
-        valueElRef.getBoundingClientRect().left
-      }px`;
+      ulElRef.style.width = `${valueElRef.getBoundingClientRect().width}px`;
     }
   };
 
@@ -310,20 +311,39 @@ export class OakSelect extends LitElement {
     });
   };
 
-  private getClassMap = (baseClass: 'base' | 'value' | 'results'): any => {
+  private getClassMap = (
+    baseClass:
+      | 'base'
+      | 'value-container'
+      | 'value'
+      | 'placeholder'
+      | 'results-container'
+      | 'results'
+  ): any => {
     switch (baseClass) {
       case 'base':
         return {
-          [rootClass]: true,
+          [customElementName]: true,
+        };
+      case 'value-container':
+        return {
+          [`${customElementName}--${baseClass}`]: true,
         };
       case 'value':
         return {
-          [`${rootClass}--${baseClass}`]: true,
+          [`${customElementName}--${baseClass}`]: true,
+        };
+      case 'placeholder':
+        return {
+          [`${customElementName}--${baseClass}`]: true,
         };
       case 'results':
         return {
-          [`${rootClass}--${baseClass}`]: true,
-          activated: this._isActivated,
+          [`${customElementName}--${baseClass}`]: true,
+        };
+      case 'results-container':
+        return {
+          [`${customElementName}--${baseClass}`]: true,
         };
       default:
         return {};
@@ -390,14 +410,18 @@ export class OakSelect extends LitElement {
           elementFor=${this.elementId}
         ></oak-internal-label>
         <button
-          class=${classMap(this.getClassMap('value'))}
+          class=${classMap(this.getClassMap('value-container'))}
           @click=${this.handleInputFocused}
-          id=${this.valueElementId}
+          id=${this.valueContainerElementId}
           type="button"
         >
-          <div>
-            ${this.value || this.placeholder}
-          </div>
+          ${this.value
+            ? html`<div class=${classMap(this.getClassMap('value'))}>
+                ${this.value}
+              </div>`
+            : html`<div class=${classMap(this.getClassMap('placeholder'))}>
+                ${this.placeholder}
+              </div>`}
           <div>
             down
           </div>
@@ -405,24 +429,29 @@ export class OakSelect extends LitElement {
         ${this._isActivated
           ? html`
               <div class=${classMap(this.getClassMap('results'))}>
-                <ul role="listbox" id=${this.resultsUlElementId}>
-                  ${this.searchResults().map(
-                    (item, index) =>
-                      html`<li
-                        id=${`${this.resultsLiElementId}-${index}`}
-                        role="option"
-                        class=${this._currentIndex === index
-                          ? 'option-active'
-                          : ''}
-                        @click=${() => this.handleChange(index)}
-                      >
-                        ${item}
-                      </li>`
-                  )}
-                  ${this.searchResults().length === 0
-                    ? html` <li>No results found</li>`
-                    : html``}
-                </ul>
+                <div
+                  class=${classMap(this.getClassMap('results-container'))}
+                  id=${this.resultsContainerElementId}
+                >
+                  <ul role="listbox" id=${this.ulElementId}>
+                    ${this.searchResults().map(
+                      (item, index) =>
+                        html`<li
+                          id=${`${this.liElementId}-${index}`}
+                          role="option"
+                          class=${this._currentIndex === index
+                            ? 'option-active'
+                            : ''}
+                          @click=${() => this.handleChange(index)}
+                        >
+                          ${item}
+                        </li>`
+                    )}
+                    ${this.searchResults().length === 0
+                      ? html` <li>No results found</li>`
+                      : html``}
+                  </ul>
+                </div>
               </div>
             `
           : html``}
