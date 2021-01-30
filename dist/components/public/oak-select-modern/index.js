@@ -13,7 +13,6 @@ import { globalStyles } from '../../../global-styles';
 import '../../private/oak-internal-label';
 import '../../private/oak-internal-form-tooltip';
 import '../../private/oak-internal-form-error';
-import '../../private/oak-internal-select-list';
 import '../../public/oak-button';
 import '../../public/oak-input';
 import { oakSelectModernStyles } from './index-styles';
@@ -149,25 +148,37 @@ let OakSelect = class OakSelect extends LitElement {
             if (!this._isActivated) {
                 this._isActivated = true;
                 setTimeout(() => this.adjustPositioning());
+                // setTimeout(() => this.addTransitions());
                 if (this.scrollableContainers.length > 0) {
                     console.log('*******', this.scrollableContainers);
                 }
             }
         };
-        this.adjustPositioning = () => {
-            var _a, _b;
-            const ulElRef = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById(this.resultsContainerElementId);
-            const valueElRef = (_b = this.shadowRoot) === null || _b === void 0 ? void 0 : _b.getElementById(this.valueContainerElementId);
-            if (valueElRef && ulElRef) {
-                ulElRef.style.left = `${valueElRef.getBoundingClientRect().left}px`;
-                ulElRef.style.top = `${valueElRef.getBoundingClientRect().bottom + 6}px`;
-                ulElRef.style.width = `${valueElRef.getBoundingClientRect().width}px`;
-            }
-        };
         this.deactivate = () => {
             this._isActivated = false;
             this._searchCriteria = '';
+            // setTimeout(() => this.addTransitions());
         };
+        this.adjustPositioning = () => {
+            var _a, _b;
+            const resultsContainerElRef = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById(this.resultsContainerElementId);
+            const valueContainerElRef = (_b = this.shadowRoot) === null || _b === void 0 ? void 0 : _b.getElementById(this.valueContainerElementId);
+            if (valueContainerElRef && resultsContainerElRef) {
+                resultsContainerElRef.style.left = `${valueContainerElRef.getBoundingClientRect().left}px`;
+                resultsContainerElRef.style.top = `${valueContainerElRef.getBoundingClientRect().bottom + 6}px`;
+                resultsContainerElRef.style.width = `${valueContainerElRef.getBoundingClientRect().width}px`;
+            }
+        };
+        // private addTransitions = () => {
+        //   const ulElRef = this.shadowRoot?.getElementById(this.ulElementId);
+        //   if (this._isActivated && ulElRef) {
+        //     ulElRef.style.visibility = 'visible';
+        //     ulElRef.style.opacity = '1';
+        //   } else if (ulElRef) {
+        //     ulElRef.style.visibility = 'hidden';
+        //     ulElRef.style.opacity = '0';
+        //   }
+        // };
         this.handleChange = (index) => {
             if (this._isActivated) {
                 this.propagateCustomEvent(INPUT_CHANGE_EVENT, this.searchResults()[index || this._currentIndex]);
@@ -218,6 +229,12 @@ let OakSelect = class OakSelect extends LitElement {
                 case 'results-container':
                     return {
                         [`${customElementName}--${baseClass}`]: true,
+                        activated: this._isActivated,
+                    };
+                case 'ul':
+                    return {
+                        [`${customElementName}--${baseClass}`]: true,
+                        activated: this._isActivated,
                     };
                 default:
                     return {};
@@ -341,32 +358,30 @@ let OakSelect = class OakSelect extends LitElement {
             down
           </div>
         </button>
-        ${this._isActivated
-            ? html `
-              <div class=${classMap(this.getClassMap('results'))}>
-                <div
-                  class=${classMap(this.getClassMap('results-container'))}
-                  id=${this.resultsContainerElementId}
-                >
-                  <ul role="listbox" id=${this.ulElementId}>
-                    ${this.searchResults().map((item, index) => html `<li
-                          id=${`${this.liElementId}-${index}`}
-                          role="option"
-                          class=${this._currentIndex === index
-                ? 'option-active'
-                : ''}
-                          @click=${() => this.handleChange(index)}
-                        >
-                          ${item}
-                        </li>`)}
-                    ${this.searchResults().length === 0
-                ? html ` <li>No results found</li>`
-                : html ``}
-                  </ul>
-                </div>
-              </div>
-            `
+        <div class=${classMap(this.getClassMap('results'))}>
+          <div
+            class=${classMap(this.getClassMap('results-container'))}
+            id=${this.resultsContainerElementId}
+          >
+            <ul
+              role="listbox"
+              id=${this.ulElementId}
+              class=${classMap(this.getClassMap('ul'))}
+            >
+              ${this.searchResults().map((item, index) => html `<li
+                    id=${`${this.liElementId}-${index}`}
+                    role="option"
+                    class=${this._currentIndex === index ? 'option-active' : ''}
+                    @click=${() => this.handleChange(index)}
+                  >
+                    ${item}
+                  </li>`)}
+              ${this.searchResults().length === 0
+            ? html ` <li>No results found</li>`
             : html ``}
+            </ul>
+          </div>
+        </div>
         <oak-internal-form-tooltip
           .tooltip=${this.tooltip}
         ></oak-internal-form-tooltip>

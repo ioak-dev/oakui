@@ -250,30 +250,50 @@ export class OakSelect extends LitElement {
     if (!this._isActivated) {
       this._isActivated = true;
       setTimeout(() => this.adjustPositioning());
+      // setTimeout(() => this.addTransitions());
+
       if (this.scrollableContainers.length > 0) {
         console.log('*******', this.scrollableContainers);
       }
     }
   };
 
-  private adjustPositioning = () => {
-    const ulElRef = this.shadowRoot?.getElementById(
-      this.resultsContainerElementId
-    );
-    const valueElRef = this.shadowRoot?.getElementById(
-      this.valueContainerElementId
-    );
-    if (valueElRef && ulElRef) {
-      ulElRef.style.left = `${valueElRef.getBoundingClientRect().left}px`;
-      ulElRef.style.top = `${valueElRef.getBoundingClientRect().bottom + 6}px`;
-      ulElRef.style.width = `${valueElRef.getBoundingClientRect().width}px`;
-    }
-  };
-
   private deactivate = () => {
     this._isActivated = false;
     this._searchCriteria = '';
+    // setTimeout(() => this.addTransitions());
   };
+
+  private adjustPositioning = () => {
+    const resultsContainerElRef = this.shadowRoot?.getElementById(
+      this.resultsContainerElementId
+    );
+    const valueContainerElRef = this.shadowRoot?.getElementById(
+      this.valueContainerElementId
+    );
+    if (valueContainerElRef && resultsContainerElRef) {
+      resultsContainerElRef.style.left = `${
+        valueContainerElRef.getBoundingClientRect().left
+      }px`;
+      resultsContainerElRef.style.top = `${
+        valueContainerElRef.getBoundingClientRect().bottom + 6
+      }px`;
+      resultsContainerElRef.style.width = `${
+        valueContainerElRef.getBoundingClientRect().width
+      }px`;
+    }
+  };
+
+  // private addTransitions = () => {
+  //   const ulElRef = this.shadowRoot?.getElementById(this.ulElementId);
+  //   if (this._isActivated && ulElRef) {
+  //     ulElRef.style.visibility = 'visible';
+  //     ulElRef.style.opacity = '1';
+  //   } else if (ulElRef) {
+  //     ulElRef.style.visibility = 'hidden';
+  //     ulElRef.style.opacity = '0';
+  //   }
+  // };
 
   private handleChange = (index?: number) => {
     if (this._isActivated) {
@@ -318,6 +338,7 @@ export class OakSelect extends LitElement {
       | 'placeholder'
       | 'results-container'
       | 'results'
+      | 'ul'
   ): any => {
     switch (baseClass) {
       case 'base':
@@ -343,6 +364,12 @@ export class OakSelect extends LitElement {
       case 'results-container':
         return {
           [`${customElementName}--${baseClass}`]: true,
+          activated: this._isActivated,
+        };
+      case 'ul':
+        return {
+          [`${customElementName}--${baseClass}`]: true,
+          activated: this._isActivated,
         };
       default:
         return {};
@@ -425,35 +452,33 @@ export class OakSelect extends LitElement {
             down
           </div>
         </button>
-        ${this._isActivated
-          ? html`
-              <div class=${classMap(this.getClassMap('results'))}>
-                <div
-                  class=${classMap(this.getClassMap('results-container'))}
-                  id=${this.resultsContainerElementId}
-                >
-                  <ul role="listbox" id=${this.ulElementId}>
-                    ${this.searchResults().map(
-                      (item, index) =>
-                        html`<li
-                          id=${`${this.liElementId}-${index}`}
-                          role="option"
-                          class=${this._currentIndex === index
-                            ? 'option-active'
-                            : ''}
-                          @click=${() => this.handleChange(index)}
-                        >
-                          ${item}
-                        </li>`
-                    )}
-                    ${this.searchResults().length === 0
-                      ? html` <li>No results found</li>`
-                      : html``}
-                  </ul>
-                </div>
-              </div>
-            `
-          : html``}
+        <div class=${classMap(this.getClassMap('results'))}>
+          <div
+            class=${classMap(this.getClassMap('results-container'))}
+            id=${this.resultsContainerElementId}
+          >
+            <ul
+              role="listbox"
+              id=${this.ulElementId}
+              class=${classMap(this.getClassMap('ul'))}
+            >
+              ${this.searchResults().map(
+                (item, index) =>
+                  html`<li
+                    id=${`${this.liElementId}-${index}`}
+                    role="option"
+                    class=${this._currentIndex === index ? 'option-active' : ''}
+                    @click=${() => this.handleChange(index)}
+                  >
+                    ${item}
+                  </li>`
+              )}
+              ${this.searchResults().length === 0
+                ? html` <li>No results found</li>`
+                : html``}
+            </ul>
+          </div>
+        </div>
         <oak-internal-form-tooltip
           .tooltip=${this.tooltip}
         ></oak-internal-form-tooltip>

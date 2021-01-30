@@ -2,7 +2,6 @@ import { LitElement } from 'lit-element';
 import '../../private/oak-internal-label';
 import '../../private/oak-internal-form-tooltip';
 import '../../private/oak-internal-form-error';
-import '../../private/oak-internal-select-list';
 import '../../public/oak-button';
 import '../../public/oak-input';
 /**
@@ -52,8 +51,8 @@ export declare class OakSelect extends LitElement {
     private navigateEnd;
     private isScrolledIntoView;
     private activate;
-    private adjustPositioning;
     private deactivate;
+    private adjustPositioning;
     private handleChange;
     private searchResults;
     private validate;

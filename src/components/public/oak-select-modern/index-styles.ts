@@ -30,7 +30,7 @@ export const oakSelectModernStyles = css`
     .oak-select-modern--results-container {
     font-size: 14px;
     border-radius: 4px;
-    padding: 6px 0;
+    // padding: 6px 0;
     background-color: var(--formelement-color-bg-active);
     box-shadow: var(--oak-bs-elevation10);
     position: absolute;
@@ -44,6 +44,18 @@ export const oakSelectModernStyles = css`
     width: 100%;
     position: fixed;
     width: auto;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+      visibility 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  }
+  .oak-select-modern
+    .oak-select-modern--results
+    .oak-select-modern--results-container.activated {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+      visibility 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   }
 
   .oak-select-modern
@@ -53,6 +65,16 @@ export const oakSelectModernStyles = css`
     list-style: none;
     margin: 0;
     padding: 0;
+    // visibility: hidden;
+    // opacity: 0;
+  }
+
+  .oak-select-modern
+    .oak-select-modern--results
+    .oak-select-modern--results-container
+    ul.activated {
+    // visibility: visible;
+    // opacity: 1;
   }
   .oak-select-modern
     .oak-select-modern--results
