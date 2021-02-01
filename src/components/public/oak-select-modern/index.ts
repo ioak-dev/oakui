@@ -14,6 +14,7 @@ import {
   INPUT_CHANGE_EVENT,
   INPUT_INPUT_EVENT,
 } from '../../../types/InputEventTypes';
+import {RequiredValidator} from '../../../validation/RequiredValidator';
 
 let elementIdCounter = 0;
 const customElementName = 'oak-select-modern';
@@ -275,6 +276,7 @@ export class OakSelect extends LitElement {
 
   private validate = () => {
     this._errors = [];
+    this._errors = this._errors.concat(RequiredValidator(this.value));
     formControlValidatedSubject.next({
       formGroupName: this.formGroupName || '',
       formControlName: this.name,
@@ -330,6 +332,10 @@ export class OakSelect extends LitElement {
     return html`
       <oak-internal-popup
         .elementFor=${this.id}
+        .value=${this.value}
+        .placeholder=${this.placeholder}
+        .label=${this.label}
+        .errors=${this._errors}
         @activated=${this.handleActivated}
         @deactivated=${this.handleDeactivated}
         @key-pressed=${this.handleKeydown}

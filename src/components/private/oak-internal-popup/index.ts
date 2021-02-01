@@ -2,9 +2,6 @@ import {LitElement, html, customElement, property} from 'lit-element';
 import {fromEvent} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {classMap} from 'lit-html/directives/class-map';
-import {formControlRegisterSubject} from '../../../events/FormControlRegisterEvent';
-import {formControlValidatedSubject} from '../../../events/FormControlValidatedEvent';
-import {formControlValidateSubject} from '../../../events/FormControlValidateEvent';
 import {globalStyles} from '../../../global-styles';
 import {ValidationErrorType} from '../../../validation/types/ValidationResultType';
 import '../../private/oak-internal-label';
@@ -35,9 +32,6 @@ export class OakSelect extends LitElement {
   elementFor = '';
 
   @property({type: String})
-  formGroupName?: string;
-
-  @property({type: String})
   label?: string | null;
 
   @property()
@@ -65,6 +59,9 @@ export class OakSelect extends LitElement {
   optionsAsKeyValue?: {key: string | number; value: string | number}[] | null;
 
   @property({type: Array})
+  errors: ValidationErrorType[] = [];
+
+  @property({type: Array})
   scrollableContainers: string[] = [];
 
   /**
@@ -75,9 +72,6 @@ export class OakSelect extends LitElement {
   /**
    * @private
    */
-  @property({type: Array})
-  private _errors: ValidationErrorType[] = [];
-
   constructor() {
     super();
   }
@@ -93,20 +87,6 @@ export class OakSelect extends LitElement {
   }
 
   private _registerEvents() {
-    if (this.formGroupName) {
-      formControlRegisterSubject.next({
-        formControlName: this.name,
-        formGroupName: this.formGroupName,
-      });
-
-      formControlValidateSubject
-        .asObservable()
-        .subscribe((message: {formGroupName: string | undefined}) => {
-          if (message.formGroupName === this.formGroupName) {
-            this.validate();
-          }
-        });
-    }
     containerScrolledSubject
       .asObservable()
       .subscribe(() => this.adjustPositioning());
@@ -145,17 +125,6 @@ export class OakSelect extends LitElement {
 
   private keydownEventHandler = (event: any) => {
     this.propagateCustomEvent('key-pressed', event);
-    switch (event.key) {
-      case 'ArrowDown':
-      case 'ArrowUp':
-        break;
-      case 'Enter':
-        // event.preventDefault();
-        // this._isActivated ? this.handleChange() : this.activate();
-        break;
-      default:
-        break;
-    }
   };
 
   private activate = () => {
@@ -217,17 +186,6 @@ export class OakSelect extends LitElement {
   //   this.deactivate();
   // }
   // };
-
-  private validate = () => {
-    this._errors = [];
-    formControlValidatedSubject.next({
-      formGroupName: this.formGroupName || '',
-      formControlName: this.name,
-      isValid: this._errors.length === 0,
-      formControlValue: this.value,
-      errors: this._errors,
-    });
-  };
 
   private getClassMap = (
     baseClass:
@@ -337,7 +295,7 @@ export class OakSelect extends LitElement {
             .tooltip=${this.tooltip}
           ></oak-internal-form-tooltip>
           <oak-internal-form-error
-            .errors=${this._errors}
+            .errors=${this.errors}
           ></oak-internal-form-error>
         </div>
       </div>
