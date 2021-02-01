@@ -329,7 +329,14 @@ export class OakSelect extends LitElement {
   };
 
   render() {
+    const labelId = `${this.elementId}-label`;
+
     return html`
+      <oak-internal-label
+        label=${this.label}
+        elementId=${labelId}
+        elementFor=${this.elementId}
+      ></oak-internal-label>
       <oak-internal-popup
         .elementFor=${this.id}
         .value=${this.value}
@@ -341,7 +348,11 @@ export class OakSelect extends LitElement {
         @key-pressed=${this.handleKeydown}
         ?isActivated=${this._isActivated}
       >
-        <div class=${classMap(this.getClassMap('base'))} id=${this.elementId}>
+        <div
+          class=${classMap(this.getClassMap('base'))}
+          id=${this.elementId}
+          slot="popup"
+        >
           <div class=${classMap(this.getClassMap('search-filter'))}>
             <input
               type="text"
@@ -374,6 +385,12 @@ export class OakSelect extends LitElement {
           </ul>
         </div>
       </oak-internal-popup>
+      <oak-internal-form-tooltip
+        .tooltip=${this.tooltip}
+      ></oak-internal-form-tooltip>
+      <oak-internal-form-error
+        .errors=${this._errors}
+      ></oak-internal-form-error>
     `;
   }
 }

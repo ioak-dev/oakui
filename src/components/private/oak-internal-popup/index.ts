@@ -153,39 +153,44 @@ export class OakSelect extends LitElement {
   };
 
   private adjustPositioning = () => {
-    console.log('****adjust positioning');
-    const popupContainerElRef = this.shadowRoot?.getElementById(
-      this.popupContainerElementId
-    );
-    const valueContainerElRef = this.shadowRoot?.getElementById(
-      this.valueContainerElementId
-    );
-    if (valueContainerElRef && popupContainerElRef) {
-      popupContainerElRef.style.left = `${
-        valueContainerElRef.getBoundingClientRect().left
-      }px`;
-      popupContainerElRef.style.top = `${
-        valueContainerElRef.getBoundingClientRect().bottom + 8
-      }px`;
-      popupContainerElRef.style.width = `${
-        valueContainerElRef.getBoundingClientRect().width
-      }px`;
+    if (this.isActivated) {
+      const popupContainerElRef = this.shadowRoot?.getElementById(
+        this.popupContainerElementId
+      );
+      const valueContainerElRef = this.shadowRoot?.getElementById(
+        this.valueContainerElementId
+      );
+      if (valueContainerElRef && popupContainerElRef) {
+        console.log(
+          valueContainerElRef.getBoundingClientRect().top,
+          valueContainerElRef.getBoundingClientRect().bottom,
+          window.innerHeight
+        );
+        popupContainerElRef.style.left = `${
+          valueContainerElRef.getBoundingClientRect().left
+        }px`;
+        if (
+          valueContainerElRef.getBoundingClientRect().top >
+          window.innerHeight / 2
+        ) {
+          popupContainerElRef.style.bottom = `${
+            window.innerHeight -
+            valueContainerElRef.getBoundingClientRect().top +
+            8
+          }px`;
+          popupContainerElRef.style.top = 'auto';
+        } else {
+          popupContainerElRef.style.top = `${
+            valueContainerElRef.getBoundingClientRect().bottom + 8
+          }px`;
+          popupContainerElRef.style.bottom = 'auto';
+        }
+        popupContainerElRef.style.width = `${
+          valueContainerElRef.getBoundingClientRect().width
+        }px`;
+      }
     }
   };
-
-  // private handleChange = (index?: number) => {
-  // if (this._isActivated) {
-  //   this.propagateCustomEvent(
-  //     INPUT_CHANGE_EVENT,
-  //     this.searchpopup()[index || this._currentIndex]
-  //   );
-  //   this.propagateCustomEvent(
-  //     INPUT_INPUT_EVENT,
-  //     this.searchpopup()[index || this._currentIndex]
-  //   );
-  //   this.deactivate();
-  // }
-  // };
 
   private getClassMap = (
     baseClass:
@@ -258,15 +263,8 @@ export class OakSelect extends LitElement {
   };
 
   render() {
-    const labelId = `${this.elementId}-label`;
-
     return html`
       <div class=${classMap(this.getClassMap('base'))} id=${this.elementId}>
-        <oak-internal-label
-          label=${this.label}
-          elementId=${labelId}
-          elementFor=${this.elementId}
-        ></oak-internal-label>
         <button
           class=${classMap(this.getClassMap('value-container'))}
           @click=${this.handleInputFocused}
@@ -289,14 +287,8 @@ export class OakSelect extends LitElement {
             class=${classMap(this.getClassMap('popup-container'))}
             id=${this.popupContainerElementId}
           >
-            <slot></slot>
+            <slot name="popup"></slot>
           </div>
-          <oak-internal-form-tooltip
-            .tooltip=${this.tooltip}
-          ></oak-internal-form-tooltip>
-          <oak-internal-form-error
-            .errors=${this.errors}
-          ></oak-internal-form-error>
         </div>
       </div>
     `;
