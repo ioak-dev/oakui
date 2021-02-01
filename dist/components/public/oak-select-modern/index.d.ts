@@ -1,7 +1,5 @@
 import { LitElement } from 'lit-element';
-import '../../private/oak-internal-label';
-import '../../private/oak-internal-form-tooltip';
-import '../../private/oak-internal-form-error';
+import '../../private/oak-internal-popup';
 import '../../public/oak-button';
 import '../../public/oak-input';
 /**
@@ -10,10 +8,10 @@ import '../../public/oak-input';
  */
 export declare class OakSelect extends LitElement {
     private elementId;
+    private inputElementId;
     private liElementId;
-    private valueContainerElementId;
     private ulElementId;
-    private popupContainerElementId;
+    id: string;
     private _isActivated;
     private _currentIndex;
     private _searchCriteria;
@@ -30,7 +28,6 @@ export declare class OakSelect extends LitElement {
         key: string | number;
         value: string | number;
     }[] | null;
-    scrollableContainers: string[];
     /**
      * Validators
      *
@@ -44,18 +41,19 @@ export declare class OakSelect extends LitElement {
     disconnectedCallback(): void;
     private _registerEvents;
     private _unregisterEvents;
+    private handleChange;
+    private search;
     private keydownEventHandler;
     private navigateDown;
     private navigateUp;
     private isScrolledIntoView;
-    private activate;
-    private deactivate;
-    private adjustPositioning;
-    private handleChange;
-    private searchpopup;
+    private handleActivated;
+    private handleDeactivated;
+    private handleKeydown;
+    private _searchResults;
+    private handleSearchCriteriaChange;
     private validate;
     private getClassMap;
-    private handleInputFocused;
     static get styles(): import("lit-element").CSSResult[];
     private propagateCustomEvent;
     render(): import("lit-element").TemplateResult;

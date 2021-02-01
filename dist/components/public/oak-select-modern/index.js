@@ -10,15 +10,12 @@ import { formControlRegisterSubject } from '../../../events/FormControlRegisterE
 import { formControlValidatedSubject } from '../../../events/FormControlValidatedEvent';
 import { formControlValidateSubject } from '../../../events/FormControlValidateEvent';
 import { globalStyles } from '../../../global-styles';
-import '../../private/oak-internal-label';
-import '../../private/oak-internal-form-tooltip';
-import '../../private/oak-internal-form-error';
+import '../../private/oak-internal-popup';
 import '../../public/oak-button';
 import '../../public/oak-input';
 import { oakSelectModernStyles } from './index-styles';
 import { isEmptyOrSpaces, toString } from '../../../utils/StringUtils';
 import { INPUT_CHANGE_EVENT, INPUT_INPUT_EVENT, } from '../../../types/InputEventTypes';
-import { containerScrolledSubject } from '../../../events/ContainerScrolledEvent';
 let elementIdCounter = 0;
 const customElementName = 'oak-select-modern';
 /**
@@ -29,11 +26,10 @@ let OakSelect = class OakSelect extends LitElement {
     constructor() {
         super();
         this.elementId = `${customElementName}-${elementIdCounter++}`;
+        this.inputElementId = `${this.elementId}-input`;
         this.liElementId = `${this.elementId}-popup-li`;
-        // private inputElementId = `${this.elementId}-input`;
-        this.valueContainerElementId = `${this.elementId}-value-container`;
         this.ulElementId = `${this.elementId}-popup-ul`;
-        this.popupContainerElementId = `${this.elementId}-popup-container`;
+        this.id = `${customElementName}-${elementIdCounter++}-id`;
         this._isActivated = false;
         this._currentIndex = 0;
         this._searchCriteria = '';
@@ -43,7 +39,6 @@ let OakSelect = class OakSelect extends LitElement {
         this.name = this.elementId;
         this.disabled = false;
         this.options = [];
-        this.scrollableContainers = [];
         /**
          * Validators
          *
@@ -52,6 +47,20 @@ let OakSelect = class OakSelect extends LitElement {
          * @private
          */
         this._errors = [];
+        this.handleChange = (index) => {
+            if (this._isActivated) {
+                this.propagateCustomEvent(INPUT_CHANGE_EVENT, this.search()[index || this._currentIndex]);
+                this.propagateCustomEvent(INPUT_INPUT_EVENT, this.search()[index || this._currentIndex]);
+            }
+        };
+        this.search = () => {
+            if (isEmptyOrSpaces(this._searchCriteria)) {
+                return this.options;
+            }
+            else {
+                return this.options.filter((option) => toString(option).includes(this._searchCriteria));
+            }
+        };
         this.keydownEventHandler = (event) => {
             switch (event.key) {
                 case 'ArrowDown':
@@ -66,7 +75,7 @@ let OakSelect = class OakSelect extends LitElement {
                     break;
                 case 'Enter':
                     event.preventDefault();
-                    this._isActivated ? this.handleChange() : this.activate();
+                    // this._isActivated ? this.handleChange() : this.activate();
                     break;
                 default:
                     break;
@@ -94,7 +103,7 @@ let OakSelect = class OakSelect extends LitElement {
             const rect = el.getBoundingClientRect();
             const elemTop = rect.top;
             const elemBottom = rect.bottom;
-            const containerEl = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById(this.popupContainerElementId);
+            const containerEl = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById(this.ulElementId);
             if (!containerEl) {
                 return true;
             }
@@ -118,55 +127,37 @@ let OakSelect = class OakSelect extends LitElement {
             //isVisible = elemTop < containerEl.getBoundingClientRect().height && elemBottom >= 0;
             return isVisible;
         };
-        this.activate = () => {
-            if (!this._isActivated) {
-                this._isActivated = true;
-                setTimeout(() => this.adjustPositioning());
-                // setTimeout(() => this.addTransitions());
-                if (this.scrollableContainers.length > 0) {
-                    console.log('*******', this.scrollableContainers);
-                }
+        this.handleActivated = () => {
+            var _a;
+            this._isActivated = true;
+            const docRef = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById(this.elementId);
+            if (docRef) {
+                docRef.addEventListener('keydown', this.keydownEventHandler);
             }
         };
-        this.deactivate = () => {
+        this.handleDeactivated = () => {
+            var _a;
             this._isActivated = false;
             this._searchCriteria = '';
-            // setTimeout(() => this.addTransitions());
-        };
-        this.adjustPositioning = () => {
-            var _a, _b;
-            const popupContainerElRef = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById(this.popupContainerElementId);
-            const valueContainerElRef = (_b = this.shadowRoot) === null || _b === void 0 ? void 0 : _b.getElementById(this.valueContainerElementId);
-            if (valueContainerElRef && popupContainerElRef) {
-                popupContainerElRef.style.left = `${valueContainerElRef.getBoundingClientRect().left}px`;
-                popupContainerElRef.style.top = `${valueContainerElRef.getBoundingClientRect().bottom + 8}px`;
-                popupContainerElRef.style.width = `${valueContainerElRef.getBoundingClientRect().width}px`;
+            const docRef = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById(this.elementId);
+            if (docRef) {
+                docRef.removeEventListener('keydown', this.keydownEventHandler);
             }
         };
-        // private addTransitions = () => {
-        //   const ulElRef = this.shadowRoot?.getElementById(this.ulElementId);
-        //   if (this._isActivated && ulElRef) {
-        //     ulElRef.style.visibility = 'visible';
-        //     ulElRef.style.opacity = '1';
-        //   } else if (ulElRef) {
-        //     ulElRef.style.visibility = 'hidden';
-        //     ulElRef.style.opacity = '0';
-        //   }
-        // };
-        this.handleChange = (index) => {
-            if (this._isActivated) {
-                this.propagateCustomEvent(INPUT_CHANGE_EVENT, this.searchpopup()[index || this._currentIndex]);
-                this.propagateCustomEvent(INPUT_INPUT_EVENT, this.searchpopup()[index || this._currentIndex]);
-                this.deactivate();
-            }
+        this.handleKeydown = (event) => {
+            this.keydownEventHandler(event.detail.value);
         };
-        this.searchpopup = () => {
+        this._searchResults = () => {
             if (isEmptyOrSpaces(this._searchCriteria)) {
                 return this.options;
             }
             else {
                 return this.options.filter((option) => toString(option).includes(this._searchCriteria));
             }
+        };
+        this.handleSearchCriteriaChange = (event) => {
+            this._searchCriteria = event.srcElement.value;
+            this._currentIndex = 0;
         };
         this.validate = () => {
             this._errors = [];
@@ -184,27 +175,6 @@ let OakSelect = class OakSelect extends LitElement {
                     return {
                         [customElementName]: true,
                     };
-                case 'value-container':
-                    return {
-                        [`${customElementName}--${baseClass}`]: true,
-                    };
-                case 'value':
-                    return {
-                        [`${customElementName}--${baseClass}`]: true,
-                    };
-                case 'placeholder':
-                    return {
-                        [`${customElementName}--${baseClass}`]: true,
-                    };
-                case 'popup':
-                    return {
-                        [`${customElementName}--${baseClass}`]: true,
-                    };
-                case 'popup-container':
-                    return {
-                        [`${customElementName}--${baseClass}`]: true,
-                        activated: this._isActivated,
-                    };
                 case 'search-filter':
                     return {
                         [`${customElementName}--${baseClass}`]: true,
@@ -216,34 +186,6 @@ let OakSelect = class OakSelect extends LitElement {
                     };
                 default:
                     return {};
-            }
-        };
-        // private handleSearchCriteriaChange = (event: any) => {
-        //   this._searchCriteria = event.detail.value;
-        // };
-        this.handleInputFocused = () => {
-            var _a;
-            if (this._isActivated) {
-                this.deactivate();
-            }
-            else {
-                this.activate();
-                window.addEventListener('keydown', (e) => {
-                    if (['Escape'].includes(e.key)) {
-                        this.deactivate();
-                    }
-                });
-                window.addEventListener('click', (e) => {
-                    var _a;
-                    if (!e.target.shadowRoot ||
-                        !e.target.shadowRoot.contains((_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById(this.elementId))) {
-                        this.deactivate();
-                    }
-                });
-                const docRef = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById(this.elementId);
-                if (docRef) {
-                    docRef.addEventListener('keydown', this.keydownEventHandler);
-                }
             }
         };
         this.propagateCustomEvent = (eventName, value) => {
@@ -267,8 +209,6 @@ let OakSelect = class OakSelect extends LitElement {
         this._unregisterEvents();
     }
     _registerEvents() {
-        window.addEventListener('resize', this.adjustPositioning);
-        window.addEventListener('scroll', this.adjustPositioning);
         if (this.formGroupName) {
             formControlRegisterSubject.next({
                 formControlName: this.name,
@@ -282,17 +222,13 @@ let OakSelect = class OakSelect extends LitElement {
                 }
             });
         }
-        containerScrolledSubject.asObservable().subscribe(() => {
-            this.adjustPositioning();
-        });
     }
     _unregisterEvents() {
-        window.removeEventListener('resize', this.adjustPositioning);
-        window.removeEventListener('scroll', this.adjustPositioning);
+        //
     }
     navigateDown() {
         var _a;
-        if (this._currentIndex < this.searchpopup().length - 1) {
+        if (this._currentIndex < this.search().length - 1) {
             const elRef = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById(`${this.liElementId}-${this._currentIndex + 1}`);
             if (elRef && !this.isScrolledIntoView(elRef, true)) {
                 elRef.scrollIntoView({
@@ -307,78 +243,56 @@ let OakSelect = class OakSelect extends LitElement {
             this._currentIndex = 0;
         }
     }
+    // private handleSearchCriteriaChange = (event: any) => {
+    //   this._searchCriteria = event.detail.value;
+    // };
     static get styles() {
         return [...globalStyles, oakSelectModernStyles];
     }
     render() {
-        const labelId = `${this.elementId}-label`;
         return html `
-      <div class=${classMap(this.getClassMap('base'))} id=${this.elementId}>
-        <oak-internal-label
-          label=${this.label}
-          elementId=${labelId}
-          elementFor=${this.elementId}
-        ></oak-internal-label>
-        <button
-          class=${classMap(this.getClassMap('value-container'))}
-          @click=${this.handleInputFocused}
-          id=${this.valueContainerElementId}
-          type="button"
-        >
-          ${this.value
-            ? html `<div class=${classMap(this.getClassMap('value'))}>
-                ${this.value}
-              </div>`
-            : html `<div class=${classMap(this.getClassMap('placeholder'))}>
-                ${this.placeholder}
-              </div>`}
-          <div>
-            down
+      <oak-internal-popup
+        .elementFor=${this.id}
+        @activated=${this.handleActivated}
+        @deactivated=${this.handleDeactivated}
+        @key-pressed=${this.handleKeydown}
+      >
+        <div class=${classMap(this.getClassMap('base'))} id=${this.elementId}>
+          <div class=${classMap(this.getClassMap('search-filter'))}>
+            <input
+              type="text"
+              placeholder="Type to filter"
+              autocomplete="off"
+              .value=${this._searchCriteria}
+              id=${this.inputElementId}
+              @input=${this.handleSearchCriteriaChange}
+            />
           </div>
-        </button>
-        <div class=${classMap(this.getClassMap('popup'))}>
-          <div
-            class=${classMap(this.getClassMap('popup-container'))}
-            id=${this.popupContainerElementId}
+          <ul
+            role="listbox"
+            id=${this.ulElementId}
+            class=${classMap(this.getClassMap('ul'))}
           >
-            <div class=${classMap(this.getClassMap('search-filter'))}>
-              <input
-                autofocus
-                type="text"
-                placeholder="Type to filter"
-                autocomplete="off"
-                spellcheck="false"
-              />
-            </div>
-            <ul
-              role="listbox"
-              id=${this.ulElementId}
-              class=${classMap(this.getClassMap('ul'))}
-            >
-              ${this.searchpopup().map((item, index) => html `<li
-                    id=${`${this.liElementId}-${index}`}
-                    role="option"
-                    class=${this._currentIndex === index ? 'option-active' : ''}
-                    @click=${() => this.handleChange(index)}
-                  >
-                    ${item}
-                  </li>`)}
-              ${this.searchpopup().length === 0
-            ? html ` <li>No popup found</li>`
+            ${this._searchResults().map((item, index) => html `<li
+                  id=${`${this.liElementId}-${index}`}
+                  role="option"
+                  class=${this._currentIndex === index ? 'option-active' : ''}
+                  @click=${() => this.handleChange(index)}
+                >
+                  ${item}
+                </li>`)}
+            ${this._searchResults().length === 0
+            ? html ` <li>No results found</li>`
             : html ``}
-            </ul>
-          </div>
+          </ul>
         </div>
-        <oak-internal-form-tooltip
-          .tooltip=${this.tooltip}
-        ></oak-internal-form-tooltip>
-        <oak-internal-form-error
-          .errors=${this._errors}
-        ></oak-internal-form-error>
-      </div>
+      </oak-internal-popup>
     `;
     }
 };
+__decorate([
+    property({ type: String, reflect: true })
+], OakSelect.prototype, "id", void 0);
 __decorate([
     property({ type: Boolean })
 ], OakSelect.prototype, "_isActivated", void 0);
@@ -418,9 +332,6 @@ __decorate([
 __decorate([
     property({ type: Array })
 ], OakSelect.prototype, "optionsAsKeyValue", void 0);
-__decorate([
-    property({ type: Array })
-], OakSelect.prototype, "scrollableContainers", void 0);
 __decorate([
     property({ type: Array })
 ], OakSelect.prototype, "_errors", void 0);
