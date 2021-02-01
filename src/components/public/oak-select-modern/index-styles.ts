@@ -1,11 +1,11 @@
 import {css} from 'lit-element';
 
 export const oakSelectModernStyles = css`
-  .oak-select-modern .oak-select-modern--search-filter {
+  .oak-select-modern--popup .oak-select-modern--search-filter {
     padding: 8px;
     border-bottom: 1px solid var(--global-border-color);
   }
-  .oak-select-modern .oak-select-modern--search-filter input {
+  .oak-select-modern--popup .oak-select-modern--search-filter input {
     width: 100%;
     font-size: 14px;
     border: 1px solid var(--global-border-color);
@@ -17,14 +17,14 @@ export const oakSelectModernStyles = css`
     border-radius: var(--formelement-border-radius);
     outline: none;
   }
-  .oak-select-modern .oak-select-modern--search-filter input:focus {
+  .oak-select-modern--popup .oak-select-modern--search-filter input:focus {
     box-shadow: var(--formelement-outline-box-shadow);
     border-color: var(--formelement-outline-border-color);
     // background-color: var(--formelement-color-bg-active);
     // color: var(--formelement-color-fg-active);
   }
 
-  .oak-select-modern ul {
+  .oak-select-modern--popup ul {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -36,23 +36,23 @@ export const oakSelectModernStyles = css`
     overflow-x: hidden;
   }
 
-  .oak-select-modern ul.activated {
+  .oak-select-modern--popup ul.activated {
     // visibility: visible;
     // opacity: 1;
   }
 
-  .oak-select-modern ul li {
+  .oak-select-modern--popup ul li {
     padding: 7px 16px;
     background-color: var(--formelement-color-bg-active);
     color: var(--formelement-color-fg-active);
     cursor: pointer;
   }
 
-  .oak-select-modern ul li:not(:last-child) {
+  .oak-select-modern--popup ul li:not(:last-child) {
     border-bottom: 1px solid var(--global-border-color);
   }
-  .oak-select-modern ul li:hover,
-  .oak-select-modern ul li.option-active {
+  .oak-select-modern--popup ul li:hover,
+  .oak-select-modern--popup ul li.option-active {
     background-color: var(--formelement-color-bg-highlight);
     color: var(--formelement-color-fg-highlight);
   }

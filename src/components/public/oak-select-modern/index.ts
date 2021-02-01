@@ -286,13 +286,21 @@ export class OakSelect extends LitElement {
     });
   };
 
-  private getClassMap = (baseClass: 'base' | 'ul' | 'search-filter'): any => {
+  private getClassMap = (
+    baseClass:
+      | 'popup'
+      | 'ul'
+      | 'search-filter'
+      | 'action'
+      | 'value'
+      | 'placeholder'
+  ): any => {
     switch (baseClass) {
-      case 'base':
-        return {
-          [customElementName]: true,
-        };
+      case 'popup':
       case 'search-filter':
+      case 'action':
+      case 'value':
+      case 'placeholder':
         return {
           [`${customElementName}--${baseClass}`]: true,
         };
@@ -349,9 +357,9 @@ export class OakSelect extends LitElement {
         ?isActivated=${this._isActivated}
       >
         <div
-          class=${classMap(this.getClassMap('base'))}
-          id=${this.elementId}
           slot="popup"
+          class=${classMap(this.getClassMap('popup'))}
+          id=${this.elementId}
         >
           <div class=${classMap(this.getClassMap('search-filter'))}>
             <input

@@ -7,6 +7,7 @@ import {ValidationErrorType} from '../../../validation/types/ValidationResultTyp
 import '../../private/oak-internal-label';
 import '../../private/oak-internal-form-tooltip';
 import '../../private/oak-internal-form-error';
+import '../../private/oak-internal-popup-input-action';
 import '../../public/oak-button';
 import '../../public/oak-input';
 import {oakInternalPopupStyles} from './index-styles';
@@ -22,7 +23,7 @@ const customElementName = 'oak-internal-popup';
 @customElement(customElementName)
 export class OakSelect extends LitElement {
   private elementId = `${customElementName}-${elementIdCounter++}`;
-  private valueContainerElementId = `${this.elementId}-value-container`;
+  private actionElementId = `${this.elementId}-action`;
   private popupContainerElementId = `${this.elementId}-popup-container`;
 
   @property({type: Boolean})
@@ -131,9 +132,7 @@ export class OakSelect extends LitElement {
     if (!this.isActivated) {
       this.propagateCustomEvent('activated');
       setTimeout(() => this.adjustPositioning());
-      const docRef = this.shadowRoot?.getElementById(
-        this.valueContainerElementId
-      );
+      const docRef = this.shadowRoot?.getElementById(this.actionElementId);
       if (docRef) {
         docRef.addEventListener('keydown', this.keydownEventHandler);
       }
@@ -157,36 +156,24 @@ export class OakSelect extends LitElement {
       const popupContainerElRef = this.shadowRoot?.getElementById(
         this.popupContainerElementId
       );
-      const valueContainerElRef = this.shadowRoot?.getElementById(
-        this.valueContainerElementId
-      );
-      if (valueContainerElRef && popupContainerElRef) {
-        console.log(
-          valueContainerElRef.getBoundingClientRect().top,
-          valueContainerElRef.getBoundingClientRect().bottom,
-          window.innerHeight
-        );
+      const actionElRef = this.shadowRoot?.getElementById(this.actionElementId);
+      if (actionElRef && popupContainerElRef) {
         popupContainerElRef.style.left = `${
-          valueContainerElRef.getBoundingClientRect().left
+          actionElRef.getBoundingClientRect().left
         }px`;
-        if (
-          valueContainerElRef.getBoundingClientRect().top >
-          window.innerHeight / 2
-        ) {
+        if (actionElRef.getBoundingClientRect().top > window.innerHeight / 2) {
           popupContainerElRef.style.bottom = `${
-            window.innerHeight -
-            valueContainerElRef.getBoundingClientRect().top +
-            8
+            window.innerHeight - actionElRef.getBoundingClientRect().top + 8
           }px`;
           popupContainerElRef.style.top = 'auto';
         } else {
           popupContainerElRef.style.top = `${
-            valueContainerElRef.getBoundingClientRect().bottom + 8
+            actionElRef.getBoundingClientRect().bottom + 8
           }px`;
           popupContainerElRef.style.bottom = 'auto';
         }
         popupContainerElRef.style.width = `${
-          valueContainerElRef.getBoundingClientRect().width
+          actionElRef.getBoundingClientRect().width
         }px`;
       }
     }
@@ -195,7 +182,7 @@ export class OakSelect extends LitElement {
   private getClassMap = (
     baseClass:
       | 'base'
-      | 'value-container'
+      | 'action'
       | 'value'
       | 'placeholder'
       | 'popup-container'
@@ -206,7 +193,7 @@ export class OakSelect extends LitElement {
         return {
           [customElementName]: true,
         };
-      case 'value-container':
+      case 'action':
         return {
           [`${customElementName}--${baseClass}`]: true,
         };
@@ -265,23 +252,15 @@ export class OakSelect extends LitElement {
   render() {
     return html`
       <div class=${classMap(this.getClassMap('base'))} id=${this.elementId}>
-        <button
-          class=${classMap(this.getClassMap('value-container'))}
-          @click=${this.handleInputFocused}
-          id=${this.valueContainerElementId}
-          type="button"
+        <div
+          class=${classMap(this.getClassMap('action'))}
+          id=${this.actionElementId}
         >
-          ${this.value
-            ? html`<div class=${classMap(this.getClassMap('value'))}>
-                ${this.value}
-              </div>`
-            : html`<div class=${classMap(this.getClassMap('placeholder'))}>
-                ${this.placeholder}
-              </div>`}
-          <div>
-            down
-          </div>
-        </button>
+          <oak-internal-popup-input-action
+            @toggle=${this.handleInputFocused}
+            .value=${this.value}
+          ></oak-internal-popup-input-action>
+        </div>
         <div class=${classMap(this.getClassMap('popup'))}>
           <div
             class=${classMap(this.getClassMap('popup-container'))}
