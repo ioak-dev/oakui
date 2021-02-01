@@ -127,6 +127,7 @@ export class OakSelect extends LitElement {
         INPUT_INPUT_EVENT,
         this.search()[index || this._currentIndex]
       );
+      this.handleDeactivated();
     }
   };
 
@@ -144,17 +145,15 @@ export class OakSelect extends LitElement {
     switch (event.key) {
       case 'ArrowDown':
         event.preventDefault();
-        // this.activate();
         this.navigateDown();
         break;
       case 'ArrowUp':
         event.preventDefault();
-        // this.activate();
         this.navigateUp();
         break;
       case 'Enter':
         event.preventDefault();
-        // this._isActivated ? this.handleChange() : this.activate();
+        this.handleChange();
         break;
       default:
         break;
@@ -230,6 +229,7 @@ export class OakSelect extends LitElement {
 
   private handleActivated = () => {
     this._isActivated = true;
+    this._currentIndex = 0;
     const docRef = this.shadowRoot?.getElementById(this.elementId);
     if (docRef) {
       docRef.addEventListener('keydown', this.keydownEventHandler);
@@ -246,7 +246,9 @@ export class OakSelect extends LitElement {
   };
 
   private handleKeydown = (event: any) => {
-    this.keydownEventHandler(event.detail.value);
+    if (this._isActivated) {
+      this.keydownEventHandler(event.detail.value);
+    }
   };
 
   private _searchResults = () => {
