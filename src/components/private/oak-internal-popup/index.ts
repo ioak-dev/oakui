@@ -29,7 +29,7 @@ export class OakSelect extends LitElement {
   private popupContainerElementId = `${this.elementId}-popup-container`;
 
   @property({type: Boolean})
-  private _isActivated = false;
+  isActivated = false;
 
   @property({type: String})
   elementFor = '';
@@ -159,8 +159,8 @@ export class OakSelect extends LitElement {
   };
 
   private activate = () => {
-    if (!this._isActivated) {
-      this._isActivated = true;
+    if (!this.isActivated) {
+      this.propagateCustomEvent('activated');
       setTimeout(() => this.adjustPositioning());
       const docRef = this.shadowRoot?.getElementById(
         this.valueContainerElementId
@@ -168,7 +168,6 @@ export class OakSelect extends LitElement {
       if (docRef) {
         docRef.addEventListener('keydown', this.keydownEventHandler);
       }
-      this.propagateCustomEvent('activated');
 
       if (this.scrollableContainers.length > 0) {
         console.log('*******', this.scrollableContainers);
@@ -177,12 +176,11 @@ export class OakSelect extends LitElement {
   };
 
   private deactivate = () => {
-    this._isActivated = false;
+    this.propagateCustomEvent('deactivated');
     const docRef = this.shadowRoot?.getElementById(this.elementId);
     if (docRef) {
       docRef.removeEventListener('keydown', this.keydownEventHandler);
     }
-    this.propagateCustomEvent('deactivated');
   };
 
   private adjustPositioning = () => {
@@ -264,7 +262,7 @@ export class OakSelect extends LitElement {
       case 'popup-container':
         return {
           [`${customElementName}--${baseClass}`]: true,
-          activated: this._isActivated,
+          activated: this.isActivated,
         };
       default:
         return {};
@@ -276,7 +274,7 @@ export class OakSelect extends LitElement {
   // };
 
   private handleInputFocused = () => {
-    if (this._isActivated) {
+    if (this.isActivated) {
       this.deactivate();
     } else {
       this.activate();

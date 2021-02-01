@@ -324,6 +324,7 @@ export class OakSelect extends LitElement {
         @activated=${this.handleActivated}
         @deactivated=${this.handleDeactivated}
         @key-pressed=${this.handleKeydown}
+        ?isActivated=${this._isActivated}
       >
         <div class=${classMap(this.getClassMap('base'))} id=${this.elementId}>
           <div class=${classMap(this.getClassMap('search-filter'))}>
