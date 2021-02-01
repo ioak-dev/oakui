@@ -44,6 +44,7 @@ export const oakSelectModernStyles = css`
   .oak-select-modern ul li {
     padding: 7px 16px;
     background-color: var(--formelement-color-bg-active);
+    color: var(--formelement-color-fg-active);
     cursor: pointer;
   }
 
@@ -52,7 +53,7 @@ export const oakSelectModernStyles = css`
   }
   .oak-select-modern ul li:hover,
   .oak-select-modern ul li.option-active {
-    background-color: var(--color-primary-1);
-    color: #fff;
+    background-color: var(--formelement-color-bg-highlight);
+    color: var(--formelement-color-fg-highlight);
   }
 `;

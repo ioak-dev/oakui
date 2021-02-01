@@ -234,6 +234,13 @@ export class OakSelect extends LitElement {
     if (docRef) {
       docRef.addEventListener('keydown', this.keydownEventHandler);
     }
+
+    setTimeout(() => {
+      const inputElRef = this.shadowRoot?.getElementById(this.inputElementId);
+      if (inputElRef) {
+        inputElRef.focus();
+      }
+    }, 220);
   };
 
   private handleDeactivated = () => {
