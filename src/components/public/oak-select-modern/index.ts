@@ -241,7 +241,7 @@ export class OakSelect extends LitElement {
       if (inputElRef) {
         inputElRef.focus();
       }
-    }, 220);
+    }, 201);
   };
 
   private handleDeactivated = () => {

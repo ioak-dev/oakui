@@ -1,0 +1,1 @@
+{"version":3,"file":"index.d.ts","sourceRoot":"","sources":["../../../../src/components/private/oak-internal-label/index.ts"],"names":[],"mappings":"AAAA,OAAO,EAAC,UAAU,EAAgC,MAAM,aAAa,CAAC;AAItE;;;GAGG;AACH,qBACa,gBAAiB,SAAQ,UAAU;IAE9C,KAAK,EAAE,MAAM,CAAM;IAGnB,UAAU,EAAE,MAAM,CAAM;IAGxB,SAAS,EAAE,MAAM,CAAM;;IAMvB,MAAM,KAAK,MAAM,sCAIhB;IAED,MAAM;CAKP"}
