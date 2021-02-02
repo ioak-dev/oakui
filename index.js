@@ -1,9 +1,11 @@
+import './dist/components/public/oak-typography/index.js';
 import './dist/components/public/oak-input/index.js';
 import './dist/components/public/oak-button/index.js';
 import './dist/components/public/oak-form/index.js';
 import './dist/components/public/oak-select/index.js';
 import './dist/components/public/oak-modal/index.js';
 import './dist/components/public/oak-container/index.js';
+import './dist/components/public/oak-card/index.js';
 import './dist/components/public/oak-form-actions-container/index.js';
 import './dist/components/public/oak-popover/index.js';
 import './dist/components/public/oak-select-modern/index.js';
