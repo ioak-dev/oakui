@@ -3,10 +3,14 @@ import {globalStyles} from '../../../global-styles';
 import '../../private/oak-internal-label';
 import {formControlRegisterSubject} from '../../../events/FormControlRegisterEvent';
 import {formControlSubmitSubject} from '../../../events/FormControlSubmitEvent';
-import {FORM_SUBMIT_EVENT} from '../../../types/FormEventTypes';
+import {
+  FORM_SUBMIT_EVENT,
+  FORM_RESET_EVENT,
+} from '../../../types/FormEventTypes';
 import {formControlValidateSubject} from '../../../events/FormControlValidateEvent';
 import {formControlValidatedSubject} from '../../../events/FormControlValidatedEvent';
 import {ValidationResultType} from '../../../validation/types/ValidationResultType';
+import {formControlResetSubject} from '../../../events/FormControlResetEvent';
 
 let elementIdCounter = 0;
 
@@ -48,6 +52,12 @@ export class OakForm extends LitElement {
       }
     });
 
+    formControlResetSubject.asObservable().subscribe((message) => {
+      if (message.formGroupName === this.formGroupName) {
+        this.handleReset({formGroupName: message.formGroupName});
+      }
+    });
+
     formControlValidatedSubject.asObservable().subscribe((message) => {
       if (message.formGroupName === this.formGroupName) {
         this.validationResults.push(message);
@@ -70,6 +80,10 @@ export class OakForm extends LitElement {
     this.validationResults = [];
   };
 
+  private handleReset = (formControlEvent: any) => {
+    this.propagateEvent(FORM_RESET_EVENT, formControlEvent);
+  };
+
   private propagateEvent = (eventName: string, formControlEvent: any) => {
     console.log('****' + eventName, formControlEvent);
     this.dispatchEvent(
@@ -85,11 +99,11 @@ export class OakForm extends LitElement {
     return html`
       <form
         method="GET"
-        onSubmit=${this.handleSubmit}
+        @submit=${this.handleSubmit}
         novalidate
         id=${this.elementId}
       >
-        <slot :testdata="rest"></slot>
+        <slot></slot>
       </form>
     `;
   }

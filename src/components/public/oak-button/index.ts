@@ -2,8 +2,9 @@ import {LitElement, html, customElement, property} from 'lit-element';
 import {globalStyles} from '../../../global-styles';
 import {oakButtonStyles} from './index-styles';
 import '../../private/oak-internal-label';
-import { BUTTON_CLICK_EVENT } from '../../../types/ButtonEventTypes';
-import { formControlSubmitSubject } from '../../../events/FormControlSubmitEvent';
+import {BUTTON_CLICK_EVENT} from '../../../types/ButtonEventTypes';
+import {formControlSubmitSubject} from '../../../events/FormControlSubmitEvent';
+import {formControlResetSubject} from '../../../events/FormControlResetEvent';
 
 let elementIdCounter = 0;
 
@@ -74,31 +75,45 @@ export class OakButton extends LitElement {
   }
 
   private handleClick = (event: any) => {
-    if (this.type === "submit") {
-      this.handleSubmit();
-    } else {
-      this.propagateEvent(BUTTON_CLICK_EVENT, event);
+    switch (this.type) {
+      case 'submit':
+        this.handleSubmit();
+        break;
+
+      case 'reset':
+        this.handleReset();
+        break;
+
+      default:
+        this.propagateEvent(BUTTON_CLICK_EVENT, event);
+        break;
     }
   };
 
   private handleSubmit = () => {
-    console.log("&&&&" + this.formGroupName);
     if (this.formGroupName) {
       formControlSubmitSubject.next({
-        formGroupName: this.formGroupName
-      })
+        formGroupName: this.formGroupName,
+      });
     }
-  }
+  };
+
+  private handleReset = () => {
+    if (this.formGroupName) {
+      formControlResetSubject.next({
+        formGroupName: this.formGroupName,
+      });
+    }
+  };
 
   private propagateEvent = (eventName: string, event: any) => {
-    console.log("****" + eventName);
     this.dispatchEvent(
       new CustomEvent(eventName, {
         bubbles: true,
         composed: true,
         detail: {
           id: event.srcElement.id,
-          formGroup: this.formGroupName
+          formGroup: this.formGroupName,
         },
       })
     );

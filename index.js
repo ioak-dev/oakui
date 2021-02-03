@@ -8,4 +8,3 @@ import './dist/components/public/oak-container/index.js';
 import './dist/components/public/oak-card/index.js';
 import './dist/components/public/oak-form-actions-container/index.js';
 import './dist/components/public/oak-popover/index.js';
-import './dist/components/public/oak-select-modern/index.js';

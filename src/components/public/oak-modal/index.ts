@@ -6,6 +6,8 @@ import {oakModalStyles} from './index-styles';
 import '../../private/oak-internal-modal-header';
 import '../../private/oak-internal-modal-body';
 import '../../private/oak-internal-modal-footer';
+import {fromEvent} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 let elementIdCounter = 0;
 
@@ -29,7 +31,13 @@ export class OakModal extends LitElement {
   }
 
   private init() {
-    // TBD
+    fromEvent(window, 'keydown')
+      .pipe(map((event) => event))
+      .subscribe((event: any) => {
+        if (['Escape'].includes(event.key)) {
+          this.closeModal();
+        }
+      });
   }
 
   private closeModal = () => {
