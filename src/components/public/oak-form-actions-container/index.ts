@@ -11,7 +11,7 @@ let elementIdCounter = 0;
  *
  */
 @customElement('oak-form-actions-container')
-export class OakInternalModalFooter extends LitElement {
+export class OakFormActionsContainer extends LitElement {
   private elementId = `oak-form-actions-container-${elementIdCounter++}`;
 
   @property({type: String})
