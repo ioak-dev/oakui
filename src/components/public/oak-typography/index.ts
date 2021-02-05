@@ -15,6 +15,24 @@ const customElementName = 'oak-typography';
 export class OakTypography extends LitElement {
   private elementId = `${customElementName}-${elementIdCounter++}`;
 
+  @property({type: String})
+  color?:
+    | 'inherit'
+    | 'primary'
+    | 'secondary'
+    | 'tertiary'
+    | 'primary-text'
+    | 'secondary-text'
+    | 'tertiary-text'
+    | 'default'
+    | 'danger'
+    | 'warning'
+    | 'success'
+    | 'danger-text'
+    | 'warning-text'
+    | 'success-text'
+    | 'info' = 'inherit';
+
   /**
    * Set the text-align on the component.
    */
@@ -78,6 +96,7 @@ export class OakTypography extends LitElement {
           'oak-typography-paragraph': this.paragraph,
           'oak-typography-noWrap': this.noWrap,
           'oak-typography-gutter-bottom': this.gutterBottom,
+          [`oak-color-fg-${this.color}`]: true,
         };
       default:
         return {};
