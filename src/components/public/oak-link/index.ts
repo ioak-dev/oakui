@@ -24,6 +24,9 @@ export class OakLink extends LitElement {
   @property({type: String})
   underline: 'none' | 'hover' | 'always' = 'hover';
 
+  @property({type: Boolean})
+  block = false;
+
   @property({type: String})
   color?:
     | 'inherit'
@@ -97,6 +100,7 @@ export class OakLink extends LitElement {
         return {
           [customElementName]: true,
           [`${customElementName}-${this.underline}`]: true,
+          [`${customElementName}-block`]: this.block,
           [`oak-color-fg-${this.color}`]: true,
         };
       default:

@@ -42,7 +42,7 @@ export const oakModalStyles = css`
   .oak-modal-root .oak-modal .modal .container {
     display: grid;
     grid-template-rows: auto 1fr auto;
-    background-color: var(--container-color-bg);
+    background-color: var(--color-container);
     border-radius: var(--global-border-radius);
   }
   @media (min-width: 768px) {

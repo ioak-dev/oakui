@@ -48,6 +48,16 @@ export const oakButtonSizeStyles = css`
   button.small {
     padding: 0 8px;
   }
+  button.icon {
+    height: 32px;
+    width: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-width: 2px;
+    padding: 0;
+    border-radius: 50%;
+  }
   button.icon.size-xsmall {
     height: 25px;
     width: 25px;
