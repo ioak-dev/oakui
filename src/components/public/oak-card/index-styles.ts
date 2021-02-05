@@ -26,7 +26,7 @@ export const oakCardStyles = css`
     border-radius: 0 6px 0 0;
   }
   .oak-card .oak-card--header-apparent {
-    background-color: var(--color-primary-1);
+    background-color: var(--color-primary);
   }
   .oak-card .oak-card--body {
     padding: 10px 10px;

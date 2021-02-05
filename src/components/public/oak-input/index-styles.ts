@@ -23,12 +23,12 @@ export const oakInputStyles = css`
     color: var(--formelement-color-fg-active);
   }
   input.validation-failure {
-    border-color: var(--color-danger-1);
+    border-color: var(--color-danger);
   }
   input.validation-failure:focus {
     box-shadow: var(--formelement-outline-box-shadow-error);
   }
-  input[type="file"] {
+  input[type='file'] {
     line-height: var(--formelement-height);
   }
 `;

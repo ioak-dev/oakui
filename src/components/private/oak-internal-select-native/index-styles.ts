@@ -23,7 +23,7 @@ export const oakInternalSelectNativeStyles = css`
     color: var(--formelement-color-fg-active);
   }
   select.validation-failure {
-    border-color: var(--color-danger-1);
+    border-color: var(--color-danger);
   }
   select.validation-failure:focus {
     box-shadow: var(--formelement-outline-box-shadow-error);

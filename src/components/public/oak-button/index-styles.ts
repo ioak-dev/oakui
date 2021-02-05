@@ -22,62 +22,6 @@ export const oakButtonStyles = css`
     overflow: hidden;
     z-index: 0;
   }
-  button.shape-sharp {
-    border-radius: 0;
-  }
-  button.shape-rectangle {
-    border-radius: var(--formelement-border-radius);
-  }
-  button.shape-rounded {
-    border-radius: 100px;
-  }
-  button.shape-leaf {
-    border-radius: 7px 0;
-  }
-  button.size-xsmall {
-    font-size: 10.5px;
-    padding: 0 10px;
-    height: 25px;
-  }
-  button.size-xsmall .button-label-container .svg-inline--fa {
-    font-size: 10px;
-  }
-  button.size-xsmall .button-label-container .MuiSvgIcon-root {
-    font-size: 14px;
-  }
-  button.size-small {
-    font-size: 12.25px;
-    padding: 4px 15px;
-    height: 35px;
-  }
-  button.size-small .button-label-container .svg-inline--fa {
-    font-size: 12px;
-  }
-  button.size-small .button-label-container .MuiSvgIcon-root {
-    font-size: 16px;
-  }
-  button.size-medium {
-    font-size: 12.25px;
-    padding: 5px 20px;
-    height: 40px;
-  }
-  button.size-medium .button-label-container .svg-inline--fa {
-    font-size: 14px;
-  }
-  button.size-medium .button-label-container .MuiSvgIcon-root {
-    font-size: 18px;
-  }
-  button.size-large {
-    font-size: 15.75px;
-    padding: 15px 30px;
-    height: 55px;
-  }
-  button.size-large .button-label-container .svg-inline--fa {
-    font-size: 14px;
-  }
-  button.size-large .button-label-container .MuiSvgIcon-root {
-    font-size: 18px;
-  }
   button .button-label-container {
     display: grid;
     grid-auto-flow: column;
@@ -85,53 +29,40 @@ export const oakButtonStyles = css`
     column-gap: 10px;
   }
   button.default {
-    --color-bg: var(--color-default-1);
-    --color-bg-hover: var(--color-default-2);
+    --color-bg: var(--color-default);
+    --color-bg-hover: var(--color-default-darker);
     --btn-text-color: var(--color-default-fg);
     --btn-text-color-dark: var(--color-default-fg-dark);
   }
   button.primary {
-    --color-bg: var(--color-primary-1);
-    --color-bg-hover: var(--color-primary-2);
+    --color-bg: var(--color-primary);
+    --color-bg-hover: var(--color-primary-darker);
   }
   button.secondary {
-    --color-bg: var(--color-secondary-1);
-    --color-bg-hover: var(--color-secondary-2);
+    --color-bg: var(--color-secondary);
+    --color-bg-hover: var(--color-secondary-darker);
   }
   button.tertiary {
-    --color-bg: var(--color-tertiary-1);
-    --color-bg-hover: var(--color-tertiary-2);
+    --color-bg: var(--color-tertiary);
+    --color-bg-hover: var(--color-tertiary-darker);
   }
   button.danger {
-    --color-bg: var(--color-danger-1);
-    --color-bg-hover: var(--color-danger-2);
+    --color-bg: var(--color-danger);
+    --color-bg-hover: var(--color-danger-darker);
   }
   button.warning {
-    --color-bg: var(--color-warning-1);
-    --color-bg-hover: var(--color-warning-2);
+    --color-bg: var(--color-warning);
+    --color-bg-hover: var(--color-warning-darker);
   }
   button.success {
-    --color-bg: var(--color-success-1);
-    --color-bg-hover: var(--color-success-2);
+    --color-bg: var(--color-success);
+    --color-bg-hover: var(--color-success-darker);
   }
   button.info {
-    --color-bg: var(--color-info-1);
-    --color-bg-hover: var(--color-info-2);
+    --color-bg: var(--color-info);
+    --color-bg-hover: var(--color-info-darker);
     --btn-text-color: var(--color-info-fg);
     --btn-text-color-dark: var(--color-info-fg-dark);
-  }
-  button.small {
-    padding: 0 8px;
-  }
-  button.align-left {
-    margin-right: 5px;
-  }
-  button.align-right {
-    margin-left: 5px;
-  }
-  button.align-center {
-    margin-left: 5px;
-    margin-right: 5px;
   }
   button.regular {
     background-color: var(--color-bg);
@@ -141,8 +72,8 @@ export const oakButtonStyles = css`
     border: 2px solid var(--color-bg-hover);
   }
   button.drama {
-    background-color: var(--color-default-1);
-    border: 2px solid var(--color-default-1);
+    background-color: var(--color-default);
+    border: 2px solid var(--color-default);
   }
   button.drama.dark {
     color: var(--btn-text-color-dark);
@@ -280,22 +211,6 @@ export const oakButtonStyles = css`
     border-width: 2px;
     padding: 0;
     border-radius: 50%;
-  }
-  button.icon.size-xsmall {
-    height: 25px;
-    width: 25px;
-  }
-  button.icon.size-small {
-    height: 35px;
-    width: 35px;
-  }
-  button.icon.size-medium {
-    height: 40px;
-    width: 40px;
-  }
-  button.icon.size-large {
-    height: 55px;
-    width: 55px;
   }
   button:focus {
     outline: none;

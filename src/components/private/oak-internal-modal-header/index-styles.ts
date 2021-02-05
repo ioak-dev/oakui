@@ -23,7 +23,7 @@ export const oakInternalModalHeaderStyles = css`
     justify-items: center;
   }
   .oak-internal-modal-header .left .icon {
-    border: 1.4px solid var(--color-primary-1);
+    border: 1.4px solid var(--color-primary);
     height: 50px;
     width: 50px;
     border-radius: 50%;
@@ -64,6 +64,6 @@ export const oakInternalModalHeaderStyles = css`
   }
   .oak-internal-modal-header .right:hover {
     color: var(--global-color-fg);
-    color: var(--color-danger-1);
+    color: var(--color-danger);
   }
 `;

@@ -5,6 +5,8 @@ import '../../private/oak-internal-label';
 import {BUTTON_CLICK_EVENT} from '../../../types/ButtonEventTypes';
 import {formControlSubmitSubject} from '../../../events/FormControlSubmitEvent';
 import {formControlResetSubject} from '../../../events/FormControlResetEvent';
+import {oakButtonSizeStyles} from './size-styles';
+import {oakButtonShapeStyles} from './shape-styles';
 
 let elementIdCounter = 0;
 
@@ -71,7 +73,12 @@ export class OakButton extends LitElement {
   }
 
   static get styles() {
-    return [...globalStyles, oakButtonStyles];
+    return [
+      ...globalStyles,
+      oakButtonStyles,
+      oakButtonSizeStyles,
+      oakButtonShapeStyles,
+    ];
   }
 
   private handleClick = (event: any) => {

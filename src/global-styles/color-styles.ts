@@ -5,13 +5,13 @@ export const colorStyles = css`
     color: inherit;
   }
   .oak-color-fg-primary {
-    color: var(--color-primary-1);
+    color: var(--color-primary);
   }
   .oak-color-fg-secondary {
-    color: var(--color-secondary-1);
+    color: var(--color-secondary);
   }
   .oak-color-fg-tertiary {
-    color: var(--color-tertiary-1);
+    color: var(--color-tertiary);
   }
   .oak-color-fg-primary-text {
     color: var(--color-primary-text-1);
@@ -23,19 +23,19 @@ export const colorStyles = css`
     color: var(--color-tertiary-text-1);
   }
   .oak-color-fg-default {
-    color: var(--color-default-1);
+    color: var(--color-default);
   }
   .oak-color-fg-info {
-    color: var(--color-info-1);
+    color: var(--color-info);
   }
   .oak-color-fg-danger {
-    color: var(--color-danger-1);
+    color: var(--color-danger);
   }
   .oak-color-fg-warning {
-    color: var(--color-warning-1);
+    color: var(--color-warning);
   }
   .oak-color-fg-success {
-    color: var(--color-success-1);
+    color: var(--color-success);
   }
   .oak-color-fg-danger-text {
     color: var(--color-danger-text-1);

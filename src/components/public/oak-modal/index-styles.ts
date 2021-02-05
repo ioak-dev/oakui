@@ -37,7 +37,7 @@ export const oakModalStyles = css`
     }
   }
   .oak-modal-root .oak-modal .modal.error {
-    border-top: 2px solid var(--color-danger-1);
+    border-top: 2px solid var(--color-danger);
   }
   .oak-modal-root .oak-modal .modal .container {
     display: grid;
