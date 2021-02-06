@@ -14,13 +14,13 @@ export const colorStyles = css`
     color: var(--color-tertiary);
   }
   .oak-color-fg-primary-text {
-    color: var(--color-primary-text-1);
+    color: var(--color-primary-darker);
   }
   .oak-color-fg-secondary-text {
-    color: var(--color-secondary-text-1);
+    color: var(--color-secondary-darker);
   }
   .oak-color-fg-tertiary-text {
-    color: var(--color-tertiary-text-1);
+    color: var(--color-tertiary-darker);
   }
   .oak-color-fg-default {
     color: var(--color-default);
@@ -38,12 +38,12 @@ export const colorStyles = css`
     color: var(--color-success);
   }
   .oak-color-fg-danger-text {
-    color: var(--color-danger-text-1);
+    color: var(--color-danger-darker);
   }
   .oak-color-fg-warning-text {
-    color: var(--color-warning-text-1);
+    color: var(--color-warning-darker);
   }
   .oak-color-fg-success-text {
-    color: var(--color-success-text-1);
+    color: var(--color-success-darker);
   }
 `;

@@ -6,6 +6,10 @@ import {oakLinkStyles} from './index-styles';
 
 import '../oak-typography';
 import {LINK_CLICK_EVENT} from '../../../types/LinkEventTypes';
+import {oakLinkSizeStyles} from './size-styles';
+import {oakButtonSizeStyles} from '../oak-button/size-styles';
+import {oakLinkShapeStyles} from './shape-styles';
+import {oakButtonShapeStyles} from '../oak-button/shape-styles';
 
 let elementIdCounter = 0;
 
@@ -28,6 +32,13 @@ export class OakLink extends LitElement {
   block = false;
 
   @property({type: String})
+  blockSize?: 'xsmall' | 'small' | 'medium' | 'large' = 'small';
+
+  @property({type: String})
+  blockShape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' | 'icon' =
+    'rectangle';
+
+  @property({type: String})
   color?:
     | 'inherit'
     | 'primary'
@@ -46,17 +57,20 @@ export class OakLink extends LitElement {
     | 'info' = 'inherit';
 
   /**
-   * Set the text-align on the component.
+   * Set the text-align on the component. Applicable only when block = false
    */
   @property({type: String})
   align?: 'inherit' | 'left' | 'center' | 'right' | 'justify' = 'inherit';
 
   /**
-   * Controls the display type
+   * Controls the display type. Applicable only when block = false
    */
   @property({type: String})
   display?: 'initial' | 'block' | 'inline' = 'initial';
 
+  /**
+   * Variant type for the typography settings. Applicable only when block = false
+   */
   @property({type: String})
   variant:
     | 'h1'
@@ -100,8 +114,11 @@ export class OakLink extends LitElement {
         return {
           [customElementName]: true,
           [`${customElementName}-${this.underline}`]: true,
-          [`${customElementName}-block`]: this.block,
           [`oak-color-fg-${this.color}`]: true,
+          [`${this.color}`]: true,
+          [`${customElementName}-block`]: this.block,
+          [`size-${this.blockSize}`]: this.block,
+          [`shape-${this.blockShape}`]: this.block,
         };
       default:
         return {};
@@ -109,7 +126,14 @@ export class OakLink extends LitElement {
   }
 
   static get styles() {
-    return [...globalStyles, oakLinkStyles];
+    return [
+      ...globalStyles,
+      oakLinkStyles,
+      oakLinkSizeStyles,
+      oakButtonSizeStyles,
+      oakLinkShapeStyles,
+      oakButtonShapeStyles,
+    ];
   }
 
   render() {
@@ -120,14 +144,16 @@ export class OakLink extends LitElement {
             id=${this.elementId}
             href=${this.href}
           >
-            <oak-typography
-              .align=${this.align}
-              .display=${this.display}
-              .color=${this.color}
-              .variant=${this.variant}
-            >
-              <slot></slot>
-            </oak-typography>
+            ${this.block
+              ? html`<slot></slot>`
+              : html` <oak-typography
+                  .align=${this.align}
+                  .display=${this.display}
+                  .color=${this.color}
+                  .variant=${this.variant}
+                >
+                  <slot></slot>
+                </oak-typography>`}
           </a>`
         : html` <button
             class=${classMap(this.getClassMap('base'))}
@@ -135,14 +161,16 @@ export class OakLink extends LitElement {
             id=${this.elementId}
             type="button"
           >
-            <oak-typography
-              .align=${this.align}
-              .display=${this.display}
-              .color=${this.color}
-              .variant=${this.variant}
-            >
-              <slot></slot>
-            </oak-typography>
+            ${this.block
+              ? html`<slot></slot>`
+              : html`<oak-typography
+                  .align=${this.align}
+                  .display=${this.display}
+                  .color=${this.color}
+                  .variant=${this.variant}
+                >
+                  <slot></slot>
+                </oak-typography>`}
           </button>`}
     </div>`;
   }
