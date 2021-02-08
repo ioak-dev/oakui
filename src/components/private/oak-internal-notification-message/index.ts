@@ -116,8 +116,8 @@ export class OakInternalNotificationMessage extends LitElement {
             .notification?.type,
           'oak-padding-horizontal2': true,
           [`oak-padding-vertical${this.paddingVertical}`]: true,
-          'oak-animate__slideInLeft': !this.removing,
-          'oak-animate__slideOutLeft': this.removing,
+          'oak-animate__opacityIn': !this.removing,
+          'oak-animate__opacityOut': this.removing,
         };
       case 'indicator':
         return {
