@@ -3,7 +3,11 @@ import {classMap} from 'lit-html/directives/class-map';
 import {repeat} from 'lit-html/directives/repeat.js';
 import {globalStyles} from '../../../global-styles';
 import {NotificationType} from '../../../types/NotificationType';
-import {_addNotifyEvent, _removeNotifyEvent} from '../../../NotificationStore';
+import {
+  _addNotifyEvent,
+  _removeNotifyEvent,
+  _requestRemoveNotifyEvent,
+} from '../../../NotificationStore';
 import {oakNotificationStyles} from './index-styles';
 
 import '../../private/oak-internal-notification-message';

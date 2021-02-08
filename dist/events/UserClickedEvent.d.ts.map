@@ -1,0 +1,1 @@
+{"version":3,"file":"UserClickedEvent.d.ts","sourceRoot":"","sources":["../../src/events/UserClickedEvent.ts"],"names":[],"mappings":"AAAA,OAAO,EAAC,OAAO,EAAC,MAAM,MAAM,CAAC;AAE7B,eAAO,MAAM,kBAAkB,0BAAiC,CAAC;AAEjE,UAAU,eAAe;IACvB,KAAK,EAAE,GAAG,CAAC;CACZ"}

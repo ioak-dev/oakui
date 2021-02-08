@@ -1,0 +1,1 @@
+{"version":3,"file":"NotificationStore.d.ts","sourceRoot":"","sources":["../src/NotificationStore.ts"],"names":[],"mappings":"AAAA,OAAO,EAAC,OAAO,EAAC,MAAM,MAAM,CAAC;AAC7B,OAAO,EAAC,gBAAgB,EAAC,MAAM,0BAA0B,CAAC;AAE1D,eAAO,MAAM,eAAe,2BAAkC,CAAC;AAC/D,eAAO,MAAM,yBAAyB,iBAAwB,CAAC;AAC/D,eAAO,MAAM,kBAAkB,iBAAwB,CAAC;AAExD,eAAO,MAAM,eAAe,kCAE3B,CAAC;AACF,eAAO,MAAM,kBAAkB,sBAE9B,CAAC"}

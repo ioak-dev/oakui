@@ -1,7 +1,11 @@
 import {LitElement, html, customElement, property} from 'lit-element';
 import {classMap} from 'lit-html/directives/class-map';
 import {globalStyles} from '../../../global-styles';
-import {removeNotification} from '../../../NotificationStore';
+import {
+  removeNotification,
+  _removeNotifyEvent,
+  _requestRemoveNotifyEvent,
+} from '../../../NotificationStore';
 import {NotificationType} from '../../../types/NotificationType';
 import {oakInternalNotificationMessageBaseStyles} from './base-styles';
 import {oakInternalNotificationMessageIndicatorCircleStyles} from './indicator-circle-styles';
@@ -70,8 +74,25 @@ export class OakInternalNotificationMessage extends LitElement {
   @property({type: Number})
   paddingVertical?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 = 0;
 
+  @property({type: Boolean})
+  removing = false;
+
   constructor() {
     super();
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    _requestRemoveNotifyEvent
+      .asObservable()
+      .subscribe((notificationId: string) => {
+        if (this.notification?.id === notificationId) {
+          this.removing = true;
+          setTimeout(() => {
+            _removeNotifyEvent.next(notificationId);
+          }, 100);
+        }
+      });
   }
 
   private closeNotification = () => {
@@ -95,7 +116,8 @@ export class OakInternalNotificationMessage extends LitElement {
             .notification?.type,
           'oak-padding-horizontal2': true,
           [`oak-padding-vertical${this.paddingVertical}`]: true,
-          'oak-animate__slideInLeft': true,
+          'oak-animate__slideInLeft': !this.removing,
+          'oak-animate__slideOutLeft': this.removing,
         };
       case 'indicator':
         return {
@@ -145,7 +167,7 @@ export class OakInternalNotificationMessage extends LitElement {
               }
               <div class=${classMap(this.getClassMap('content'))}>
                 <div class=${classMap(this.getClassMap('left'))}>
-                  ${this.notification.description}-${this.notification.id}
+                  ${this.notification.description}
                 </div>
                 <div class=${classMap(this.getClassMap('right'))}>
                   <oak-link
