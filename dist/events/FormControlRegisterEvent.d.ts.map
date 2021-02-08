@@ -1,1 +1,0 @@
-{"version":3,"file":"FormControlRegisterEvent.d.ts","sourceRoot":"","sources":["../../src/events/FormControlRegisterEvent.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,MAAM,MAAM,CAAC;AAE/B,eAAO,MAAM,0BAA0B,kCAAyC,CAAC;AAEjF,UAAU,uBAAuB;IAC/B,eAAe,EAAE,MAAM,CAAC;IACxB,aAAa,EAAE,MAAM,CAAC;CACvB"}
