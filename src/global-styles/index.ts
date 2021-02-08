@@ -1,3 +1,4 @@
+import {animationStyles} from './animation-styles';
 import {borderStyles} from './border-styles';
 import {boxShadowStyles} from './box-shadow-styles';
 import {colorStyles} from './color-styles';
@@ -12,4 +13,5 @@ export const globalStyles = [
   paddingStyles,
   textStyles,
   colorStyles,
+  animationStyles,
 ];

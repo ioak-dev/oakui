@@ -119,6 +119,7 @@ export class OakLink extends LitElement {
           [`${customElementName}-block`]: this.block,
           [`size-${this.blockSize}`]: this.block,
           [`shape-${this.blockShape}`]: this.block,
+          icon: this.block && this.blockShape === 'icon',
         };
       default:
         return {};
