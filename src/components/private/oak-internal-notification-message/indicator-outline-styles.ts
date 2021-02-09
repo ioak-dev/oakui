@@ -5,7 +5,7 @@ export const oakInternalNotificationMessageIndicatorOutlineStyles = css`
     border: 1px solid var(--color-container);
   }
   .oak-internal-notification-message--outline.oak-internal-notification-message--info {
-    border: 1px solid var(--color-default);
+    border: 1px solid var(--color-info);
   }
   .oak-internal-notification-message--outline.oak-internal-notification-message--success {
     border: 1px solid var(--color-success);

@@ -5,8 +5,8 @@ export const oakInternalNotificationMessageIndicatorFillStyles = css`
     background-color: var(--color-container);
   }
   .oak-internal-notification-message--fill.oak-internal-notification-message--info {
-    background-color: var(--color-default);
-    color: var(--color-default-i);
+    background-color: var(--color-info);
+    color: var(--color-info-i);
   }
   .oak-internal-notification-message--fill.oak-internal-notification-message--success {
     background-color: var(--color-success);

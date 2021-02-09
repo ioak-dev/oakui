@@ -57,53 +57,53 @@ export const oakButtonVariantDramaStyles = css`
   button.drama.semitransparent {
     background-color: var(--color-default-semitransparent1);
     border: 2px solid var(--color-default-semitransparent1);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
   button.drama.primary.semitransparent:hover {
     background-color: var(--color-primary-semitransparent2);
     border: 2px solid var(--color-primary-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.drama.secondary.semitransparent:hover {
     background-color: var(--color-secondary-semitransparent2);
     border: 2px solid var(--color-secondary-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.drama.tertiary.semitransparent:hover {
     background-color: var(--color-tertiary-semitransparent2);
     border: 2px solid var(--color-tertiary-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.drama.default.semitransparent:hover {
     background-color: var(--color-default-semitransparent2);
     border: 2px solid var(--color-default-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.drama.info.semitransparent:hover {
     background-color: var(--color-info-semitransparent2);
     border: 2px solid var(--color-info-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.drama.danger.semitransparent:hover {
     background-color: var(--color-danger-semitransparent2);
     border: 2px solid var(--color-danger-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.drama.warning.semitransparent:hover {
     background-color: var(--color-warning-semitransparent2);
     border: 2px solid var(--color-warning-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.drama.success.semitransparent:hover {
     background-color: var(--color-success-semitransparent2);
     border: 2px solid var(--color-success-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 `;

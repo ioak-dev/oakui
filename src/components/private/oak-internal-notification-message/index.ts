@@ -111,6 +111,9 @@ export class OakInternalNotificationMessage extends LitElement {
   @property({type: Boolean})
   removing = false;
 
+  @property({type: String})
+  closeLabel? = 'CLOSE';
+
   constructor() {
     super();
   }
@@ -242,14 +245,21 @@ export class OakInternalNotificationMessage extends LitElement {
                     </oak-typography>
                   </div>
                   <div class=${classMap(this.getClassMap('right'))}>
-                    <oak-link color=${
-                      this.notification.type === 'info' &&
-                      this.indicator === 'fill'
-                        ? 'info'
-                        : 'default'
-                    } underline="none" @link-click=${
-          this.closeNotification
-        }>x</oak-link>
+                    <oak-button
+                        size="xsmall"
+                        variant=${
+                          this.indicator !== 'fill' || !this.notification.type
+                            ? 'block'
+                            : 'appear'
+                        }
+                        theme=${
+                          this.indicator !== 'fill' || !this.notification.type
+                            ? 'info'
+                            : this.notification.type
+                        }
+                        @button-click=${this.closeNotification}
+                        >${this.closeLabel}</oak-button
+                      >
                   </div>
                 </div>
               </div>

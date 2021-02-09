@@ -75,12 +75,12 @@ export const oakButtonVariantAppearStyles = css`
 
   button.appear.primary.semitransparent {
     border: 2px solid var(--color-primary-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
   button.appear.primary.semitransparent:hover {
     background-color: var(--color-primary-semitransparent2);
     border: 2px solid var(--color-primary-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.appear.secondary.semitransparent {
@@ -89,7 +89,7 @@ export const oakButtonVariantAppearStyles = css`
   button.appear.secondary.semitransparent:hover {
     background-color: var(--color-secondary-semitransparent2);
     border: 2px solid var(--color-secondary-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.appear.tertiary.semitransparent {
@@ -98,7 +98,7 @@ export const oakButtonVariantAppearStyles = css`
   button.appear.tertiary.semitransparent:hover {
     background-color: var(--color-tertiary-semitransparent2);
     border: 2px solid var(--color-tertiary-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.appear.default.semitransparent {
@@ -107,7 +107,7 @@ export const oakButtonVariantAppearStyles = css`
   button.appear.default.semitransparent:hover {
     background-color: var(--color-default-semitransparent2);
     border: 2px solid var(--color-default-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.appear.info.semitransparent {
@@ -116,7 +116,7 @@ export const oakButtonVariantAppearStyles = css`
   button.appear.info.semitransparent:hover {
     background-color: var(--color-info-semitransparent2);
     border: 2px solid var(--color-info-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.appear.danger.semitransparent {
@@ -125,7 +125,7 @@ export const oakButtonVariantAppearStyles = css`
   button.appear.danger.semitransparent:hover {
     background-color: var(--color-danger-semitransparent2);
     border: 2px solid var(--color-danger-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.appear.warning.semitransparent {
@@ -134,7 +134,7 @@ export const oakButtonVariantAppearStyles = css`
   button.appear.warning.semitransparent:hover {
     background-color: var(--color-warning-semitransparent2);
     border: 2px solid var(--color-warning-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.appear.success.semitransparent {
@@ -143,6 +143,6 @@ export const oakButtonVariantAppearStyles = css`
   button.appear.success.semitransparent:hover {
     background-color: var(--color-success-semitransparent2);
     border: 2px solid var(--color-success-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 `;

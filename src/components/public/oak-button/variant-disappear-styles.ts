@@ -9,7 +9,7 @@ export const oakButtonVariantDisappearStyles = css`
   button.disappear.primary:hover {
     border: 2px solid var(--color-primary-darker);
     background-color: transparent;
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.disappear.secondary {
@@ -20,7 +20,7 @@ export const oakButtonVariantDisappearStyles = css`
   button.disappear.secondary:hover {
     border: 2px solid var(--color-secondary-darker);
     background-color: transparent;
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.disappear.tertiary {
@@ -31,7 +31,7 @@ export const oakButtonVariantDisappearStyles = css`
   button.disappear.tertiary:hover {
     border: 2px solid var(--color-tertiary-darker);
     background-color: transparent;
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.disappear.default {
@@ -42,7 +42,7 @@ export const oakButtonVariantDisappearStyles = css`
   button.disappear.default:hover {
     border: 2px solid var(--color-default-darker);
     background-color: transparent;
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.disappear.info {
@@ -53,7 +53,7 @@ export const oakButtonVariantDisappearStyles = css`
   button.disappear.info:hover {
     border: 2px solid var(--color-info-darker);
     background-color: transparent;
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.disappear.danger {
@@ -64,7 +64,7 @@ export const oakButtonVariantDisappearStyles = css`
   button.disappear.danger:hover {
     border: 2px solid var(--color-danger-darker);
     background-color: transparent;
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.disappear.warning {
@@ -75,7 +75,7 @@ export const oakButtonVariantDisappearStyles = css`
   button.disappear.warning:hover {
     border: 2px solid var(--color-warning-darker);
     background-color: transparent;
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.disappear.success {
@@ -86,94 +86,94 @@ export const oakButtonVariantDisappearStyles = css`
   button.disappear.success:hover {
     border: 2px solid var(--color-success-darker);
     background-color: transparent;
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.disappear.primary.semitransparent {
     background-color: var(--color-primary-semitransparent2);
     border: 2px solid var(--color-primary-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
   button.disappear.primary.semitransparent:hover {
     border: 2px solid var(--color-primary-semitransparent2);
     background-color: transparent;
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.disappear.secondary.semitransparent {
     background-color: var(--color-secondary-semitransparent2);
     border: 2px solid var(--color-secondary-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
   button.disappear.secondary.semitransparent:hover {
     border: 2px solid var(--color-secondary-semitransparent2);
     background-color: transparent;
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.disappear.tertiary.semitransparent {
     background-color: var(--color-tertiary-semitransparent2);
     border: 2px solid var(--color-tertiary-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
   button.disappear.tertiary.semitransparent:hover {
     border: 2px solid var(--color-tertiary-semitransparent2);
     background-color: transparent;
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.disappear.default.semitransparent {
     background-color: var(--color-default-semitransparent2);
     border: 2px solid var(--color-default-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
   button.disappear.default.semitransparent:hover {
     border: 2px solid var(--color-default-semitransparent2);
     background-color: transparent;
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.disappear.info.semitransparent {
     background-color: var(--color-info-semitransparent2);
     border: 2px solid var(--color-info-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
   button.disappear.info.semitransparent:hover {
     border: 2px solid var(--color-info-semitransparent2);
     background-color: transparent;
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.disappear.danger.semitransparent {
     background-color: var(--color-danger-semitransparent2);
     border: 2px solid var(--color-danger-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
   button.disappear.danger.semitransparent:hover {
     border: 2px solid var(--color-danger-semitransparent2);
     background-color: transparent;
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.disappear.warning.semitransparent {
     background-color: var(--color-warning-semitransparent2);
     border: 2px solid var(--color-warning-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
   button.disappear.warning.semitransparent:hover {
     border: 2px solid var(--color-warning-semitransparent2);
     background-color: transparent;
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.disappear.success.semitransparent {
     background-color: var(--color-success-semitransparent2);
     border: 2px solid var(--color-success-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
   button.disappear.success.semitransparent:hover {
     border: 2px solid var(--color-success-semitransparent2);
     background-color: transparent;
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 `;

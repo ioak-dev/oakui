@@ -7,7 +7,7 @@ export const oakInternalModalHeaderStyles = css`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    color: var(--color-i1);
+    color: var(--color-1);
   }
   @media (max-width: 767px) {
     .oak-internal-modal-header {
@@ -38,11 +38,11 @@ export const oakInternalModalHeaderStyles = css`
   .oak-internal-modal-header .left .label {
     font-size: 16px;
     font-weight: 500;
-    color: var(--color-i1);
+    color: var(--color-1);
   }
   .oak-internal-modal-header .right {
     cursor: pointer;
-    color: var(--color-i1);
+    color: var(--color-1);
   }
   .oak-internal-modal-header .right .material-icons {
     display: flex;
@@ -63,7 +63,7 @@ export const oakInternalModalHeaderStyles = css`
     font-size: 1.2em;
   }
   .oak-internal-modal-header .right:hover {
-    color: var(--color-i1);
+    color: var(--color-1);
     color: var(--color-danger);
   }
 `;

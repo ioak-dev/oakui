@@ -92,88 +92,88 @@ export const oakButtonVariantRegularStyles = css`
   button.regular.primary.semitransparent {
     background-color: var(--color-primary-semitransparent1);
     border: 2px solid var(--color-primary-semitransparent1);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
   button.regular.primary.semitransparent:hover {
     background-color: var(--color-primary-semitransparent2);
     border: 2px solid var(--color-primary-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.regular.secondary.semitransparent {
     background-color: var(--color-secondary-semitransparent1);
     border: 2px solid var(--color-secondary-semitransparent1);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
   button.regular.secondary.semitransparent:hover {
     background-color: var(--color-secondary-semitransparent2);
     border: 2px solid var(--color-secondary-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.regular.tertiary.semitransparent {
     background-color: var(--color-tertiary-semitransparent1);
     border: 2px solid var(--color-tertiary-semitransparent1);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
   button.regular.tertiary.semitransparent:hover {
     background-color: var(--color-tertiary-semitransparent2);
     border: 2px solid var(--color-tertiary-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.regular.default.semitransparent {
     background-color: var(--color-default-semitransparent1);
     border: 2px solid var(--color-default-semitransparent1);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
   button.regular.default.semitransparent:hover {
     background-color: var(--color-default-semitransparent2);
     border: 2px solid var(--color-default-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.regular.info.semitransparent {
     background-color: var(--color-info-semitransparent1);
     border: 2px solid var(--color-info-semitransparent1);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
   button.regular.info.semitransparent:hover {
     background-color: var(--color-info-semitransparent2);
     border: 2px solid var(--color-info-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.regular.danger.semitransparent {
     background-color: var(--color-danger-semitransparent1);
     border: 2px solid var(--color-danger-semitransparent1);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
   button.regular.danger.semitransparent:hover {
     background-color: var(--color-danger-semitransparent2);
     border: 2px solid var(--color-danger-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.regular.warning.semitransparent {
     background-color: var(--color-warning-semitransparent1);
     border: 2px solid var(--color-warning-semitransparent1);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
   button.regular.warning.semitransparent:hover {
     background-color: var(--color-warning-semitransparent2);
     border: 2px solid var(--color-warning-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.regular.success.semitransparent {
     background-color: var(--color-success-semitransparent1);
     border: 2px solid var(--color-success-semitransparent1);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
   button.regular.success.semitransparent:hover {
     background-color: var(--color-success-semitransparent2);
     border: 2px solid var(--color-success-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 `;

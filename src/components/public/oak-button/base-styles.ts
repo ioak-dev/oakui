@@ -15,7 +15,7 @@ export const oakButtonBaseStyles = css`
     font-weight: 500;
     // border: 2px solid var(--color-bg);
     background: none;
-    color: var(--color-i1);
+    color: var(--color-1);
     cursor: pointer;
     transition: 0.4s cubic-bezier(0.5, 1.6, 0.4, 0.7);
     position: relative;

@@ -158,6 +158,9 @@ export class OakNotification extends LitElement {
   @property({type: String})
   positionOnMobile?: 'top-center' | 'bottom-center' | null = null;
 
+  @property({type: String})
+  closeLabel? = 'CLOSE';
+
   @property({type: Array})
   private notificationQueue: NotificationType[] = [];
 
@@ -240,6 +243,7 @@ export class OakNotification extends LitElement {
                 .paddingVertical=${this.paddingVertical}
                 .headingTypographyVariant=${this.headingTypographyVariant}
                 .bodyTypographyVariant=${this.bodyTypographyVariant}
+                .closeLabel=${this.closeLabel}
               ></oak-internal-notification-message>`
           )}
         </div>

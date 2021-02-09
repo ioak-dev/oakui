@@ -62,48 +62,48 @@ export const oakButtonVariantBlockStyles = css`
   button.block.primary.semitransparent:hover {
     background-color: var(--color-primary-semitransparent2);
     border: 2px solid var(--color-primary-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.block.secondary.semitransparent:hover {
     background-color: var(--color-secondary-semitransparent2);
     border: 2px solid var(--color-secondary-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.block.tertiary.semitransparent:hover {
     background-color: var(--color-tertiary-semitransparent2);
     border: 2px solid var(--color-tertiary-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.block.default.semitransparent:hover {
     background-color: var(--color-default-semitransparent2);
     border: 2px solid var(--color-default-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.block.info.semitransparent:hover {
     background-color: var(--color-info-semitransparent2);
     border: 2px solid var(--color-info-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.block.danger.semitransparent:hover {
     background-color: var(--color-danger-semitransparent2);
     border: 2px solid var(--color-danger-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.block.warning.semitransparent:hover {
     background-color: var(--color-warning-semitransparent2);
     border: 2px solid var(--color-warning-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.block.success.semitransparent:hover {
     background-color: var(--color-success-semitransparent2);
     border: 2px solid var(--color-success-semitransparent2);
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 `;

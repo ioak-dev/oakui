@@ -5,10 +5,10 @@ export const oakInternalNotificationMessageIndicatorCircleStyles = css`
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background-color: var(--color-info);
+    background-color: var(--color-default);
   }
   .oak-internal-notification-message__indicator.oak-internal-notification-message__indicator--circle.oak-internal-notification-message__indicator--info {
-    background-color: var(--color-default);
+    background-color: var(--color-info);
   }
   .oak-internal-notification-message__indicator.oak-internal-notification-message__indicator--circle.oak-internal-notification-message__indicator--success {
     background-color: var(--color-success);
@@ -24,10 +24,10 @@ export const oakInternalNotificationMessageIndicatorCircleStyles = css`
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    border: 2px solid var(--color-info);
+    border: 2px solid var(--color-default);
   }
   .oak-internal-notification-message__indicator.oak-internal-notification-message__indicator--circle-outline.oak-internal-notification-message__indicator--info {
-    border: 2px solid var(--color-default);
+    border: 2px solid var(--color-info);
   }
   .oak-internal-notification-message__indicator.oak-internal-notification-message__indicator--circle-outline.oak-internal-notification-message__indicator--success {
     border: 2px solid var(--color-success);

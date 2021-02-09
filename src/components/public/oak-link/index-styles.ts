@@ -47,7 +47,7 @@ export const oakLinkStyles = css`
     font-weight: 500;
     // border: 2px solid var(--color-bg);
     background: none;
-    color: var(--color-i1);
+    color: var(--color-1);
     cursor: pointer;
     transition: 0.4s cubic-bezier(0.5, 1.6, 0.4, 0.7);
     position: relative;
@@ -75,29 +75,14 @@ export const oakLinkStyles = css`
     color: var(--color-tertiary);
   }
 
-  button.oak-link.primary-text,
-  a.oak-link.primary-text {
-    color: var(--color-primary-darker);
-  }
-
-  button.oak-link.secondary-text,
-  a.oak-link.secondary-text {
-    color: var(--color-secondary-darker);
-  }
-
-  button.oak-link.tertiary-text,
-  a.oak-link.tertiary-text {
-    color: var(--color-tertiary-darker);
-  }
-
   button.oak-link.default,
   a.oak-link.default {
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.oak-link.info,
   a.oak-link.info {
-    color: var(--color-i1);
+    color: var(--color-1);
   }
 
   button.oak-link.danger,
@@ -115,19 +100,9 @@ export const oakLinkStyles = css`
     color: var(--color-success);
   }
 
-  button.oak-link.danger-text,
-  a.oak-link.danger-text {
-    color: var(--color-danger-darker);
-  }
-
-  button.oak-link.warning-text,
-  a.oak-link.warning-text {
-    color: var(--color-warning-darker);
-  }
-
-  button.oak-link.success-text,
-  a.oak-link.success-text {
-    color: var(--color-success-darker);
+  button.oak-link.invert,
+  a.oak-link.invert {
+    color: var(--color-invert-i);
   }
 
   button.oak-link.oak-link-block,
@@ -145,33 +120,21 @@ export const oakLinkStyles = css`
   button.oak-link.oak-link-block.primary:hover,
   button.oak-link.oak-link-block.primary:focus,
   a.oak-link.oak-link-block.primary:hover,
-  a.oak-link.oak-link-block.primary:focus,
-  button.oak-link.oak-link-block.primary-text:hover,
-  button.oak-link.oak-link-block.primary-text:focus,
-  a.oak-link.oak-link-block.primary-text:hover,
-  a.oak-link.oak-link-block.primary-text:focus {
+  a.oak-link.oak-link-block.primary:focus {
     background-color: var(--color-primary-transparent);
   }
 
   button.oak-link.oak-link-block.secondary:hover,
   button.oak-link.oak-link-block.secondary:focus,
   a.oak-link.oak-link-block.secondary:hover,
-  a.oak-link.oak-link-block.secondary:focus,
-  button.oak-link.oak-link-block.secondary-text:hover,
-  button.oak-link.oak-link-block.secondary-text:focus,
-  a.oak-link.oak-link-block.secondary-text:hover,
-  a.oak-link.oak-link-block.secondary-text:focus {
+  a.oak-link.oak-link-block.secondary:focus {
     background-color: var(--color-secondary-transparent);
   }
 
   button.oak-link.oak-link-block.tertiary:hover,
   button.oak-link.oak-link-block.tertiary:focus,
   a.oak-link.oak-link-block.tertiary:hover,
-  a.oak-link.oak-link-block.tertiary:focus,
-  button.oak-link.oak-link-block.tertiary-text:hover,
-  button.oak-link.oak-link-block.tertiary-text:focus,
-  a.oak-link.oak-link-block.tertiary-text:hover,
-  a.oak-link.oak-link-block.tertiary-text:focus {
+  a.oak-link.oak-link-block.tertiary:focus {
     background-color: var(--color-tertiary-transparent);
   }
 
@@ -192,33 +155,28 @@ export const oakLinkStyles = css`
   button.oak-link.oak-link-block.danger:hover,
   button.oak-link.oak-link-block.danger:focus,
   a.oak-link.oak-link-block.danger:hover,
-  a.oak-link.oak-link-block.danger:focus,
-  button.oak-link.oak-link-block.danger-text:hover,
-  button.oak-link.oak-link-block.danger-text:focus,
-  a.oak-link.oak-link-block.danger-text:hover,
-  a.oak-link.oak-link-block.danger-text:focus {
+  a.oak-link.oak-link-block.danger:focus {
     background-color: var(--color-danger-transparent);
   }
 
   button.oak-link.oak-link-block.warning:hover,
   button.oak-link.oak-link-block.warning:focus,
   a.oak-link.oak-link-block.warning:hover,
-  a.oak-link.oak-link-block.warning:focus,
-  button.oak-link.oak-link-block.warning-text:hover,
-  button.oak-link.oak-link-block.warning-text:focus,
-  a.oak-link.oak-link-block.warning-text:hover,
-  a.oak-link.oak-link-block.warning-text:focus {
+  a.oak-link.oak-link-block.warning:focus {
     background-color: var(--color-warning-transparent);
   }
 
   button.oak-link.oak-link-block.success:hover,
   button.oak-link.oak-link-block.success:focus,
   a.oak-link.oak-link-block.success:hover,
-  a.oak-link.oak-link-block.success:focus,
-  button.oak-link.oak-link-block.success-text:hover,
-  button.oak-link.oak-link-block.success-text:focus,
-  a.oak-link.oak-link-block.success-text:hover,
-  a.oak-link.oak-link-block.success-text:focus {
+  a.oak-link.oak-link-block.success:focus {
     background-color: var(--color-success-transparent);
+  }
+
+  button.oak-link.oak-link-block.invert:hover,
+  button.oak-link.oak-link-block.invert:focus,
+  a.oak-link.oak-link-block.invert:hover,
+  a.oak-link.oak-link-block.invert:focus {
+    background-color: var(--color-invert-transparent);
   }
 `;

@@ -19,7 +19,7 @@ export const oakInternalNotificationMessageBaseStyles = css`
   .oak-internal-notification-message__content {
     display: grid;
     grid-template-columns: 1fr auto;
-    align-items: flex-start;
+    align-items: center;
     font-size: 0.9em;
     column-gap: 8px;
     margin-left: 8px;
