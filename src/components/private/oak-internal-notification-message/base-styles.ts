@@ -2,32 +2,34 @@ import {css} from 'lit-element';
 
 export const oakInternalNotificationMessageBaseStyles = css`
   .oak-internal-notification-message {
-    display: grid;
-    align-items: center;
-    background-color: var(--color-container);
     margin-bottom: 6px;
-    padding-left: 8px;
-    max-width: 50vw;
-    grid-auto-flow: column;
+    max-height: 0px;
+    transition: max-height 250ms ease-in-out;
+    overflow: hidden;
+    background-color: var(--color-container);
   }
 
-  @media (max-width: 767px) {
-    .oak-internal-notification-message {
-      max-width: calc(90vw - 30px);
-    }
-  }
-
-  .oak-internal-notification-message-content {
+  .oak-internal-notification-message__container {
     display: grid;
-    grid-auto-flow: column;
     align-items: center;
+    padding-left: 8px;
+    grid-template-columns: auto 1fr;
+  }
+
+  .oak-internal-notification-message__content {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: flex-start;
     font-size: 0.9em;
     column-gap: 8px;
     margin-left: 8px;
   }
 
-  .oak-internal-notification-message-left {
+  .oak-internal-notification-message__left {
+    display: grid;
+    grid-auto-flow: row;
+    row-gap: 4px;
   }
-  .oak-internal-notification-message-right {
+  .oak-internal-notification-message__right {
   }
 `;

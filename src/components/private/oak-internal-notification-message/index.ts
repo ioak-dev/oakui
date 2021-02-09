@@ -1,6 +1,8 @@
 import {LitElement, html, customElement, property} from 'lit-element';
 import {classMap} from 'lit-html/directives/class-map';
 import {globalStyles} from '../../../global-styles';
+import '../../public/oak-typography';
+import '../../public/oak-link';
 import {
   removeNotification,
   _removeNotifyEvent,
@@ -11,6 +13,7 @@ import {oakInternalNotificationMessageBaseStyles} from './base-styles';
 import {oakInternalNotificationMessageIndicatorCircleStyles} from './indicator-circle-styles';
 import {oakInternalNotificationMessageIndicatorEllipseStyles} from './indicator-ellipse-styles';
 import {oakInternalNotificationMessageIndicatorFillStyles} from './indicator-fill-styles';
+import {oakInternalNotificationMessageIndicatorOutlineStyles} from './indicator-outline-styles';
 
 let elementIdCounter = 0;
 
@@ -27,14 +30,13 @@ export class OakInternalNotificationMessage extends LitElement {
   notification?: NotificationType;
 
   @property({type: String})
-  indicator?:
+  indicator:
     | 'circle'
-    | 'circle-dotted'
     | 'circle-outline'
     | 'ellipse'
-    | 'ellipse-dotted'
     | 'ellipse-outline'
     | 'fill'
+    | 'outline'
     | 'none' = 'circle';
 
   @property({type: Number})
@@ -74,6 +76,38 @@ export class OakInternalNotificationMessage extends LitElement {
   @property({type: Number})
   paddingVertical?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 = 0;
 
+  @property({type: String})
+  bodyTypographyVariant?:
+    | 'h1'
+    | 'h2'
+    | 'h3'
+    | 'h4'
+    | 'h5'
+    | 'h6'
+    | 'subtitle1'
+    | 'subtitle2'
+    | 'body1'
+    | 'body2'
+    | 'caption'
+    | 'overline'
+    | 'inherit' = 'inherit';
+
+  @property({type: String})
+  headingTypographyVariant?:
+    | 'h1'
+    | 'h2'
+    | 'h3'
+    | 'h4'
+    | 'h5'
+    | 'h6'
+    | 'subtitle1'
+    | 'subtitle2'
+    | 'body1'
+    | 'body2'
+    | 'caption'
+    | 'overline'
+    | 'inherit' = 'h6';
+
   @property({type: Boolean})
   removing = false;
 
@@ -88,12 +122,21 @@ export class OakInternalNotificationMessage extends LitElement {
       .subscribe((notificationId: string) => {
         if (this.notification?.id === notificationId) {
           this.removing = true;
+          this.updateScrollHeight(true);
           setTimeout(() => {
             _removeNotifyEvent.next(notificationId);
-          }, 100);
+          }, 250);
         }
       });
+    setTimeout(() => this.updateScrollHeight());
   }
+
+  updateScrollHeight = (close = false) => {
+    const element = this.shadowRoot?.getElementById(this.elementId);
+    if (element) {
+      element.style.maxHeight = close ? '0px' : `${element.scrollHeight}px`;
+    }
+  };
 
   private closeNotification = () => {
     if (this.notification) {
@@ -102,42 +145,58 @@ export class OakInternalNotificationMessage extends LitElement {
   };
 
   private getClassMap(
-    baseClass: 'base' | 'indicator' | 'content' | 'left' | 'right'
+    baseClass:
+      | 'base'
+      | 'wrapper'
+      | 'container'
+      | 'indicator'
+      | 'content'
+      | 'left'
+      | 'right'
   ): any {
     switch (baseClass) {
       case 'base':
         return {
           [customElementName]: true,
+          [`oak-bs-elevation${this.elevation}`]: true,
           'oak-rounded': this.rounded,
           'oak-outlined': this.outlined,
-          [`oak-bs-elevation${this.elevation}`]: true,
-          [`${customElementName}-${this.indicator}`]: true,
-          [`${customElementName}-${this.notification?.type}`]: !!this
+          [`${customElementName}--${this.indicator}`]: [
+            'fill',
+            'outline',
+          ].includes(this.indicator),
+          [`${customElementName}--${this.notification?.type}`]: !!this
             .notification?.type,
+        };
+      case 'container':
+        return {
+          [`${customElementName}__${baseClass}`]: true,
           'oak-padding-horizontal2': true,
           [`oak-padding-vertical${this.paddingVertical}`]: true,
-          'oak-animate__opacityIn': !this.removing,
-          'oak-animate__opacityOut': this.removing,
+          // [`${customElementName}__${baseClass}--${this.indicator}`]: ![
+          //   'fill',
+          //   'outline',
+          // ].includes(this.indicator),
         };
       case 'indicator':
         return {
-          [`${customElementName}-${baseClass}`]: true,
-          [`${customElementName}-${this.indicator}`]: true,
-          [`${customElementName}-${this.notification?.type}`]: !!this
+          [`${customElementName}__${baseClass}`]: true,
+          [`${customElementName}__${baseClass}--${this.indicator}`]: true,
+          [`${customElementName}__${baseClass}--${this.notification?.type}`]: !!this
             .notification?.type,
         };
       case 'content':
         return {
-          [`${customElementName}-${baseClass}`]: true,
+          [`${customElementName}__${baseClass}`]: true,
         };
       case 'left':
         return {
-          [`${customElementName}-left`]: true,
+          [`${customElementName}__left`]: true,
           'oak-two-liner': true,
         };
       case 'right':
         return {
-          [`${customElementName}-right`]: true,
+          [`${customElementName}__right`]: true,
         };
       default:
         return {};
@@ -151,6 +210,7 @@ export class OakInternalNotificationMessage extends LitElement {
       oakInternalNotificationMessageIndicatorCircleStyles,
       oakInternalNotificationMessageIndicatorEllipseStyles,
       oakInternalNotificationMessageIndicatorFillStyles,
+      oakInternalNotificationMessageIndicatorOutlineStyles,
     ];
   }
 
@@ -158,25 +218,39 @@ export class OakInternalNotificationMessage extends LitElement {
     return this.notification
       ? html`
           <div class=${classMap(this.getClassMap('base'))} id=${this.elementId}>
-              ${
-                this.indicator
-                  ? html`<div
-                      class=${classMap(this.getClassMap('indicator'))}
-                    ></div>`
-                  : html``
-              }
-              <div class=${classMap(this.getClassMap('content'))}>
-                <div class=${classMap(this.getClassMap('left'))}>
-                  ${this.notification.description}
-                </div>
-                <div class=${classMap(this.getClassMap('right'))}>
-                  <oak-link
-                    block
-                    blockSize="xsmall"
-                    color="default"
-                    @link-click=${this.closeNotification}
-                    >Close</oak-link
-                  >
+              <div class=${classMap(this.getClassMap('container'))}>
+                ${
+                  this.indicator
+                    ? html`<div
+                        class=${classMap(this.getClassMap('indicator'))}
+                      ></div>`
+                    : html``
+                }
+                <div class=${classMap(this.getClassMap('content'))}>
+                  <div class=${classMap(this.getClassMap('left'))}>
+                    ${
+                      this.notification.heading
+                        ? html`<oak-typography
+                            variant=${this.headingTypographyVariant}
+                          >
+                            ${this.notification.heading}
+                          </oak-typography>`
+                        : html``
+                    }
+                    <oak-typography variant=${this.bodyTypographyVariant}>
+                      ${this.notification.description}
+                    </oak-typography>
+                  </div>
+                  <div class=${classMap(this.getClassMap('right'))}>
+                    <oak-link color=${
+                      this.notification.type === 'info' &&
+                      this.indicator === 'fill'
+                        ? 'info'
+                        : 'default'
+                    } underline="none" @link-click=${
+          this.closeNotification
+        }>x</oak-link>
+                  </div>
                 </div>
               </div>
             </div>

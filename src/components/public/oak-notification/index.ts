@@ -32,6 +32,7 @@ export class OakNotification extends LitElement {
     | 'ellipse-dotted'
     | 'ellipse-outline'
     | 'fill'
+    | 'outline'
     | 'none' = 'circle';
 
   @property({type: Number})
@@ -71,6 +72,92 @@ export class OakNotification extends LitElement {
   @property({type: Number})
   paddingVertical?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 = 2;
 
+  @property({type: String})
+  bodyTypographyVariant?:
+    | 'h1'
+    | 'h2'
+    | 'h3'
+    | 'h4'
+    | 'h5'
+    | 'h6'
+    | 'subtitle1'
+    | 'subtitle2'
+    | 'body1'
+    | 'body2'
+    | 'caption'
+    | 'overline'
+    | 'inherit' = 'inherit';
+
+  @property({type: String})
+  headingTypographyVariant?:
+    | 'h1'
+    | 'h2'
+    | 'h3'
+    | 'h4'
+    | 'h5'
+    | 'h6'
+    | 'subtitle1'
+    | 'subtitle2'
+    | 'body1'
+    | 'body2'
+    | 'caption'
+    | 'overline'
+    | 'inherit' = 'h6';
+
+  @property({type: Number})
+  distanceFromBaseHorizontal?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 = 2;
+
+  @property({type: Number})
+  distanceFromBaseVertical?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 = 2;
+
+  @property({type: Number})
+  distanceFromBaseHorizontalMobile?:
+    | 0
+    | 1
+    | 2
+    | 3
+    | 4
+    | 5
+    | 6
+    | 7
+    | 8
+    | 9
+    | 10
+    | null = null;
+
+  @property({type: Number})
+  distanceFromBaseVerticalMobile?:
+    | 0
+    | 1
+    | 2
+    | 3
+    | 4
+    | 5
+    | 6
+    | 7
+    | 8
+    | 9
+    | 10
+    | null = null;
+
+  @property({type: Number})
+  displayCount?: number = 5;
+
+  @property({type: String})
+  insert?: 'top' | 'bottom' = 'bottom';
+
+  @property({type: String})
+  position?:
+    | 'top-left'
+    | 'top-right'
+    | 'top-center'
+    | 'bottom-left'
+    | 'bottom-right'
+    | 'bottom-center' = 'bottom-right';
+
+  @property({type: String})
+  positionOnMobile?: 'top-center' | 'bottom-center' | null = null;
+
   @property({type: Array})
   private notificationQueue: NotificationType[] = [];
 
@@ -94,13 +181,34 @@ export class OakNotification extends LitElement {
     });
   }
 
-  private getClassMap(baseClass: 'base'): any {
+  private getClassMap(baseClass: 'base' | 'container'): any {
     switch (baseClass) {
       case 'base':
-        const data = {
+        return {
           [customElementName]: true,
         };
-        return data;
+      case 'container':
+        return {
+          [`${customElementName}-${baseClass}`]: true,
+          [`${customElementName}__position--${this.position}`]: true,
+          [`${customElementName}__position--mobile-${
+            this.positionOnMobile === null
+              ? this.position
+              : this.positionOnMobile
+          }`]: true,
+          [`${customElementName}__distance-from-base-x--${this.distanceFromBaseHorizontal}`]: true,
+          [`${customElementName}__distance-from-base-y--${this.distanceFromBaseVertical}`]: true,
+          [`${customElementName}__distance-from-base-x-mobile--${
+            this.distanceFromBaseHorizontalMobile === null
+              ? this.distanceFromBaseHorizontal
+              : this.distanceFromBaseHorizontalMobile
+          }`]: true,
+          [`${customElementName}__distance-from-base-y-mobile--${
+            this.distanceFromBaseVerticalMobile === null
+              ? this.distanceFromBaseVertical
+              : this.distanceFromBaseVerticalMobile
+          }`]: true,
+        };
       default:
         return {};
     }
@@ -113,19 +221,28 @@ export class OakNotification extends LitElement {
   render() {
     return html`
       <div class=${classMap(this.getClassMap('base'))} id=${this.elementId}>
-        ${repeat(
-          this.notificationQueue.slice(0, 5),
-          (notification) => notification.id,
-          (notification) =>
-            html`<oak-internal-notification-message
-              .notification=${notification}
-              .elevation=${this.elevation}
-              ?rounded=${this.rounded}
-              ?outlined=${this.outlined}
-              .indicator=${this.indicator}
-              .paddingVertical=${this.paddingVertical}
-            ></oak-internal-notification-message>`
-        )}
+        <div
+          class=${classMap(this.getClassMap('container'))}
+          id=${this.elementId}
+        >
+          ${repeat(
+            this.insert === 'bottom'
+              ? this.notificationQueue.slice(0, this.displayCount).reverse()
+              : this.notificationQueue.slice(0, this.displayCount),
+            (notification) => notification.id,
+            (notification) =>
+              html`<oak-internal-notification-message
+                .notification=${notification}
+                .elevation=${this.elevation}
+                ?rounded=${this.rounded}
+                ?outlined=${this.outlined}
+                .indicator=${this.indicator}
+                .paddingVertical=${this.paddingVertical}
+                .headingTypographyVariant=${this.headingTypographyVariant}
+                .bodyTypographyVariant=${this.bodyTypographyVariant}
+              ></oak-internal-notification-message>`
+          )}
+        </div>
       </div>
     `;
   }
