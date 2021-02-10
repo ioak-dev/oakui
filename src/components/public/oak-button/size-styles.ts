@@ -2,9 +2,9 @@ import {css} from 'lit-element';
 
 export const oakButtonSizeStyles = css`
   button.size-xsmall {
-    font-size: 10.5px;
+    font-size: var(--formelement-button-fontsize-xsmall);
     padding: 0 10px;
-    height: 25px;
+    height: var(--formelement-height-xsmall);
   }
   button.size-xsmall .button-label-container .svg-inline--fa {
     font-size: 10px;
@@ -13,9 +13,9 @@ export const oakButtonSizeStyles = css`
     font-size: 14px;
   }
   button.size-small {
-    font-size: 12.25px;
+    font-size: var(--formelement-button-fontsize-small);
     padding: 4px 15px;
-    height: 35px;
+    height: var(--formelement-height-small);
   }
   button.size-small .button-label-container .svg-inline--fa {
     font-size: 12px;
@@ -24,9 +24,9 @@ export const oakButtonSizeStyles = css`
     font-size: 16px;
   }
   button.size-medium {
-    font-size: 12.25px;
+    font-size: var(--formelement-button-fontsize-medium);
     padding: 5px 20px;
-    height: 40px;
+    height: var(--formelement-height-medium);
   }
   button.size-medium .button-label-container .svg-inline--fa {
     font-size: 14px;
@@ -35,9 +35,9 @@ export const oakButtonSizeStyles = css`
     font-size: 18px;
   }
   button.size-large {
-    font-size: 15.75px;
+    font-size: var(--formelement-button-fontsize-large);
     padding: 15px 30px;
-    height: 55px;
+    height: var(--formelement-height-large);
   }
   button.size-large .button-label-container .svg-inline--fa {
     font-size: 14px;
@@ -49,8 +49,6 @@ export const oakButtonSizeStyles = css`
     padding: 0 8px;
   }
   button.icon {
-    height: 32px;
-    width: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -59,19 +57,19 @@ export const oakButtonSizeStyles = css`
     border-radius: 50%;
   }
   button.icon.size-xsmall {
-    height: 25px;
-    width: 25px;
+    height: var(--formelement-height-xsmall);
+    width: var(--formelement-height-xsmall);
   }
   button.icon.size-small {
-    height: 35px;
-    width: 35px;
+    height: var(--formelement-height-small);
+    width: var(--formelement-height-small);
   }
   button.icon.size-medium {
-    height: 40px;
-    width: 40px;
+    height: var(--formelement-height-medium);
+    width: var(--formelement-height-medium);
   }
   button.icon.size-large {
-    height: 55px;
-    width: 55px;
+    height: var(--formelement-height-large);
+    width: var(--formelement-height-large);
   }
 `;

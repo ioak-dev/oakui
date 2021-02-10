@@ -8,8 +8,6 @@ import '../oak-typography';
 import {LINK_CLICK_EVENT} from '../../../types/LinkEventTypes';
 import {oakLinkSizeStyles} from './size-styles';
 import {oakButtonSizeStyles} from '../oak-button/size-styles';
-import {oakLinkShapeStyles} from './shape-styles';
-import {oakButtonShapeStyles} from '../oak-button/shape-styles';
 
 let elementIdCounter = 0;
 
@@ -113,7 +111,7 @@ export class OakLink extends LitElement {
           [`${this.color}`]: true,
           [`${customElementName}-block`]: this.block,
           [`size-${this.blockSize}`]: this.block,
-          [`shape-${this.blockShape}`]: this.block,
+          [`oak-shape-${this.blockShape}`]: this.block,
           icon: this.block && this.blockShape === 'icon',
         };
       default:
@@ -127,8 +125,6 @@ export class OakLink extends LitElement {
       oakLinkStyles,
       oakLinkSizeStyles,
       oakButtonSizeStyles,
-      oakLinkShapeStyles,
-      oakButtonShapeStyles,
     ];
   }
 

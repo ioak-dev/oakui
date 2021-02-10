@@ -5,7 +5,6 @@ import {BUTTON_CLICK_EVENT} from '../../../types/ButtonEventTypes';
 import {formControlSubmitSubject} from '../../../events/FormControlSubmitEvent';
 import {formControlResetSubject} from '../../../events/FormControlResetEvent';
 import {oakButtonSizeStyles} from './size-styles';
-import {oakButtonShapeStyles} from './shape-styles';
 import {oakButtonBaseStyles} from './base-styles';
 import {oakButtonVariantAppearStyles} from './variant-appear-styles';
 import {oakButtonVariantRegularStyles} from './variant-regular-styles';
@@ -73,7 +72,7 @@ export class OakButton extends LitElement {
     }
 
     style += ` size-${this.size}`;
-    style += ` shape-${this.shape}`;
+    style += ` oak-shape-${this.shape}`;
 
     return style;
   };
@@ -87,7 +86,6 @@ export class OakButton extends LitElement {
       ...globalStyles,
       oakButtonBaseStyles,
       oakButtonSizeStyles,
-      oakButtonShapeStyles,
       oakButtonVariantAppearStyles,
       oakButtonVariantRegularStyles,
       oakButtonVariantDisappearStyles,

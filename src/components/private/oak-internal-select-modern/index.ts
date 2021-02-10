@@ -6,8 +6,6 @@ import {formControlValidateSubject} from '../../../events/FormControlValidateEve
 import {globalStyles} from '../../../global-styles';
 import {ValidationErrorType} from '../../../validation/types/ValidationResultType';
 import '../oak-internal-popup';
-import '../../public/oak-button';
-import '../../public/oak-input';
 import {oakInternalSelectModernStyles} from './index-styles';
 import {isEmptyOrSpaces, toString} from '../../../utils/StringUtils';
 import {
@@ -15,6 +13,7 @@ import {
   INPUT_INPUT_EVENT,
 } from '../../../types/InputEventTypes';
 import {RequiredValidator} from '../../../validation/RequiredValidator';
+import {oakInternalSelectModernSizeStyles} from './size-styles';
 
 let elementIdCounter = 0;
 const customElementName = 'oak-internal-select-modern';
@@ -71,6 +70,12 @@ export class OakInternalSelectModern extends LitElement {
 
   @property({type: Array})
   optionsAsKeyValue?: {key: string | number; value: string | number}[] | null;
+
+  @property({type: String})
+  size?: 'xsmall' | 'small' | 'medium' | 'large' = 'small';
+
+  @property({type: String})
+  shape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' = 'rectangle';
 
   /**
    * Validators
@@ -295,6 +300,7 @@ export class OakInternalSelectModern extends LitElement {
       | 'popup'
       | 'ul'
       | 'search-filter'
+      | 'input'
       | 'action'
       | 'value'
       | 'placeholder'
@@ -318,6 +324,12 @@ export class OakInternalSelectModern extends LitElement {
         return {
           [`${customElementName}--${baseClass}`]: true,
         };
+      case 'input':
+        return {
+          [`${customElementName}-${baseClass}`]: true,
+          [`${customElementName}--size-${this.size}`]: true,
+          [`oak-shape-${this.shape}`]: true,
+        };
       default:
         return {};
     }
@@ -328,7 +340,11 @@ export class OakInternalSelectModern extends LitElement {
   // };
 
   static get styles() {
-    return [...globalStyles, oakInternalSelectModernStyles];
+    return [
+      ...globalStyles,
+      oakInternalSelectModernStyles,
+      oakInternalSelectModernSizeStyles,
+    ];
   }
 
   private propagateCustomEvent = (eventName: string, value?: any) => {
@@ -364,6 +380,8 @@ export class OakInternalSelectModern extends LitElement {
         @deactivated=${this.handleDeactivated}
         @key-pressed=${this.handleKeydown}
         ?isActivated=${this._isActivated}
+        .size=${this.size}
+        .shape=${this.shape}
       >
         <div
           slot="popup"
@@ -372,6 +390,7 @@ export class OakInternalSelectModern extends LitElement {
         >
           <div class=${classMap(this.getClassMap('search-filter'))}>
             <input
+              class=${classMap(this.getClassMap('input'))}
               type="text"
               placeholder="Type to filter"
               autocomplete="off"

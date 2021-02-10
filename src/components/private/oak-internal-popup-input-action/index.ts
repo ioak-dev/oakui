@@ -8,6 +8,7 @@ import '../../private/oak-internal-form-error';
 import '../../public/oak-button';
 import '../../public/oak-input';
 import {oakInternalPopupInputActionStyles} from './index-styles';
+import {oakInternalPopupInputActionSizeStyles} from './size-styles';
 
 let elementIdCounter = 0;
 const customElementName = 'oak-internal-popup-input-action';
@@ -50,6 +51,12 @@ export class OakInternalPopupInputAction extends LitElement {
   @property({type: Array})
   scrollableContainers: string[] = [];
 
+  @property({type: String})
+  size?: 'xsmall' | 'small' | 'medium' | 'large' = 'small';
+
+  @property({type: String})
+  shape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' = 'rectangle';
+
   /**
    * Validators
    *
@@ -86,6 +93,8 @@ export class OakInternalPopupInputAction extends LitElement {
       case 'base':
         return {
           [customElementName]: true,
+          [`${customElementName}--size-${this.size}`]: true,
+          [`oak-shape-${this.shape}`]: true,
         };
       case 'value':
       case 'placeholder':
@@ -102,7 +111,11 @@ export class OakInternalPopupInputAction extends LitElement {
   };
 
   static get styles() {
-    return [...globalStyles, oakInternalPopupInputActionStyles];
+    return [
+      ...globalStyles,
+      oakInternalPopupInputActionStyles,
+      oakInternalPopupInputActionSizeStyles,
+    ];
   }
 
   private propagateCustomEvent = (eventName: string, value?: any) => {

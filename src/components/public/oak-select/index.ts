@@ -51,6 +51,12 @@ export class OakSelect extends LitElement {
   @property({type: Boolean})
   native? = false;
 
+  @property({type: String})
+  size?: 'xsmall' | 'small' | 'medium' | 'large' = 'small';
+
+  @property({type: String})
+  shape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' = 'rectangle';
+
   constructor() {
     super();
   }
@@ -99,6 +105,8 @@ export class OakSelect extends LitElement {
             ?disabled=${this.disabled}
             .options=${this.options}
             .optionsAsKeyValue=${this.optionsAsKeyValue}
+            .size=${this.size}
+            .shape=${this.shape}
           ></oak-internal-select-native>`
         : html`<oak-internal-select-modern
             .elementFor=${this.id}
@@ -112,6 +120,8 @@ export class OakSelect extends LitElement {
             ?disabled=${this.disabled}
             .options=${this.options}
             .optionsAsKeyValue=${this.optionsAsKeyValue}
+            .size=${this.size}
+            .shape=${this.shape}
           ></oak-internal-select-modern>`}
     `;
   }

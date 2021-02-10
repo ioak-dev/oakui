@@ -9,3 +9,4 @@ import './dist/components/public/oak-container/index.js';
 import './dist/components/public/oak-card/index.js';
 import './dist/components/public/oak-form-actions-container/index.js';
 import './dist/components/public/oak-notification/index.js';
+import './dist/components/public/oak-table/index.js';

@@ -6,13 +6,11 @@ export const oakInputStyles = css`
   }
   input {
     width: 100%;
-    font-size: 14px;
     border: 1px solid var(--global-border-color);
     background-color: var(--formelement-color-bg);
     color: var(--formelement-color-fg);
     box-sizing: border-box;
     padding: 0 5px;
-    min-height: var(--formelement-height);
     border-radius: var(--formelement-border-radius);
     outline: none;
   }
@@ -27,8 +25,5 @@ export const oakInputStyles = css`
   }
   input.validation-failure:focus {
     box-shadow: var(--formelement-outline-box-shadow-error);
-  }
-  input[type='file'] {
-    line-height: var(--formelement-height);
   }
 `;

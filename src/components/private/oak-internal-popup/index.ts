@@ -65,6 +65,12 @@ export class OakSelect extends LitElement {
   @property({type: Array})
   scrollableContainers: string[] = [];
 
+  @property({type: String})
+  size?: 'xsmall' | 'small' | 'medium' | 'large' = 'small';
+
+  @property({type: String})
+  shape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' = 'rectangle';
+
   /**
    * Validators
    *
@@ -259,6 +265,8 @@ export class OakSelect extends LitElement {
           <oak-internal-popup-input-action
             @toggle=${this.handleInputFocused}
             .value=${this.value}
+            .size=${this.size}
+            .shape=${this.shape}
           ></oak-internal-popup-input-action>
         </div>
         <div class=${classMap(this.getClassMap('popup'))}>

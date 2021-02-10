@@ -21,6 +21,11 @@ export const oakInternalSelectNativeStyles = css`
     border-color: var(--formelement-outline-border-color);
     background-color: var(--formelement-color-bg-active);
     color: var(--formelement-color-fg-active);
+    appearance: none;
+    /* for Firefox */
+    -moz-appearance: none;
+    /* for Chrome */
+    -webkit-appearance: none;
   }
   select.validation-failure {
     border-color: var(--color-danger);

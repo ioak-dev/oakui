@@ -1,4 +1,5 @@
 import {LitElement, html, customElement, property} from 'lit-element';
+import {classMap} from 'lit-html/directives/class-map';
 import {formControlRegisterSubject} from '../../../events/FormControlRegisterEvent';
 import {formControlValidatedSubject} from '../../../events/FormControlValidatedEvent';
 import {formControlValidateSubject} from '../../../events/FormControlValidateEvent';
@@ -12,6 +13,7 @@ import '../oak-internal-label';
 import '../oak-internal-form-tooltip';
 import '../oak-internal-form-error';
 import {oakInternalSelectNativeStyles} from './index-styles';
+import {oakInternalSelectNativeSizeStyles} from './size-styles';
 
 let elementIdCounter = 0;
 const customElementName = 'oak-internal-select-native';
@@ -56,6 +58,12 @@ export class OakInternalSelectNative extends LitElement {
 
   @property({type: Array})
   optionsAsKeyValue?: {key: string | number; value: string | number}[] | null;
+
+  @property({type: String})
+  size?: 'xsmall' | 'small' | 'medium' | 'large' = 'small';
+
+  @property({type: String})
+  shape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' = 'rectangle';
 
   /**
    * Validators
@@ -106,8 +114,30 @@ export class OakInternalSelectNative extends LitElement {
     });
   }
 
+  private getClassMap = (baseClass: 'base' | 'select'): any => {
+    switch (baseClass) {
+      case 'base':
+        return {
+          [customElementName]: true,
+        };
+      case 'select':
+        return {
+          [`${customElementName}--${baseClass}`]: true,
+          'validation-failure': this._errors.length > 0,
+          [`oak-shape-${this.shape}`]: true,
+          [`${customElementName}--size-${this.size}`]: true,
+        };
+      default:
+        return {};
+    }
+  };
+
   static get styles() {
-    return [...globalStyles, oakInternalSelectNativeStyles];
+    return [
+      ...globalStyles,
+      oakInternalSelectNativeStyles,
+      oakInternalSelectNativeSizeStyles,
+    ];
   }
 
   private handleInput = (event: any) => {
@@ -140,14 +170,14 @@ export class OakInternalSelectNative extends LitElement {
     const labelId = `${this.elementId}-label`;
 
     return html`
-      <div class="oak-internal-select-native" id=${this.elementId}>
+      <div class=${classMap(this.getClassMap('base'))} id=${this.elementId}>
         <oak-internal-label
           label=${this.label}
           elementId=${labelId}
           elementFor=${this.elementId}
         ></oak-internal-label>
         <select
-          class=${this._errors.length > 0 ? 'validation-failure' : ''}
+          class=${classMap(this.getClassMap('select'))}
           aria-labelledby=${labelId}
           name=${this.name}
           id=${this.elementId}

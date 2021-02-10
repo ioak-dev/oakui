@@ -5,28 +5,21 @@ export const oakInternalSelectModernStyles = css`
     margin-bottom: var(--oak-padding-vertical4);
   }
 
-  .oak-internal-select-modern--popup
-    .oak-internal-select-modern--search-filter {
+  .oak-internal-select-modern--search-filter {
     padding: 8px;
     border-bottom: 1px solid var(--global-border-color);
   }
-  .oak-internal-select-modern--popup
-    .oak-internal-select-modern--search-filter
-    input {
+  input {
     width: 100%;
-    font-size: 14px;
     border: 1px solid var(--global-border-color);
     background-color: var(--formelement-color-bg);
     color: var(--formelement-color-fg);
     box-sizing: border-box;
     padding: 0 5px;
-    min-height: 30px;
     border-radius: var(--formelement-border-radius);
     outline: none;
   }
-  .oak-internal-select-modern--popup
-    .oak-internal-select-modern--search-filter
-    input:focus {
+  input:focus {
     box-shadow: var(--formelement-outline-box-shadow);
     border-color: var(--formelement-outline-border-color);
     // background-color: var(--formelement-color-bg-active);

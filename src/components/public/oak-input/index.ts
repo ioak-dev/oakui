@@ -1,4 +1,5 @@
 import {LitElement, html, customElement, property} from 'lit-element';
+import {classMap} from 'lit-html/directives/class-map';
 import {formControlRegisterSubject} from '../../../events/FormControlRegisterEvent';
 import {formControlSubmitSubject} from '../../../events/FormControlSubmitEvent';
 import {formControlValidatedSubject} from '../../../events/FormControlValidatedEvent';
@@ -20,6 +21,7 @@ import '../../private/oak-internal-form-error';
 import {oakInputStyles} from './index-styles';
 import {NumberBoundaryValidator} from '../../../validation/NumberBoundaryValidator';
 import {UserDefinedValidator} from '../../../validation/UserDefinedValidator';
+import {oakInputSizeStyles} from './size-styles';
 
 let elementIdCounter = 0;
 
@@ -27,9 +29,10 @@ let elementIdCounter = 0;
  * Text box form element.
  *
  */
-@customElement('oak-input')
+const customElementName = 'oak-input';
+@customElement(customElementName)
 export class OakInput extends LitElement {
-  private elementId = `oak-input-${elementIdCounter++}`;
+  private elementId = `${customElementName}-${elementIdCounter++}`;
 
   @property({type: String})
   formGroupName?: string;
@@ -57,6 +60,12 @@ export class OakInput extends LitElement {
 
   @property({type: Boolean})
   disabled = false;
+
+  @property({type: String})
+  size?: 'xsmall' | 'small' | 'medium' | 'large' = 'small';
+
+  @property({type: String})
+  shape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' = 'rectangle';
 
   /**
    * Validators
@@ -169,10 +178,6 @@ export class OakInput extends LitElement {
     });
   }
 
-  static get styles() {
-    return [...globalStyles, oakInputStyles];
-  }
-
   private handleInput = (event: any) => {
     if (this.type !== 'file') {
       this.propagateEvent(INPUT_INPUT_EVENT, event);
@@ -238,18 +243,40 @@ export class OakInput extends LitElement {
   //   return this.shadowRoot!.getElementById(this.elementId)! as HTMLInputElement;
   // }
 
+  private getClassMap(baseClass: 'base' | 'input'): any {
+    switch (baseClass) {
+      case 'base':
+        return {
+          [customElementName]: true,
+        };
+      case 'input':
+        return {
+          [`${customElementName}-${baseClass}`]: true,
+          [`${customElementName}--size-${this.size}`]: true,
+          [`oak-shape-${this.shape}`]: true,
+          'validation-failure': this._errors.length > 0,
+        };
+      default:
+        return {};
+    }
+  }
+
+  static get styles() {
+    return [...globalStyles, oakInputStyles, oakInputSizeStyles];
+  }
+
   render() {
     const labelId = `${this.elementId}-label`;
 
     return html`
-      <div class="oak-input">
+      <div class=${classMap(this.getClassMap('base'))} id=${this.elementId}>
         <oak-internal-label
           label=${this.label}
           elementId=${labelId}
           elementFor=${this.elementId}
         ></oak-internal-label>
         <input
-          class=${this._errors.length > 0 ? 'validation-failure' : ''}
+          class=${classMap(this.getClassMap('input'))}
           autocomplete="off"
           aria-labelledby=${labelId}
           name=${this.name}
