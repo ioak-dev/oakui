@@ -29,9 +29,6 @@ export class OakInternalSelectModern extends LitElement {
   private liElementId = `${this.elementId}-popup-li`;
   private ulElementId = `${this.elementId}-popup-ul`;
 
-  @property({type: String})
-  elementFor = `${customElementName}-${elementIdCounter++}-id`;
-
   @property({type: Boolean})
   private _isActivated = false;
 
@@ -45,7 +42,7 @@ export class OakInternalSelectModern extends LitElement {
   formGroupName?: string;
 
   @property({type: String})
-  label?: string | null;
+  label?: string | null = null;
 
   @property()
   value?: string | number | null;
@@ -371,7 +368,6 @@ export class OakInternalSelectModern extends LitElement {
         elementFor=${this.elementId}
       ></oak-internal-label>
       <oak-internal-popup
-        .elementFor=${this.elementFor}
         .value=${this.value}
         .placeholder=${this.placeholder}
         .label=${this.label}

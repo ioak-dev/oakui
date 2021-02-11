@@ -22,7 +22,7 @@ export class OakSelect extends LitElement {
   formGroupName?: string;
 
   @property({type: String})
-  label?: string | null;
+  label?: string | null = null;
 
   @property()
   value?: string | number | null;
@@ -94,7 +94,6 @@ export class OakSelect extends LitElement {
     return html`
       ${this.native
         ? html`<oak-internal-select-native
-            .elementFor=${this.id}
             .formGroupName=${this.formGroupName}
             .label=${this.label}
             .name=${this.name}
@@ -109,7 +108,6 @@ export class OakSelect extends LitElement {
             .shape=${this.shape}
           ></oak-internal-select-native>`
         : html`<oak-internal-select-modern
-            .elementFor=${this.id}
             .formGroupName=${this.formGroupName}
             .label=${this.label}
             .name=${this.name}

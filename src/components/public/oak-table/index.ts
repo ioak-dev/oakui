@@ -2,11 +2,13 @@ import {LitElement, html, customElement, property} from 'lit-element';
 import {classMap} from 'lit-html/directives/class-map';
 import {globalStyles} from '../../../global-styles';
 import {TableHeaderType} from '../../../types/TableHeaderType';
+import {TABLE_PAGINATE_EVENT} from '../../../types/TableEventTypes';
 
 import {oakTableStyles} from './index-styles';
 
 import '../../private/oak-internal-table-datagrid';
 import '../../private/oak-internal-table-paginate';
+import {paginate} from './service';
 
 let elementIdCounter = 0;
 
@@ -16,8 +18,11 @@ let elementIdCounter = 0;
  */
 const customElementName = 'oak-table';
 @customElement(customElementName)
-export class OakCard extends LitElement {
+export class OakTable extends LitElement {
   private elementId = `${customElementName}-${elementIdCounter++}`;
+
+  @property({type: String, reflect: true})
+  id = `${this.elementId}-id`;
 
   @property({type: Array})
   header: TableHeaderType[] = [];
@@ -25,43 +30,96 @@ export class OakCard extends LitElement {
   @property({type: Array})
   data: any[] = [];
 
+  /**
+   * Applicable when serverSidePagination = true
+   */
+  @property({type: Number})
+  totalRows?: number = 0;
+
+  @property({type: Boolean})
+  serverSidePagination? = false;
+
   @property({type: Object})
-  paginationPref = {
+  private _paginationPref = {
     pageNo: 1,
     rowsPerPage: 6,
     sortBy: '',
     sortAsc: true,
+    searchText: '',
   };
+
+  @property({type: Array})
+  private _view = this.data;
 
   constructor() {
     super();
   }
 
-  private _onChangePage = (event: any) => {
-    console.log(event.detail);
+  private _onPageChange = (event: any) => {
+    this._paginationPref = {
+      ...this._paginationPref,
+      rowsPerPage: event.detail.rowsPerPage,
+      pageNo: event.detail.pageNo,
+    };
+    this._paginate();
   };
+
+  shouldUpdate(_changedProperties: Map<string | number | symbol, unknown>) {
+    _changedProperties.forEach((_, propName) => {
+      if (propName === 'data') {
+        this._paginate();
+      }
+    });
+    return true;
+  }
 
   private _onSortChange = (event: any) => {
     console.log('***sort', event);
     const fieldName = event.detail.name;
     let _sortBy = '';
     let _sortAsc = true;
-    if (this.paginationPref.sortBy === fieldName) {
-      if (this.paginationPref.sortAsc) {
-        _sortBy = this.paginationPref.sortBy;
+    if (this._paginationPref.sortBy === fieldName) {
+      if (this._paginationPref.sortAsc) {
+        _sortBy = this._paginationPref.sortBy;
         _sortAsc = false;
       }
     } else {
       _sortBy = fieldName;
       _sortAsc = true;
     }
-    console.log('**', _sortAsc, _sortBy);
-    this.paginationPref = {
-      ...this.paginationPref,
+    this._paginationPref = {
+      ...this._paginationPref,
       sortBy: _sortBy,
       sortAsc: _sortAsc,
     };
+    this._paginate();
   };
+
+  private _paginate = () => {
+    if (this.serverSidePagination) {
+      this._propagateEvent(TABLE_PAGINATE_EVENT, this._paginationPref);
+    } else {
+      this._view = paginate(this.data, this.header, this._paginationPref);
+    }
+  };
+
+  private _propagateEvent = (eventName: string, detail?: any) => {
+    this.dispatchEvent(
+      new CustomEvent(eventName, {
+        bubbles: true,
+        composed: true,
+        detail,
+      })
+    );
+  };
+
+  private _getDataGrid() {
+    return this.serverSidePagination ? this.data : this._view;
+  }
+
+  private _getTotalRows() {
+    return this.serverSidePagination ? this.totalRows : this.data.length;
+  }
 
   private getClassMap(baseClass: 'base'): any {
     switch (baseClass) {
@@ -83,16 +141,16 @@ export class OakCard extends LitElement {
     return html`
       <div class=${classMap(this.getClassMap('base'))} id=${this.elementId}>
         <oak-internal-table-paginate
-          @table-page-change=${this._onChangePage}
+          @table-change-page=${this._onPageChange}
           .header=${this.header}
-          .itemCount=${this.data.length}
+          .itemCount=${this._getTotalRows()}
         >
         </oak-internal-table-paginate>
         <oak-internal-table-datagrid
           .header=${this.header}
-          .data=${this.data}
-          .sortAsc=${this.paginationPref.sortAsc}
-          .sortBy=${this.paginationPref.sortBy}
+          .data=${this._getDataGrid()}
+          .sortAsc=${this._paginationPref.sortAsc}
+          .sortBy=${this._paginationPref.sortBy}
           @table-sort=${this._onSortChange}
         >
         </oak-internal-table-datagrid>

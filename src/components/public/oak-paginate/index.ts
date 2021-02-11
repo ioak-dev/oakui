@@ -30,6 +30,7 @@ export class OakCard extends LitElement {
   @property({type: Number})
   private _pageNo = 1;
 
+  @property({type: Array})
   private _rowsPerPageVariants = ['5', '10', '20', '50'];
 
   constructor() {
@@ -129,7 +130,8 @@ export class OakCard extends LitElement {
               value=${this._rowsPerPage}
               name="rowsPerPage"
               @input-change=${this._onRowsPerPageChange}
-              options=${this._rowsPerPageVariants}
+              .options=${this._rowsPerPageVariants}
+              size="xsmall"
             ></oak-select>
           </div>
           <div class=${classMap(this.getClassMap('page-number'))}>
@@ -141,14 +143,28 @@ export class OakCard extends LitElement {
           </div>
           <div class=${classMap(this.getClassMap('page-nav'))}>
             <div>
-              <oak-link @link-click=${this._previousPage}>
+              <oak-button
+                @button-click=${this._previousPage}
+                theme="info"
+                variant="block"
+                shape="icon"
+                size="xsmall"
+                semitransparent
+              >
                 ${'<'}
-              </oak-link>
+              </oak-button>
             </div>
             <div>
-              <oak-link @link-click=${this._nextPage}>
+              <oak-button
+                @button-click=${this._nextPage}
+                theme="info"
+                variant="block"
+                shape="icon"
+                size="xsmall"
+                semitransparent
+              >
                 ${'>'}
-              </oak-link>
+              </oak-button>
             </div>
           </div>
         </div>

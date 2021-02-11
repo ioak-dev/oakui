@@ -39,7 +39,6 @@ export class OakInternalTablePaginate extends LitElement {
   }
 
   private _onChangePage = (event: any) => {
-    console.log('****', event.detail);
     this._propagateEvent(TABLE_CHANGE_PAGE_EVENT, event.detail);
   };
 
@@ -73,7 +72,7 @@ export class OakInternalTablePaginate extends LitElement {
       <div class=${classMap(this.getClassMap('base'))} id=${this.elementId}>
         <oak-paginate
           @paginate-change-page=${this._onChangePage}
-          itemCount=${this.itemCount}
+          .itemCount=${this.itemCount}
         ></oak-paginate>
       </div>
     `;

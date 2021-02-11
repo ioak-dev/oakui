@@ -21,9 +21,6 @@ const customElementName = 'oak-internal-popup-input-action';
 export class OakInternalPopupInputAction extends LitElement {
   private elementId = `${customElementName}-${elementIdCounter++}`;
 
-  @property({type: String})
-  elementFor = '';
-
   @property()
   value?: string | number | null;
 

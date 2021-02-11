@@ -29,8 +29,8 @@ export class OakSelect extends LitElement {
   @property({type: Boolean})
   isActivated = false;
 
-  @property({type: String})
-  elementFor = '';
+  @property({type: Array})
+  parentElementIds?: string[] = [];
 
   @property({type: String})
   label?: string | null;
@@ -122,11 +122,38 @@ export class OakSelect extends LitElement {
   }
 
   private clickEventHandler = (event: any) => {
-    if (
-      !event.target.getAttribute('id') ||
-      event.target.getAttribute('id') !== this.elementFor
-    ) {
-      this.deactivate();
+    if (this.isActivated) {
+      const idList: string[] = [];
+      Object.values(event.composedPath()).forEach((item: any) => {
+        try {
+          if (
+            item &&
+            !(item instanceof ShadowRoot) &&
+            !(item instanceof Window) &&
+            !(item instanceof Document) &&
+            item.hasAttribute('id')
+          ) {
+            idList.push(item.getAttribute('id'));
+          }
+        } catch (e) {
+          console.log('** exception inclickEventHandler');
+        }
+      });
+
+      if (
+        ![this.actionElementId, this.popupContainerElementId].some(
+          (item) => idList.indexOf(item) !== -1
+        )
+      ) {
+        this.deactivate();
+      }
+
+      // if (
+      //   !event.target.getAttribute('id') ||
+      //   event.target.getAttribute('id') !== this.elementFor
+      // ) {
+      //   this.deactivate();
+      // }
     }
   };
 

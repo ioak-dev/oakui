@@ -27,9 +27,6 @@ export class OakInternalSelectNative extends LitElement {
   private elementId = `${customElementName}-${elementIdCounter++}`;
 
   @property({type: String})
-  elementFor = `${customElementName}-${elementIdCounter++}-id`;
-
-  @property({type: String})
   formGroupName?: string;
 
   @property({type: String})

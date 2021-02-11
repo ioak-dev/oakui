@@ -1,30 +1,30 @@
 import {LitElement, html, customElement, property} from 'lit-element';
 import {globalStyles} from '../../../global-styles';
-import { oakInternalLabelStyles } from './index-styles';
+import {oakInternalLabelStyles} from './index-styles';
+
+let elementIdCounter = 0;
 
 /**
- * Text box form element.
+ * Label for form elements.
  *
  */
-@customElement('oak-internal-label')
+const customElementName = 'oak-internal-label';
+@customElement(customElementName)
 export class OakInternalLabel extends LitElement {
-  @property({type: String, reflect: true})
-  label: string = '';
+  @property({type: String})
+  label?: string | null = null;
 
   @property({type: String})
-  elementFor: string = '';
+  elementFor = '';
 
-  @property({type: String})
-  elementId: string = '';
+  private elementId = `${customElementName}-${elementIdCounter++}`;
 
   constructor() {
     super();
   }
 
   static get styles() {
-    return [
-      ...globalStyles, oakInternalLabelStyles
-    ];
+    return [...globalStyles, oakInternalLabelStyles];
   }
 
   render() {
