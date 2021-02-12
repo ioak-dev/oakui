@@ -14,6 +14,7 @@ import {
 } from '../../../types/InputEventTypes';
 import {RequiredValidator} from '../../../validation/RequiredValidator';
 import {oakInternalSelectModernSizeStyles} from './size-styles';
+import {oakInternalSelectModernFillStyles} from './fill-styles';
 
 let elementIdCounter = 0;
 const customElementName = 'oak-internal-select-modern';
@@ -73,6 +74,9 @@ export class OakInternalSelectModern extends LitElement {
 
   @property({type: String})
   shape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' = 'rectangle';
+
+  @property({type: String})
+  fill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
 
   /**
    * Validators
@@ -304,28 +308,34 @@ export class OakInternalSelectModern extends LitElement {
       | 'margin'
   ): any => {
     switch (baseClass) {
-      case 'popup':
-      case 'search-filter':
       case 'action':
       case 'value':
       case 'placeholder':
         return {
-          [`${customElementName}--${baseClass}`]: true,
+          [`${customElementName}__${baseClass}`]: true,
         };
       case 'ul':
         return {
-          [`${customElementName}--${baseClass}`]: true,
+          [`${customElementName}__${baseClass}`]: true,
           activated: this._isActivated,
         };
       case 'margin':
         return {
-          [`${customElementName}--${baseClass}`]: true,
+          [`${customElementName}__${baseClass}`]: true,
+        };
+      case 'search-filter':
+      case 'popup':
+        return {
+          [`${customElementName}__${baseClass}`]: true,
+          [`${customElementName}__${baseClass}--fill-${this.fill}`]: true,
         };
       case 'input':
         return {
-          [`${customElementName}-${baseClass}`]: true,
-          [`${customElementName}--size-${this.size}`]: true,
+          [`${customElementName}__${baseClass}`]: true,
+          [`${customElementName}__${baseClass}--size-${this.size}`]: true,
           [`oak-shape-${this.shape}`]: true,
+          [`oak-fill-${this.fill}`]: true,
+          [`oak-fill-${this.fill}--hover`]: true,
         };
       default:
         return {};
@@ -341,6 +351,7 @@ export class OakInternalSelectModern extends LitElement {
       ...globalStyles,
       oakInternalSelectModernStyles,
       oakInternalSelectModernSizeStyles,
+      oakInternalSelectModernFillStyles,
     ];
   }
 
@@ -378,6 +389,7 @@ export class OakInternalSelectModern extends LitElement {
         ?isActivated=${this._isActivated}
         .size=${this.size}
         .shape=${this.shape}
+        .fill=${this.fill}
       >
         <div
           slot="popup"

@@ -39,13 +39,12 @@ export function paginate(data: any, header: any, paginationPref: any) {
     filteredResults = data.filter((item: any) => {
       let outcome = false;
       header.forEach((headerItem: any) => {
-        let value = item[headerItem.key];
+        let value = item[headerItem.name];
         if (headerItem.dtype === 'input_select') {
-          console.log(value, headerItem);
           value = headerItem.elements.find((item: any) => item.key === value)
             ?.value;
         }
-        if (match(value, paginationPref.text)) {
+        if (match(value, paginationPref.searchText)) {
           outcome = true;
         }
       });

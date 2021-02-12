@@ -1,13 +1,12 @@
 import {css} from 'lit-element';
 
 export const oakInternalSelectModernStyles = css`
-  .oak-internal-select-modern--margin {
+  .oak-internal-select-modern__margin {
     margin-bottom: var(--oak-padding-vertical4);
   }
 
-  .oak-internal-select-modern--search-filter {
+  .oak-internal-select-modern__search-filter {
     padding: 8px;
-    border-bottom: 1px solid var(--global-border-color);
   }
   input {
     width: 100%;
@@ -26,7 +25,7 @@ export const oakInternalSelectModernStyles = css`
     // color: var(--formelement-color-fg-active);
   }
 
-  .oak-internal-select-modern--popup ul {
+  .oak-internal-select-modern__popup ul {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -38,24 +37,15 @@ export const oakInternalSelectModernStyles = css`
     overflow-x: hidden;
   }
 
-  .oak-internal-select-modern--popup ul.activated {
+  .oak-internal-select-modern__popup ul.activated {
     // visibility: visible;
     // opacity: 1;
   }
 
-  .oak-internal-select-modern--popup ul li {
+  .oak-internal-select-modern__popup ul li {
     padding: 7px 16px;
-    background-color: var(--formelement-color-bg-active);
-    color: var(--formelement-color-fg-active);
+    // background-color: var(--formelement-color-bg-active);
+    // color: var(--formelement-color-fg-active);
     cursor: pointer;
-  }
-
-  .oak-internal-select-modern--popup ul li:not(:last-child) {
-    border-bottom: 1px solid var(--global-border-color);
-  }
-  .oak-internal-select-modern--popup ul li:hover,
-  .oak-internal-select-modern--popup ul li.option-active {
-    background-color: var(--formelement-color-bg-highlight);
-    color: var(--formelement-color-fg-highlight);
   }
 `;

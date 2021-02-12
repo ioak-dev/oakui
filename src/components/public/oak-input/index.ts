@@ -67,6 +67,9 @@ export class OakInput extends LitElement {
   @property({type: String})
   shape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' = 'rectangle';
 
+  @property({type: String})
+  fill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
+
   /**
    * Validators
    *
@@ -253,7 +256,10 @@ export class OakInput extends LitElement {
         return {
           [`${customElementName}-${baseClass}`]: true,
           [`${customElementName}--size-${this.size}`]: true,
+          [`${customElementName}--fill-${this.fill}`]: true,
           [`oak-shape-${this.shape}`]: true,
+          [`oak-fill-${this.fill}`]: true,
+          [`oak-fill-${this.fill}--hover`]: true,
           'validation-failure': this._errors.length > 0,
         };
       default:

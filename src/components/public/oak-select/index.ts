@@ -57,6 +57,9 @@ export class OakSelect extends LitElement {
   @property({type: String})
   shape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' = 'rectangle';
 
+  @property({type: String})
+  fill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
+
   constructor() {
     super();
   }
@@ -106,6 +109,7 @@ export class OakSelect extends LitElement {
             .optionsAsKeyValue=${this.optionsAsKeyValue}
             .size=${this.size}
             .shape=${this.shape}
+            .fill=${this.fill}
           ></oak-internal-select-native>`
         : html`<oak-internal-select-modern
             .formGroupName=${this.formGroupName}
@@ -120,6 +124,7 @@ export class OakSelect extends LitElement {
             .optionsAsKeyValue=${this.optionsAsKeyValue}
             .size=${this.size}
             .shape=${this.shape}
+            .fill=${this.fill}
           ></oak-internal-select-modern>`}
     `;
   }

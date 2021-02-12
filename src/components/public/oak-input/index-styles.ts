@@ -7,7 +7,6 @@ export const oakInputStyles = css`
   input {
     width: 100%;
     border: 1px solid var(--global-border-color);
-    background-color: var(--formelement-color-bg);
     color: var(--formelement-color-fg);
     box-sizing: border-box;
     padding: 0 5px;
@@ -17,7 +16,6 @@ export const oakInputStyles = css`
   input:focus {
     box-shadow: var(--formelement-outline-box-shadow);
     border-color: var(--formelement-outline-border-color);
-    background-color: var(--formelement-color-bg-active);
     color: var(--formelement-color-fg-active);
   }
   input.validation-failure {

@@ -71,6 +71,9 @@ export class OakSelect extends LitElement {
   @property({type: String})
   shape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' = 'rectangle';
 
+  @property({type: String})
+  fill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
+
   /**
    * Validators
    *
@@ -294,6 +297,7 @@ export class OakSelect extends LitElement {
             .value=${this.value}
             .size=${this.size}
             .shape=${this.shape}
+            .fill=${this.fill}
           ></oak-internal-popup-input-action>
         </div>
         <div class=${classMap(this.getClassMap('popup'))}>

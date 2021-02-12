@@ -10,7 +10,7 @@ export const oakInternalPopupStyles = css`
     font-size: 14px;
     border-radius: 4px;
     // padding: 6px 0;
-    background-color: var(--formelement-color-bg-active);
+    // background-color: var(--formelement-color-bg-active);
     box-shadow: var(--oak-bs-elevation10);
     position: absolute;
     z-index: 10;

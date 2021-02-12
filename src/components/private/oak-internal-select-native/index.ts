@@ -62,6 +62,9 @@ export class OakInternalSelectNative extends LitElement {
   @property({type: String})
   shape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' = 'rectangle';
 
+  @property({type: String})
+  fill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
+
   /**
    * Validators
    *
@@ -122,6 +125,8 @@ export class OakInternalSelectNative extends LitElement {
           [`${customElementName}--${baseClass}`]: true,
           'validation-failure': this._errors.length > 0,
           [`oak-shape-${this.shape}`]: true,
+          [`oak-fill-${this.fill}`]: true,
+          [`oak-fill-${this.fill}--hover`]: true,
           [`${customElementName}--size-${this.size}`]: true,
         };
       default:

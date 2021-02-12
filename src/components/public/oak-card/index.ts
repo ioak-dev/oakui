@@ -50,7 +50,7 @@ export class OakCard extends LitElement {
   variant?: 'outlined' | null = null;
 
   @property({type: String})
-  fillType?: 'fill' | 'none' = 'fill';
+  fill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
 
   @property({type: Number})
   paddingHorizontal?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 = 0;
@@ -79,7 +79,7 @@ export class OakCard extends LitElement {
           [`oak-padding-horizontal${this.paddingHorizontal}`]: true,
           [`oak-padding-vertical${this.paddingVertical}`]: true,
           'oak-rounded': this.rounded,
-          'oak-container-nofill': this.fillType === 'none',
+          [`oak-fill-${this.fill}`]: true,
         };
         if (this.variant) {
           data[`oak-${this.variant}`] = true;

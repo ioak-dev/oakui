@@ -31,6 +31,12 @@ export class OakInternalTableDatagrid extends LitElement {
   @property({type: Boolean})
   sortAsc = true;
 
+  @property({type: String})
+  fill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
+
+  @property({type: Boolean})
+  dense = false;
+
   constructor() {
     super();
   }
@@ -58,6 +64,8 @@ export class OakInternalTableDatagrid extends LitElement {
       case 'base':
         return {
           [customElementName]: true,
+          [`${customElementName}--dense`]: this.dense,
+          [`${customElementName}--fill-${this.fill}`]: true,
         };
       default:
         return {};

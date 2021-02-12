@@ -38,6 +38,48 @@ export class OakTable extends LitElement {
 
   @property({type: Boolean})
   serverSidePagination? = false;
+  @property({type: Number})
+  elevation?:
+    | 0
+    | 1
+    | 2
+    | 3
+    | 4
+    | 5
+    | 6
+    | 7
+    | 8
+    | 9
+    | 10
+    | 11
+    | 12
+    | 13
+    | 14
+    | 15
+    | 16
+    | 17
+    | 18
+    | 19
+    | 20
+    | 21
+    | 22
+    | 23
+    | 24 = 1;
+
+  @property({type: Boolean})
+  rounded?: boolean = false;
+
+  @property({type: String})
+  variant?: 'outlined' | null = null;
+
+  @property({type: String})
+  fill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
+
+  @property({type: String})
+  navPlacement?: 'top' | 'bottom' | 'none' = 'top';
+
+  @property({type: Boolean})
+  dense = false;
 
   @property({type: Object})
   private _paginationPref = {
@@ -73,8 +115,15 @@ export class OakTable extends LitElement {
     return true;
   }
 
+  private _onSearchChange = (event: any) => {
+    this._paginationPref = {
+      ...this._paginationPref,
+      searchText: event.detail.searchText,
+    };
+    this._paginate();
+  };
+
   private _onSortChange = (event: any) => {
-    console.log('***sort', event);
     const fieldName = event.detail.name;
     let _sortBy = '';
     let _sortAsc = true;
@@ -121,13 +170,25 @@ export class OakTable extends LitElement {
     return this.serverSidePagination ? this.totalRows : this.data.length;
   }
 
-  private getClassMap(baseClass: 'base'): any {
+  private getClassMap(baseClass: 'base' | 'datagrid'): any {
     switch (baseClass) {
       case 'base':
         const data = {
           [customElementName]: true,
+          [`oak-bs-elevation${this.elevation}`]: true,
+          'oak-rounded': this.rounded,
+          [`oak-fill-${this.fill}`]: true,
         };
+        if (this.variant) {
+          data[`oak-${this.variant}`] = true;
+        }
         return data;
+      case 'datagrid':
+        return {
+          [`${customElementName}__${baseClass}`]: true,
+          [`${customElementName}__${baseClass}--nav-${this.navPlacement}`]: true,
+          [`${customElementName}__${baseClass}--fill-${this.fill}`]: true,
+        };
       default:
         return {};
     }
@@ -140,20 +201,36 @@ export class OakTable extends LitElement {
   render() {
     return html`
       <div class=${classMap(this.getClassMap('base'))} id=${this.elementId}>
-        <oak-internal-table-paginate
-          @table-change-page=${this._onPageChange}
-          .header=${this.header}
-          .itemCount=${this._getTotalRows()}
-        >
-        </oak-internal-table-paginate>
-        <oak-internal-table-datagrid
-          .header=${this.header}
-          .data=${this._getDataGrid()}
-          .sortAsc=${this._paginationPref.sortAsc}
-          .sortBy=${this._paginationPref.sortBy}
-          @table-sort=${this._onSortChange}
-        >
-        </oak-internal-table-datagrid>
+        ${this.navPlacement === 'top'
+          ? html`<oak-internal-table-paginate
+              @table-change-page=${this._onPageChange}
+              @table-search=${this._onSearchChange}
+              .header=${this.header}
+              .itemCount=${this._getTotalRows()}
+            >
+            </oak-internal-table-paginate>`
+          : html``}
+        <div class=${classMap(this.getClassMap('datagrid'))}>
+          <oak-internal-table-datagrid
+            .header=${this.header}
+            .data=${this._getDataGrid()}
+            ?sortAsc=${this._paginationPref.sortAsc}
+            .sortBy=${this._paginationPref.sortBy}
+            ?dense=${this.dense}
+            .fill=${this.fill}
+            @table-sort=${this._onSortChange}
+          >
+          </oak-internal-table-datagrid>
+        </div>
+        ${this.navPlacement === 'bottom'
+          ? html`<oak-internal-table-paginate
+              @table-change-page=${this._onPageChange}
+              @table-search=${this._onSearchChange}
+              .header=${this.header}
+              .itemCount=${this._getTotalRows()}
+            >
+            </oak-internal-table-paginate>`
+          : html``}
       </div>
     `;
   }

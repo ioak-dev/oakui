@@ -9,7 +9,6 @@ export const oakCardStyles = css`
     overflow-x: auto;
     display: grid;
     grid-auto-flow: row;
-    background-color: var(--color-surface);
   }
   @media (max-width: 767px) {
     .oak-card {

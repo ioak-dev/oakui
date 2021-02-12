@@ -54,6 +54,9 @@ export class OakInternalPopupInputAction extends LitElement {
   @property({type: String})
   shape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' = 'rectangle';
 
+  @property({type: String})
+  fill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
+
   /**
    * Validators
    *
@@ -92,6 +95,8 @@ export class OakInternalPopupInputAction extends LitElement {
           [customElementName]: true,
           [`${customElementName}--size-${this.size}`]: true,
           [`oak-shape-${this.shape}`]: true,
+          [`oak-fill-${this.fill}`]: true,
+          [`oak-fill-${this.fill}--hover`]: true,
         };
       case 'value':
       case 'placeholder':
