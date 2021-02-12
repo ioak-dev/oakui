@@ -24,7 +24,7 @@ const customElementName = 'oak-internal-popup';
 export class OakSelect extends LitElement {
   private elementId = `${customElementName}-${elementIdCounter++}`;
   private actionElementId = `${this.elementId}-action`;
-  private popupContainerElementId = `${this.elementId}-popup-container`;
+  private popupElementId = `${this.elementId}-popup`;
 
   @property({type: Boolean})
   isActivated = false;
@@ -144,7 +144,7 @@ export class OakSelect extends LitElement {
       });
 
       if (
-        ![this.actionElementId, this.popupContainerElementId].some(
+        ![this.actionElementId, this.popupElementId].some(
           (item) => idList.indexOf(item) !== -1
         )
       ) {
@@ -189,26 +189,22 @@ export class OakSelect extends LitElement {
 
   private adjustPositioning = () => {
     if (this.isActivated) {
-      const popupContainerElRef = this.shadowRoot?.getElementById(
-        this.popupContainerElementId
-      );
+      const popupElRef = this.shadowRoot?.getElementById(this.popupElementId);
       const actionElRef = this.shadowRoot?.getElementById(this.actionElementId);
-      if (actionElRef && popupContainerElRef) {
-        popupContainerElRef.style.left = `${
-          actionElRef.getBoundingClientRect().left
-        }px`;
+      if (actionElRef && popupElRef) {
+        popupElRef.style.left = `${actionElRef.getBoundingClientRect().left}px`;
         if (actionElRef.getBoundingClientRect().top > window.innerHeight / 2) {
-          popupContainerElRef.style.bottom = `${
+          popupElRef.style.bottom = `${
             window.innerHeight - actionElRef.getBoundingClientRect().top + 8
           }px`;
-          popupContainerElRef.style.top = 'auto';
+          popupElRef.style.top = 'auto';
         } else {
-          popupContainerElRef.style.top = `${
+          popupElRef.style.top = `${
             actionElRef.getBoundingClientRect().bottom + 8
           }px`;
-          popupContainerElRef.style.bottom = 'auto';
+          popupElRef.style.bottom = 'auto';
         }
-        popupContainerElRef.style.width = `${
+        popupElRef.style.width = `${
           actionElRef.getBoundingClientRect().width
         }px`;
       }
@@ -216,13 +212,7 @@ export class OakSelect extends LitElement {
   };
 
   private getClassMap = (
-    baseClass:
-      | 'base'
-      | 'action'
-      | 'value'
-      | 'placeholder'
-      | 'popup-container'
-      | 'popup'
+    baseClass: 'base' | 'action' | 'value' | 'placeholder' | 'popup'
   ): any => {
     switch (baseClass) {
       case 'base':
@@ -244,10 +234,7 @@ export class OakSelect extends LitElement {
       case 'popup':
         return {
           [`${customElementName}--${baseClass}`]: true,
-        };
-      case 'popup-container':
-        return {
-          [`${customElementName}--${baseClass}`]: true,
+          [`oak-fill-${this.fill}`]: true,
           activated: this.isActivated,
         };
       default:
@@ -300,13 +287,11 @@ export class OakSelect extends LitElement {
             .fill=${this.fill}
           ></oak-internal-popup-input-action>
         </div>
-        <div class=${classMap(this.getClassMap('popup'))}>
-          <div
-            class=${classMap(this.getClassMap('popup-container'))}
-            id=${this.popupContainerElementId}
-          >
-            <slot name="popup"></slot>
-          </div>
+        <div
+          class=${classMap(this.getClassMap('popup'))}
+          id=${this.popupElementId}
+        >
+          <slot name="popup"></slot>
         </div>
       </div>
     `;

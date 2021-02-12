@@ -44,8 +44,6 @@ export const oakInternalSelectModernStyles = css`
 
   .oak-internal-select-modern__popup ul li {
     padding: 7px 16px;
-    // background-color: var(--formelement-color-bg-active);
-    // color: var(--formelement-color-fg-active);
     cursor: pointer;
   }
 `;

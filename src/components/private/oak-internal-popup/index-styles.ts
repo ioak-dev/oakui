@@ -4,9 +4,7 @@ export const oakInternalPopupStyles = css`
   .oak-internal-popup {
     position: relative;
   }
-  .oak-internal-popup
-    .oak-internal-popup--popup
-    .oak-internal-popup--popup-container {
+  .oak-internal-popup .oak-internal-popup--popup {
     font-size: 14px;
     border-radius: 4px;
     // padding: 6px 0;
@@ -26,9 +24,7 @@ export const oakInternalPopupStyles = css`
     transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
       visibility 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   }
-  .oak-internal-popup
-    .oak-internal-popup--popup
-    .oak-internal-popup--popup-container.activated {
+  .oak-internal-popup .oak-internal-popup--popup.activated {
     visibility: visible;
     opacity: 1;
     transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
