@@ -22,7 +22,7 @@ export class OakSelect extends LitElement {
   formGroupName?: string;
 
   @property({type: String})
-  label?: string | null = null;
+  label?: string | null | undefined = null;
 
   @property()
   value?: string | number | null;
@@ -59,6 +59,12 @@ export class OakSelect extends LitElement {
 
   @property({type: String})
   fill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
+
+  /**
+   * 	If true, the text will have a bottom margin.
+   */
+  @property({type: Boolean})
+  gutterBottom?: boolean = false;
 
   constructor() {
     super();
@@ -110,6 +116,7 @@ export class OakSelect extends LitElement {
             .size=${this.size}
             .shape=${this.shape}
             .fill=${this.fill}
+            ?gutterBottom=${this.gutterBottom}
           ></oak-internal-select-native>`
         : html`<oak-internal-select-modern
             .formGroupName=${this.formGroupName}
@@ -125,6 +132,7 @@ export class OakSelect extends LitElement {
             .size=${this.size}
             .shape=${this.shape}
             .fill=${this.fill}
+            ?gutterBottom=${this.gutterBottom}
           ></oak-internal-select-modern>`}
     `;
   }

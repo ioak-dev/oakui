@@ -38,7 +38,7 @@ export class OakInput extends LitElement {
   formGroupName?: string;
 
   @property({type: String})
-  label?: string | null;
+  label?: string | null | undefined = null;
 
   @property()
   value?: string | number | null;
@@ -69,6 +69,12 @@ export class OakInput extends LitElement {
 
   @property({type: String})
   fill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
+
+  /**
+   * 	If true, the text will have a bottom margin.
+   */
+  @property({type: Boolean})
+  gutterBottom?: boolean = false;
 
   /**
    * Validators
@@ -251,6 +257,7 @@ export class OakInput extends LitElement {
       case 'base':
         return {
           [customElementName]: true,
+          'oak-gutter-bottom': this.gutterBottom,
         };
       case 'input':
         return {
@@ -277,7 +284,7 @@ export class OakInput extends LitElement {
     return html`
       <div class=${classMap(this.getClassMap('base'))} id=${this.elementId}>
         <oak-internal-label
-          label=${this.label}
+          .label=${this.label}
           elementId=${labelId}
           elementFor=${this.elementId}
         ></oak-internal-label>

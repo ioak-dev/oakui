@@ -90,7 +90,7 @@ export class OakTypography extends LitElement {
           [`oak-typography-display-${this.display}`]: true,
           'oak-typography-paragraph': this.paragraph,
           'oak-typography-noWrap': this.noWrap,
-          'oak-typography-gutter-bottom': this.gutterBottom,
+          'oak-gutter-bottom': this.gutterBottom,
           [`oak-color-fg-${this.color}`]: true,
         };
       default:

@@ -12,7 +12,7 @@ const customElementName = 'oak-internal-label';
 @customElement(customElementName)
 export class OakInternalLabel extends LitElement {
   @property({type: String})
-  label?: string | null = null;
+  label?: string | null | undefined = null;
 
   @property({type: String})
   elementFor = '';
@@ -28,8 +28,10 @@ export class OakInternalLabel extends LitElement {
   }
 
   render() {
-    return html` <label for=${this.elementFor} id=${this.elementId}
-      >${this.label}</label
-    >`;
+    return html` ${this.label
+      ? html`<label for=${this.elementFor} id=${this.elementId}
+          >${this.label}</label
+        >`
+      : html``}`;
   }
 }

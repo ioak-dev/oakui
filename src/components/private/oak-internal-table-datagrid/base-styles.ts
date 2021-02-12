@@ -5,21 +5,15 @@ export const oakInternalTableDatagridBaseStyles = css`
     overflow-x: auto;
     overflow-y: visible;
   }
-  .oak-internal-table-datagrid table thead tr,
-  .oak-internal-table-datagrid table tbody tr {
-    height: 54px;
-  }
   .oak-internal-table-datagrid table thead tr th,
   .oak-internal-table-datagrid table tbody tr td {
-    padding: 0 16px;
+    padding: 12px 10px;
   }
-  .oak-internal-table-datagrid--dense table thead tr,
-  .oak-internal-table-datagrid--dense table tbody tr {
-    height: auto;
+  .oak-internal-table-datagrid--dense table thead tr th {
+    padding: 10px 6px;
   }
-  .oak-internal-table-datagrid--dense table thead tr th,
   .oak-internal-table-datagrid--dense table tbody tr td {
-    padding: 6px 24px 6px 16px;
+    padding: 4px 6px;
   }
   table {
     border-collapse: collapse;

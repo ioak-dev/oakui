@@ -34,6 +34,12 @@ export class OakInternalTableDatagrid extends LitElement {
   @property({type: String})
   fill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
 
+  @property({type: String})
+  formElementSize?: 'xsmall' | 'small' | 'medium' | 'large' = 'small';
+
+  @property({type: String})
+  formElementShape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' = 'rectangle';
+
   @property({type: Boolean})
   dense = false;
 
@@ -104,7 +110,13 @@ export class OakInternalTableDatagrid extends LitElement {
                 ${this.header.map(
                   (header) =>
                     html`<td>
-                      <oak-internal-table-cell .header=${header} .row=${row} />
+                      <oak-internal-table-cell
+                        .header=${header}
+                        .row=${row}
+                        .fill=${this.fill}
+                        .formElementSize=${this.formElementSize}
+                        .formElementShape=${this.formElementShape}
+                      />
                     </td>`
                 )}
               </tr>`

@@ -24,16 +24,18 @@ export class OakInternalFormError extends LitElement {
 
   render() {
     return html`
-      <div class="formelement-error oak-rounded">
-        ${this.errors.map(
-          (error) =>
-            html`
-              <div>
-                ${getError(error)}
-              </div>
-            `
-        )}
-      </div>
+      ${this.errors && this.errors.length > 0
+        ? html`<div class="formelement-error oak-rounded">
+            ${this.errors.map(
+              (error) =>
+                html`
+                  <div>
+                    ${getError(error)}
+                  </div>
+                `
+            )}
+          </div>`
+        : html``}
     `;
   }
 }

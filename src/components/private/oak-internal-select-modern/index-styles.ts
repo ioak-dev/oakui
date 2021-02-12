@@ -1,10 +1,6 @@
 import {css} from 'lit-element';
 
 export const oakInternalSelectModernStyles = css`
-  .oak-internal-select-modern__margin {
-    margin-bottom: var(--oak-padding-vertical4);
-  }
-
   .oak-internal-select-modern__search-filter {
     padding: 8px;
   }

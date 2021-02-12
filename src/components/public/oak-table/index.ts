@@ -78,6 +78,12 @@ export class OakTable extends LitElement {
   @property({type: String})
   navPlacement?: 'top' | 'bottom' | 'none' = 'top';
 
+  @property({type: String})
+  formElementSize?: 'xsmall' | 'small' | 'medium' | 'large' = 'small';
+
+  @property({type: String})
+  formElementShape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' = 'rectangle';
+
   @property({type: Boolean})
   dense = false;
 
@@ -207,6 +213,9 @@ export class OakTable extends LitElement {
               @table-search=${this._onSearchChange}
               .header=${this.header}
               .itemCount=${this._getTotalRows()}
+              .fill=${this.fill}
+              .formElementSize=${this.formElementSize}
+              .formElementShape=${this.formElementShape}
             >
             </oak-internal-table-paginate>`
           : html``}
@@ -218,6 +227,8 @@ export class OakTable extends LitElement {
             .sortBy=${this._paginationPref.sortBy}
             ?dense=${this.dense}
             .fill=${this.fill}
+            .formElementSize=${this.formElementSize}
+            .formElementShape=${this.formElementShape}
             @table-sort=${this._onSortChange}
           >
           </oak-internal-table-datagrid>
@@ -228,6 +239,9 @@ export class OakTable extends LitElement {
               @table-search=${this._onSearchChange}
               .header=${this.header}
               .itemCount=${this._getTotalRows()}
+              .fill=${this.fill}
+              .formElementSize=${this.formElementSize}
+              .formElementShape=${this.formElementShape}
             >
             </oak-internal-table-paginate>`
           : html``}

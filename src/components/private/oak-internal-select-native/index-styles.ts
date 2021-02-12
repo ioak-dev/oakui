@@ -1,9 +1,6 @@
 import {css} from 'lit-element';
 
 export const oakInternalSelectNativeStyles = css`
-  .oak-internal-select-native {
-    margin-bottom: var(--oak-padding-vertical4);
-  }
   select {
     width: 100%;
     font-size: 14px;

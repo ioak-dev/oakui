@@ -24,6 +24,15 @@ export class OakCard extends LitElement {
   @property({type: String})
   label = 'Rows per page';
 
+  @property({type: String})
+  formElementSize?: 'xsmall' | 'small' | 'medium' | 'large' = 'small';
+
+  @property({type: String})
+  formElementShape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' = 'rectangle';
+
+  @property({type: String})
+  formElementFill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
+
   @property({type: Number})
   private _rowsPerPage = 5;
 
@@ -131,7 +140,9 @@ export class OakCard extends LitElement {
               name="rowsPerPage"
               @input-change=${this._onRowsPerPageChange}
               .options=${this._rowsPerPageVariants}
-              size="xsmall"
+              .fill=${this.formElementFill}
+              .size=${this.formElementSize}
+              .shape=${this.formElementShape}
             ></oak-select>
           </div>
           <div class=${classMap(this.getClassMap('page-number'))}>
@@ -148,7 +159,7 @@ export class OakCard extends LitElement {
                 theme="info"
                 variant="block"
                 shape="icon"
-                size="xsmall"
+                .size=${this.formElementSize}
                 semitransparent
               >
                 ${'<'}
@@ -160,7 +171,7 @@ export class OakCard extends LitElement {
                 theme="info"
                 variant="block"
                 shape="icon"
-                size="xsmall"
+                .size=${this.formElementSize}
                 semitransparent
               >
                 ${'>'}

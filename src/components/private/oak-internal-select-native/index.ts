@@ -30,7 +30,7 @@ export class OakInternalSelectNative extends LitElement {
   formGroupName?: string;
 
   @property({type: String})
-  label?: string | null;
+  label?: string | null | undefined = null;
 
   @property()
   value?: string | number | null;
@@ -64,6 +64,12 @@ export class OakInternalSelectNative extends LitElement {
 
   @property({type: String})
   fill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
+
+  /**
+   * 	If true, the text will have a bottom margin.
+   */
+  @property({type: Boolean})
+  gutterBottom?: boolean = false;
 
   /**
    * Validators
@@ -119,6 +125,7 @@ export class OakInternalSelectNative extends LitElement {
       case 'base':
         return {
           [customElementName]: true,
+          'oak-gutter-bottom': this.gutterBottom,
         };
       case 'select':
         return {
@@ -174,7 +181,7 @@ export class OakInternalSelectNative extends LitElement {
     return html`
       <div class=${classMap(this.getClassMap('base'))} id=${this.elementId}>
         <oak-internal-label
-          label=${this.label}
+          .label=${this.label}
           elementId=${labelId}
           elementFor=${this.elementId}
         ></oak-internal-label>

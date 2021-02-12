@@ -1,9 +1,6 @@
 import {css} from 'lit-element';
 
 export const oakInputStyles = css`
-  .oak-input {
-    margin-bottom: var(--oak-padding-vertical4);
-  }
   input {
     width: 100%;
     border: 1px solid var(--global-border-color);

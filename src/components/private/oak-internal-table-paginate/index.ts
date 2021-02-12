@@ -36,6 +36,15 @@ export class OakInternalTablePaginate extends LitElement {
   @property({type: Object})
   row: any;
 
+  @property({type: String})
+  fill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
+
+  @property({type: String})
+  formElementSize?: 'xsmall' | 'small' | 'medium' | 'large' = 'small';
+
+  @property({type: String})
+  formElementShape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' = 'rectangle';
+
   @property({type: Boolean})
   private _showColumnList = false;
 
@@ -126,6 +135,9 @@ export class OakInternalTablePaginate extends LitElement {
         <oak-paginate
           @paginate-change-page=${this._onChangePage}
           .itemCount=${this.itemCount}
+          .formElementFill=${this.fill}
+          .formElementSize=${this.formElementSize}
+          .formElementShape=${this.formElementShape}
         >
           <div class=${classMap(this.getClassMap('filter-container'))}>
             <oak-button
@@ -133,7 +145,7 @@ export class OakInternalTablePaginate extends LitElement {
               theme="default"
               variant="appear"
               shape="icon"
-              size="xsmall"
+              .size=${this.formElementSize}
             >
               filter
             </oak-button>
@@ -147,14 +159,16 @@ export class OakInternalTablePaginate extends LitElement {
                   name="_searchText"
                   @input-input=${this._handleSearchTextChange}
                   placeholder="Search"
-                  size="xsmall"
+                  .size=${this.formElementSize}
+                  .shape=${this.formElementShape}
+                  .fill=${this.fill}
                   formGroupName=${`${this.elementId}-search-form`}
                 ></oak-input>
                 <oak-button
                   theme=${this._searchText ? 'primary' : 'default'}
                   variant="appear"
-                  size="xsmall"
                   shape="icon"
+                  .size=${this.formElementSize}
                   type="submit"
                   formGroupName=${`${this.elementId}-search-form`}
                 >
@@ -164,8 +178,8 @@ export class OakInternalTablePaginate extends LitElement {
                   theme="default"
                   variant=${this._searchText ? 'appear' : 'disabled'}
                   @button-click=${this._handleSearchTextReset}
-                  size="xsmall"
                   shape="icon"
+                  .size=${this.formElementSize}
                 >
                   close
                 </oak-button>

@@ -103,7 +103,4 @@ export const oakTypographyStyles = css`
   .oak-typography-display-block {
     display: block;
   }
-  .oak-typography-gutter-bottom {
-    margin-bottom: var(--oak-typography-gutter-margin-bottom);
-  }
 `;

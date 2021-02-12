@@ -90,4 +90,7 @@ export const paddingStyles = css`
     padding-top: var(--oak-padding-vertical10);
     padding-bottom: var(--oak-padding-vertical10);
   }
+  .oak-gutter-bottom {
+    margin-bottom: var(--oak-gutter-bottom);
+  }
 `;

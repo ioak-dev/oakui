@@ -4,6 +4,8 @@ export const oakInternalTablePaginateStyles = css`
   .oak-internal-table-paginate {
     padding: 0 16px;
     min-height: 54px;
+    display: grid;
+    align-content: center;
   }
   .oak-internal-table-paginate__filter-container {
     display: grid;
