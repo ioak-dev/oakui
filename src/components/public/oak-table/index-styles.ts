@@ -1,6 +1,14 @@
 import {css} from 'lit-element';
 
 export const oakTableStyles = css`
+  .oak-table__paginate {
+    padding: 12px 10px;
+  }
+
+  .oak-table__paginate--dense {
+    padding: 10px 6px;
+  }
+
   .oak-table__datagrid--nav-top.oak-table__datagrid--fill-none {
     border-top: 1px solid var(--color-global-darker);
   }

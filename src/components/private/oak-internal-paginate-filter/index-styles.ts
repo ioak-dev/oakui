@@ -1,13 +1,13 @@
 import {css} from 'lit-element';
 
-export const oakInternalTablePaginateStyles = css`
-  .oak-internal-table-paginate {
+export const oakInternalPaginateFilterStyles = css`
+  .oak-internal-paginate-filter {
     padding: 0 16px;
     min-height: 54px;
     display: grid;
     align-content: center;
   }
-  .oak-internal-table-paginate__filter-container {
+  .oak-internal-paginate-filter__filter-container {
     display: grid;
     // grid-auto-flow: column;
     grid-template-columns: auto 1fr;
@@ -18,7 +18,7 @@ export const oakInternalTablePaginateStyles = css`
       display: none;
     }
   }
-  .oak-internal-table-paginate__search-form {
+  .oak-internal-paginate-filter__search-form {
     display: grid;
     grid-auto-flow: column;
     column-gap: 6px;

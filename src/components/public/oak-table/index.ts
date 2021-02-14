@@ -1,14 +1,13 @@
 import {LitElement, html, customElement, property} from 'lit-element';
 import {classMap} from 'lit-html/directives/class-map';
 import {globalStyles} from '../../../global-styles';
-import {TableHeaderType} from '../../../types/TableHeaderType';
 import {TABLE_PAGINATE_EVENT} from '../../../types/TableEventTypes';
 
 import {oakTableStyles} from './index-styles';
 
-import '../../private/oak-internal-table-datagrid';
-import '../../private/oak-internal-table-paginate';
-import {paginate} from './service';
+import '../oak-paginate';
+import {TableHeader} from '../../../types/TableHeaderType';
+import {PaginatePref} from '../../../types/PaginatePrefType';
 
 let elementIdCounter = 0;
 
@@ -25,7 +24,7 @@ export class OakTable extends LitElement {
   id = `${this.elementId}-id`;
 
   @property({type: Array})
-  header: TableHeaderType[] = [];
+  header: TableHeader[] = [];
 
   @property({type: Array})
   data: any[] = [];
@@ -36,8 +35,6 @@ export class OakTable extends LitElement {
   @property({type: Number})
   totalRows?: number = 0;
 
-  @property({type: Boolean})
-  serverSidePagination? = false;
   @property({type: Number})
   elevation?:
     | 0
@@ -88,75 +85,28 @@ export class OakTable extends LitElement {
   dense = false;
 
   @property({type: Object})
-  private _paginationPref = {
+  paginatePref: PaginatePref = {
     pageNo: 1,
-    rowsPerPage: 6,
-    sortBy: '',
-    sortAsc: true,
+    rowsPerPage: 5,
     searchText: '',
   };
-
-  @property({type: Array})
-  private _view = this.data;
 
   constructor() {
     super();
   }
 
   private _onPageChange = (event: any) => {
-    this._paginationPref = {
-      ...this._paginationPref,
-      rowsPerPage: event.detail.rowsPerPage,
-      pageNo: event.detail.pageNo,
-    };
-    this._paginate();
+    this._propagateEvent(TABLE_PAGINATE_EVENT, event.detail);
   };
 
   shouldUpdate(_changedProperties: Map<string | number | symbol, unknown>) {
-    _changedProperties.forEach((_, propName) => {
-      if (propName === 'data') {
-        this._paginate();
-      }
-    });
+    // _changedProperties.forEach((_, propName) => {
+    //   if (propName === 'data') {
+    //     this._paginate();
+    //   }
+    // });
     return true;
   }
-
-  private _onSearchChange = (event: any) => {
-    this._paginationPref = {
-      ...this._paginationPref,
-      searchText: event.detail.searchText,
-    };
-    this._paginate();
-  };
-
-  private _onSortChange = (event: any) => {
-    const fieldName = event.detail.name;
-    let _sortBy = '';
-    let _sortAsc = true;
-    if (this._paginationPref.sortBy === fieldName) {
-      if (this._paginationPref.sortAsc) {
-        _sortBy = this._paginationPref.sortBy;
-        _sortAsc = false;
-      }
-    } else {
-      _sortBy = fieldName;
-      _sortAsc = true;
-    }
-    this._paginationPref = {
-      ...this._paginationPref,
-      sortBy: _sortBy,
-      sortAsc: _sortAsc,
-    };
-    this._paginate();
-  };
-
-  private _paginate = () => {
-    if (this.serverSidePagination) {
-      this._propagateEvent(TABLE_PAGINATE_EVENT, this._paginationPref);
-    } else {
-      this._view = paginate(this.data, this.header, this._paginationPref);
-    }
-  };
 
   private _propagateEvent = (eventName: string, detail?: any) => {
     this.dispatchEvent(
@@ -168,15 +118,22 @@ export class OakTable extends LitElement {
     );
   };
 
-  private _getDataGrid() {
-    return this.serverSidePagination ? this.data : this._view;
+  private _renderPaginateSection() {
+    return html`<div class=${classMap(this.getClassMap('paginate'))}>
+      <oak-paginate
+        @paginate-change=${this._onPageChange}
+        .header=${this.header}
+        .totalRows=${this.totalRows}
+        .fill=${this.fill}
+        .formElementSize=${this.formElementSize}
+        .formElementShape=${this.formElementShape}
+        .paginatePref=${this.paginatePref}
+      >
+      </oak-paginate>
+    </div>`;
   }
 
-  private _getTotalRows() {
-    return this.serverSidePagination ? this.totalRows : this.data.length;
-  }
-
-  private getClassMap(baseClass: 'base' | 'datagrid'): any {
+  private getClassMap(baseClass: 'base' | 'datagrid' | 'paginate'): any {
     switch (baseClass) {
       case 'base':
         const data = {
@@ -189,6 +146,11 @@ export class OakTable extends LitElement {
           data[`oak-${this.variant}`] = true;
         }
         return data;
+      case 'paginate':
+        return {
+          [`${customElementName}__${baseClass}`]: true,
+          [`${customElementName}__${baseClass}--dense`]: this.dense,
+        };
       case 'datagrid':
         return {
           [`${customElementName}__${baseClass}`]: true,
@@ -207,43 +169,12 @@ export class OakTable extends LitElement {
   render() {
     return html`
       <div class=${classMap(this.getClassMap('base'))} id=${this.elementId}>
-        ${this.navPlacement === 'top'
-          ? html`<oak-internal-table-paginate
-              @table-change-page=${this._onPageChange}
-              @table-search=${this._onSearchChange}
-              .header=${this.header}
-              .itemCount=${this._getTotalRows()}
-              .fill=${this.fill}
-              .formElementSize=${this.formElementSize}
-              .formElementShape=${this.formElementShape}
-            >
-            </oak-internal-table-paginate>`
-          : html``}
+        ${this.navPlacement === 'top' ? this._renderPaginateSection() : html``}
         <div class=${classMap(this.getClassMap('datagrid'))}>
-          <oak-internal-table-datagrid
-            .header=${this.header}
-            .data=${this._getDataGrid()}
-            ?sortAsc=${this._paginationPref.sortAsc}
-            .sortBy=${this._paginationPref.sortBy}
-            ?dense=${this.dense}
-            .fill=${this.fill}
-            .formElementSize=${this.formElementSize}
-            .formElementShape=${this.formElementShape}
-            @table-sort=${this._onSortChange}
-          >
-          </oak-internal-table-datagrid>
+          <slot></slot>
         </div>
         ${this.navPlacement === 'bottom'
-          ? html`<oak-internal-table-paginate
-              @table-change-page=${this._onPageChange}
-              @table-search=${this._onSearchChange}
-              .header=${this.header}
-              .itemCount=${this._getTotalRows()}
-              .fill=${this.fill}
-              .formElementSize=${this.formElementSize}
-              .formElementShape=${this.formElementShape}
-            >
-            </oak-internal-table-paginate>`
+          ? this._renderPaginateSection()
           : html``}
       </div>
     `;

@@ -1,11 +1,13 @@
 import {LitElement, html, customElement, property} from 'lit-element';
 import {classMap} from 'lit-html/directives/class-map';
 import {globalStyles} from '../../../global-styles';
-import {PAGINATE_CHANGE_PAGE_EVENT} from '../../../types/PaginateEventTypes';
+import {PAGINATE_CHANGE_EVENT} from '../../../types/PaginateEventTypes';
 
 import {oakPaginateStyles} from './index-styles';
 
 import '../oak-select';
+import '../../private/oak-internal-paginate-filter';
+import {PaginatePref} from '../../../types/PaginatePrefType';
 
 let elementIdCounter = 0;
 
@@ -15,11 +17,11 @@ let elementIdCounter = 0;
  */
 const customElementName = 'oak-paginate';
 @customElement(customElementName)
-export class OakCard extends LitElement {
+export class OakPaginate extends LitElement {
   private elementId = `${customElementName}-${elementIdCounter++}`;
 
   @property({type: Number})
-  itemCount = 0;
+  totalRows = 0;
 
   @property({type: String})
   label = 'Rows per page';
@@ -33,43 +35,61 @@ export class OakCard extends LitElement {
   @property({type: String})
   formElementFill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
 
-  @property({type: Number})
-  private _rowsPerPage = 5;
-
-  @property({type: Number})
-  private _pageNo = 1;
-
   @property({type: Array})
   private _rowsPerPageVariants = ['5', '10', '20', '50'];
+
+  @property({type: Object})
+  paginatePref: PaginatePref = {
+    pageNo: 1,
+    rowsPerPage: 5,
+    searchText: '',
+  };
 
   constructor() {
     super();
   }
 
   private _previousPage = () => {
-    if (this._pageNo !== 1) {
-      this._pageNo = this._pageNo - 1;
-      this._pageChanged();
+    if (this.paginatePref.pageNo !== 1) {
+      this._pageChanged({
+        ...this.paginatePref,
+        pageNo: this.paginatePref.pageNo - 1,
+      });
     }
   };
 
-  private _pageChanged = () => {
-    this._propagateEvent(PAGINATE_CHANGE_PAGE_EVENT, {
-      pageNo: this._pageNo,
-      rowsPerPage: this._rowsPerPage,
-    });
+  private _pageChanged = (_paginatePref: PaginatePref) => {
+    this._propagateEvent(PAGINATE_CHANGE_EVENT, _paginatePref);
   };
 
   private _nextPage = () => {
-    if (Math.ceil(this.itemCount / this._rowsPerPage) !== this._pageNo) {
-      this._pageNo = this._pageNo + 1;
-      this._pageChanged();
+    if (
+      Math.ceil(this.totalRows / this.paginatePref.rowsPerPage) !==
+      this.paginatePref.pageNo
+    ) {
+      this._pageChanged({
+        ...this.paginatePref,
+        pageNo: this.paginatePref.pageNo + 1,
+      });
     }
   };
 
   private _onRowsPerPageChange = (event: any) => {
-    this._rowsPerPage = event.detail.value;
-    this._pageChanged();
+    const firstItemNoInCurrentView =
+      (this.paginatePref.pageNo - 1) * this.paginatePref.rowsPerPage + 1;
+    this._pageChanged({
+      ...this.paginatePref,
+      rowsPerPage: event.detail.value,
+      pageNo: Math.ceil(firstItemNoInCurrentView / event.detail.value),
+    });
+  };
+
+  private _onSearchChange = (event: any) => {
+    this._pageChanged({
+      ...this.paginatePref,
+      pageNo: 1,
+      searchText: event.detail.searchText,
+    });
   };
 
   private _propagateEvent = (eventName: string, detail?: any) => {
@@ -83,13 +103,14 @@ export class OakCard extends LitElement {
   };
 
   private _currentPageStart = () => {
-    return (this._pageNo - 1) * this._rowsPerPage + 1;
+    return (this.paginatePref.pageNo - 1) * this.paginatePref.rowsPerPage + 1;
   };
 
   private _currentPageEnd = () => {
-    return this._pageNo * this._rowsPerPage < this.itemCount
-      ? this._pageNo * this._rowsPerPage
-      : this.itemCount;
+    return this.paginatePref.pageNo * this.paginatePref.rowsPerPage <
+      this.totalRows
+      ? this.paginatePref.pageNo * this.paginatePref.rowsPerPage
+      : this.totalRows;
   };
 
   private getClassMap(
@@ -130,13 +151,18 @@ export class OakCard extends LitElement {
     return html`
       <div class=${classMap(this.getClassMap('base'))} id=${this.elementId}>
         <div class=${classMap(this.getClassMap('left'))}>
-          <slot></slot>
+          <oak-internal-paginate-filter
+            .formElementFill=${this.formElementFill}
+            .formElementSize=${this.formElementSize}
+            .formElementShape=${this.formElementShape}
+            @paginate-search=${this._onSearchChange}
+          ></oak-internal-paginate-filter>
         </div>
         <div class=${classMap(this.getClassMap('right'))}>
           <div>${this.label}</div>
           <div>
             <oak-select
-              value=${this._rowsPerPage}
+              .value=${this.paginatePref.rowsPerPage}
               name="rowsPerPage"
               @input-change=${this._onRowsPerPageChange}
               .options=${this._rowsPerPageVariants}
@@ -148,7 +174,7 @@ export class OakCard extends LitElement {
           <div class=${classMap(this.getClassMap('page-number'))}>
             <div>
               ${`${this._currentPageStart()}-${this._currentPageEnd()} of ${
-                this.itemCount
+                this.totalRows
               }`}
             </div>
           </div>

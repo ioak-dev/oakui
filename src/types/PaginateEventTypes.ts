@@ -1,1 +1,2 @@
-export const PAGINATE_CHANGE_PAGE_EVENT = 'paginate-change-page';
+export const PAGINATE_CHANGE_EVENT = 'paginate-change';
+export const PAGINATE_SEARCH_EVENT = 'paginate-search';
