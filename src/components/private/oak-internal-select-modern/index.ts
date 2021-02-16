@@ -140,7 +140,7 @@ export class OakInternalSelectModern extends LitElement {
         INPUT_INPUT_EVENT,
         this.search()[index || this._currentIndex]
       );
-      this.handleDeactivated();
+      this._deactivate();
     }
   };
 
@@ -170,7 +170,7 @@ export class OakInternalSelectModern extends LitElement {
         break;
       case 'Tab':
         event.preventDefault();
-        this.handleDeactivated();
+        this._deactivate();
         break;
       default:
         break;
@@ -244,7 +244,7 @@ export class OakInternalSelectModern extends LitElement {
     return isVisible;
   };
 
-  private handleActivated = () => {
+  private _activate = () => {
     this._isActivated = true;
     this._currentIndex = 0;
     const docRef = this.shadowRoot?.getElementById(this.elementId);
@@ -260,7 +260,7 @@ export class OakInternalSelectModern extends LitElement {
     }, 201);
   };
 
-  private handleDeactivated = () => {
+  private _deactivate = () => {
     this._isActivated = false;
     this._searchCriteria = '';
     const docRef = this.shadowRoot?.getElementById(this.elementId);
@@ -382,7 +382,7 @@ export class OakInternalSelectModern extends LitElement {
     return html`
       <oak-internal-label
         .label=${this.label}
-        elementId=${labelId}
+        id=${labelId}
         elementFor=${this.elementId}
       ></oak-internal-label>
       <oak-internal-popup
@@ -390,9 +390,9 @@ export class OakInternalSelectModern extends LitElement {
         .placeholder=${this.placeholder}
         .label=${this.label}
         .errors=${this._errors}
-        @activated=${this.handleActivated}
-        @deactivated=${this.handleDeactivated}
-        @key-pressed=${this.handleKeydown}
+        @popup-activate=${this._activate}
+        @popup-deactivate=${this._deactivate}
+        @popup-key-pressed=${this.handleKeydown}
         ?isActivated=${this._isActivated}
         .size=${this.size}
         .shape=${this.shape}

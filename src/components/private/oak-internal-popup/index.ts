@@ -12,6 +12,11 @@ import '../../public/oak-button';
 import '../../public/oak-input';
 import {oakInternalPopupStyles} from './index-styles';
 import {containerScrolledSubject} from '../../../events/ContainerScrolledEvent';
+import {
+  POPUP_ACTIVATE,
+  POPUP_DEACTIVATE,
+  POPUP_KEY_PRESSED,
+} from '../../../types/PopupEventTypes';
 
 let elementIdCounter = 0;
 const customElementName = 'oak-internal-popup';
@@ -74,6 +79,9 @@ export class OakSelect extends LitElement {
   @property({type: String})
   fill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
 
+  @property({type: String})
+  type?: 'input' | 'custom' = 'input';
+
   /**
    * Validators
    *
@@ -96,6 +104,15 @@ export class OakSelect extends LitElement {
     this._unregisterEvents();
   }
 
+  shouldUpdate(_changedProperties: Map<string | number | symbol, unknown>) {
+    _changedProperties.forEach((_, propName) => {
+      if (propName === 'isActivated' && this.isActivated) {
+        this._handlePostActivate();
+      }
+    });
+    return true;
+  }
+
   private _registerEvents() {
     containerScrolledSubject
       .asObservable()
@@ -114,7 +131,7 @@ export class OakSelect extends LitElement {
       .pipe(map((event) => event))
       .subscribe((event: any) => {
         if (['Escape'].includes(event.key)) {
-          this.deactivate();
+          this._deactivate();
         }
       });
   }
@@ -148,39 +165,43 @@ export class OakSelect extends LitElement {
           (item) => idList.indexOf(item) !== -1
         )
       ) {
-        this.deactivate();
+        this._deactivate();
       }
 
       // if (
       //   !event.target.getAttribute('id') ||
       //   event.target.getAttribute('id') !== this.elementFor
       // ) {
-      //   this.deactivate();
+      //   this._deactivate();
       // }
     }
   };
 
   private keydownEventHandler = (event: any) => {
-    this.propagateCustomEvent('key-pressed', event);
+    this.propagateCustomEvent(POPUP_KEY_PRESSED, event);
   };
 
-  private activate = () => {
+  private _activate = () => {
     if (!this.isActivated) {
-      this.propagateCustomEvent('activated');
-      setTimeout(() => this.adjustPositioning());
-      const docRef = this.shadowRoot?.getElementById(this.actionElementId);
-      if (docRef) {
-        docRef.addEventListener('keydown', this.keydownEventHandler);
-      }
-
-      if (this.scrollableContainers.length > 0) {
-        console.log('*******', this.scrollableContainers);
-      }
+      this.propagateCustomEvent(POPUP_ACTIVATE);
+      this._handlePostActivate();
     }
   };
 
-  private deactivate = () => {
-    this.propagateCustomEvent('deactivated');
+  private _handlePostActivate = () => {
+    setTimeout(() => this.adjustPositioning());
+    const docRef = this.shadowRoot?.getElementById(this.actionElementId);
+    if (docRef) {
+      docRef.addEventListener('keydown', this.keydownEventHandler);
+    }
+
+    if (this.scrollableContainers.length > 0) {
+      console.log('*******', this.scrollableContainers);
+    }
+  };
+
+  private _deactivate = () => {
+    this.propagateCustomEvent(POPUP_DEACTIVATE);
     const docRef = this.shadowRoot?.getElementById(this.elementId);
     if (docRef) {
       docRef.removeEventListener('keydown', this.keydownEventHandler);
@@ -192,21 +213,38 @@ export class OakSelect extends LitElement {
       const popupElRef = this.shadowRoot?.getElementById(this.popupElementId);
       const actionElRef = this.shadowRoot?.getElementById(this.actionElementId);
       if (actionElRef && popupElRef) {
-        popupElRef.style.left = `${actionElRef.getBoundingClientRect().left}px`;
         if (actionElRef.getBoundingClientRect().top > window.innerHeight / 2) {
           popupElRef.style.bottom = `${
-            window.innerHeight - actionElRef.getBoundingClientRect().top + 8
+            window.innerHeight - actionElRef.getBoundingClientRect().top + 4
           }px`;
           popupElRef.style.top = 'auto';
         } else {
           popupElRef.style.top = `${
-            actionElRef.getBoundingClientRect().bottom + 8
+            actionElRef.getBoundingClientRect().bottom + 4
           }px`;
           popupElRef.style.bottom = 'auto';
         }
-        popupElRef.style.width = `${
-          actionElRef.getBoundingClientRect().width
-        }px`;
+        console.log(
+          actionElRef.getBoundingClientRect().left,
+          actionElRef.getBoundingClientRect().right,
+          document.documentElement.clientWidth,
+          actionElRef.getBoundingClientRect()
+        );
+        if (actionElRef.getBoundingClientRect().left > window.innerWidth / 2) {
+          popupElRef.style.right = `${
+            document.documentElement.clientWidth -
+            actionElRef.getBoundingClientRect().right
+          }px`;
+          popupElRef.style.left = 'auto';
+        } else {
+          popupElRef.style.left = `${
+            actionElRef.getBoundingClientRect().left
+          }px`;
+          popupElRef.style.right = 'auto';
+        }
+        // popupElRef.style.width = `${
+        //   actionElRef.getBoundingClientRect().width
+        // }px`;
       }
     }
   };
@@ -248,9 +286,26 @@ export class OakSelect extends LitElement {
 
   private handleInputFocused = () => {
     if (this.isActivated) {
-      this.deactivate();
+      this._deactivate();
     } else {
-      this.activate();
+      this._activate();
+    }
+  };
+
+  private _renderAction = () => {
+    switch (this.type) {
+      case 'input':
+        return html` <oak-internal-popup-input-action
+          @toggle=${this.handleInputFocused}
+          .value=${this.value}
+          .size=${this.size}
+          .shape=${this.shape}
+          .fill=${this.fill}
+        ></oak-internal-popup-input-action>`;
+      case 'custom':
+        return html`<slot name="action"></slot>`;
+      default:
+        return html``;
     }
   };
 
@@ -279,13 +334,7 @@ export class OakSelect extends LitElement {
           class=${classMap(this.getClassMap('action'))}
           id=${this.actionElementId}
         >
-          <oak-internal-popup-input-action
-            @toggle=${this.handleInputFocused}
-            .value=${this.value}
-            .size=${this.size}
-            .shape=${this.shape}
-            .fill=${this.fill}
-          ></oak-internal-popup-input-action>
+          ${this._renderAction()}
         </div>
         <div
           class=${classMap(this.getClassMap('popup'))}

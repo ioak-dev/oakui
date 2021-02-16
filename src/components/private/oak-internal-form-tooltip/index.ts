@@ -1,6 +1,6 @@
 import {LitElement, html, customElement, property} from 'lit-element';
 import {globalStyles} from '../../../global-styles';
-import { oakInternalFormTooltipStyles } from './index-styles';
+import {oakInternalFormTooltipStyles} from './index-styles';
 
 /**
  * Form element tooltip.
@@ -9,16 +9,14 @@ import { oakInternalFormTooltipStyles } from './index-styles';
 @customElement('oak-internal-form-tooltip')
 export class OakInternalFormTooltip extends LitElement {
   @property({type: String})
-  tooltip: string | null = null;
+  tooltip: string | null | undefined = null;
 
   constructor() {
     super();
   }
 
   static get styles() {
-    return [
-      ...globalStyles, oakInternalFormTooltipStyles
-    ];
+    return [...globalStyles, oakInternalFormTooltipStyles];
   }
 
   render() {

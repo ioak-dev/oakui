@@ -5,10 +5,6 @@ export const oakCardStyles = css`
     position: relative;
     margin: 10px;
     border-radius: 6px;
-    max-width: 100%;
-    overflow-x: auto;
-    display: grid;
-    grid-auto-flow: row;
   }
   @media (max-width: 767px) {
     .oak-card {
