@@ -1,7 +1,7 @@
 import {css} from 'lit-element';
 
-export const oakCheckboxItemStyles = css`
-  .oak-checkbox-item {
+export const oakCheckboxStyles = css`
+  .oak-checkbox {
     user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -26,7 +26,7 @@ export const oakCheckboxItemStyles = css`
     text-decoration: none;
   }
 
-  .oak-checkbox-item__label-container {
+  .oak-checkbox__label-container {
     user-select: auto;
     -webkit-user-select: auto;
     -moz-user-select: auto;
@@ -35,14 +35,14 @@ export const oakCheckboxItemStyles = css`
     white-space: nowrap;
   }
 
-  .oak-checkbox-item__input-container {
+  .oak-checkbox__input-container {
     width: 100%;
     display: flex;
     align-items: inherit;
     justify-content: inherit;
   }
 
-  .oak-checkbox-item__input {
+  .oak-checkbox__input {
     top: 0;
     left: 0;
     width: 100%;
@@ -53,85 +53,76 @@ export const oakCheckboxItemStyles = css`
     position: absolute;
   }
 
-  .oak-checkbox-item__checkbox-svg {
+  .oak-checkbox__checkbox-svg {
     width: 24px;
     height: auto;
   }
 
-  .oak-checkbox-item__checkbox-svg {
+  .oak-checkbox__checkbox-svg {
     /* border: 1px solid transparent; */
     border-radius: 2px;
   }
-  /* .oak-checkbox-item__input:focus + .oak-checkbox-item__checkbox-svg {
+  /* .oak-checkbox__input:focus + .oak-checkbox__checkbox-svg {
     border: 1px solid var(--formelement-outline-border-color);
   } */
 
-  .oak-checkbox-item__checkbox-svg--notchecked {
+  .oak-checkbox__checkbox-svg--notchecked {
     fill: var(--color-1);
   }
 
-  .oak-checkbox-item__checkbox-svg--checked.oak-checkbox-item__checkbox-svg--color-primary {
+  .oak-checkbox__checkbox-svg--checked.oak-checkbox__checkbox-svg--color-primary {
     fill: var(--color-primary);
   }
-  .oak-checkbox-item__checkbox-svg--checked.oak-checkbox-item__checkbox-svg--color-secondary {
+  .oak-checkbox__checkbox-svg--checked.oak-checkbox__checkbox-svg--color-secondary {
     fill: var(--color-secondary);
   }
-  .oak-checkbox-item__checkbox-svg--checked.oak-checkbox-item__checkbox-svg--color-tertiary {
+  .oak-checkbox__checkbox-svg--checked.oak-checkbox__checkbox-svg--color-tertiary {
     fill: var(--color-tertiary);
   }
-  .oak-checkbox-item__checkbox-svg--checked.oak-checkbox-item__checkbox-svg--color-default {
+  .oak-checkbox__checkbox-svg--checked.oak-checkbox__checkbox-svg--color-default {
     fill: var(--color-default);
   }
-  .oak-checkbox-item__checkbox-svg--checked.oak-checkbox-item__checkbox-svg--color-info {
+  .oak-checkbox__checkbox-svg--checked.oak-checkbox__checkbox-svg--color-info {
     fill: var(--color-info);
   }
-  .oak-checkbox-item__checkbox-svg--checked.oak-checkbox-item__checkbox-svg--color-danger {
+  .oak-checkbox__checkbox-svg--checked.oak-checkbox__checkbox-svg--color-danger {
     fill: var(--color-danger);
   }
-  .oak-checkbox-item__checkbox-svg--checked.oak-checkbox-item__checkbox-svg--color-warning {
+  .oak-checkbox__checkbox-svg--checked.oak-checkbox__checkbox-svg--color-warning {
     fill: var(--color-warning);
   }
-  .oak-checkbox-item__checkbox-svg--checked.oak-checkbox-item__checkbox-svg--color-success {
+  .oak-checkbox__checkbox-svg--checked.oak-checkbox__checkbox-svg--color-success {
     fill: var(--color-success);
   }
-  .oak-checkbox-item__checkbox-svg--checked.oak-checkbox-item__checkbox-svg--color-invert {
+  .oak-checkbox__checkbox-svg--checked.oak-checkbox__checkbox-svg--color-invert {
     fill: var(--color-invert);
   }
 
-  .oak-checkbox-item__input:focus
-    + .oak-checkbox-item__checkbox-svg--color-primary {
+  .oak-checkbox__input:focus + .oak-checkbox__checkbox-svg--color-primary {
     background-color: var(--color-primary-semitransparent1);
   }
-  .oak-checkbox-item__input:focus
-    + .oak-checkbox-item__checkbox-svg--color-secondary {
+  .oak-checkbox__input:focus + .oak-checkbox__checkbox-svg--color-secondary {
     background-color: var(--color-secondary-semitransparent1);
   }
-  .oak-checkbox-item__input:focus
-    + .oak-checkbox-item__checkbox-svg--color-tertiary {
+  .oak-checkbox__input:focus + .oak-checkbox__checkbox-svg--color-tertiary {
     background-color: var(--color-tertiary-semitransparent1);
   }
-  .oak-checkbox-item__input:focus
-    + .oak-checkbox-item__checkbox-svg--color-default {
+  .oak-checkbox__input:focus + .oak-checkbox__checkbox-svg--color-default {
     background-color: var(--color-default-semitransparent1);
   }
-  .oak-checkbox-item__input:focus
-    + .oak-checkbox-item__checkbox-svg--color-info {
+  .oak-checkbox__input:focus + .oak-checkbox__checkbox-svg--color-info {
     background-color: var(--color-info-semitransparent1);
   }
-  .oak-checkbox-item__input:focus
-    + .oak-checkbox-item__checkbox-svg--color-invert {
+  .oak-checkbox__input:focus + .oak-checkbox__checkbox-svg--color-invert {
     background-color: var(--color-invert-semitransparent1);
   }
-  .oak-checkbox-item__input:focus
-    + .oak-checkbox-item__checkbox-svg--color-danger {
+  .oak-checkbox__input:focus + .oak-checkbox__checkbox-svg--color-danger {
     background-color: var(--color-danger-semitransparent1);
   }
-  .oak-checkbox-item__input:focus
-    + .oak-checkbox-item__checkbox-svg--color-warning {
+  .oak-checkbox__input:focus + .oak-checkbox__checkbox-svg--color-warning {
     background-color: var(--color-warning-semitransparent1);
   }
-  .oak-checkbox-item__input:focus
-    + .oak-checkbox-item__checkbox-svg--color-success {
+  .oak-checkbox__input:focus + .oak-checkbox__checkbox-svg--color-success {
     background-color: var(--color-success-semitransparent1);
   }
 `;

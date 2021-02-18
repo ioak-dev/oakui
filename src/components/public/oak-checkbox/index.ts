@@ -6,17 +6,17 @@ import {
   INPUT_INPUT_EVENT,
 } from '../../../types/InputEventTypes';
 
-import {oakCheckboxItemStyles} from './index-styles';
+import {oakCheckboxStyles} from './index-styles';
 
 let elementIdCounter = 0;
 
 /**
- * Checkbox item component.
+ * Checkbox component.
  *
  */
-const customElementName = 'oak-checkbox-item';
+const customElementName = 'oak-checkbox';
 @customElement(customElementName)
-export class OakCheckboxItem extends LitElement {
+export class OakCheckbox extends LitElement {
   private elementId = `${customElementName}-${elementIdCounter++}`;
 
   @property({type: Boolean})
@@ -110,7 +110,7 @@ export class OakCheckboxItem extends LitElement {
   }
 
   static get styles() {
-    return [...globalStyles, oakCheckboxItemStyles];
+    return [...globalStyles, oakCheckboxStyles];
   }
 
   render() {
