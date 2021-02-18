@@ -6,12 +6,15 @@ import {containerScrolledSubject} from '../../../events/ContainerScrolledEvent';
 import {globalStyles} from '../../../global-styles';
 import {getStyleClass} from '../../../styles/OakMenuStyles';
 import {TAB_CHANGE_EVENT} from '../../../types/TabEventTypes';
-import {isEmptyOrSpaces} from '../../../utils/StringUtils';
 
 import '../oak-menu';
 import '../oak-menu-item';
-
-import {oakTabStyles} from './index-styles';
+import {oakTabAnimationStyles} from './animation-styles';
+import {oakTabBaseStyles} from './base-styles';
+import {oakTabVariantAccentStyles} from './variant-accent-styles';
+import {oakTabVariantFillStyles} from './variant-fill-styles';
+import {oakTabVariantTextStyles} from './variant-text-styles';
+import {oakTabVariantUnderlineStyles} from './variant-underline-styles';
 
 let elementIdCounter = 0;
 
@@ -27,13 +30,42 @@ export class OakTab extends LitElement {
   private overflowMenuElementId = `${this.elementId}-overflow-menu`;
 
   @property({type: Array})
-  slots: string[] = [];
+  tabs: string[] = [];
+
+  @property({type: Number})
+  activeTabIndex = 0;
 
   @property({type: String})
-  activeTab = '';
+  color?:
+    | 'primary'
+    | 'secondary'
+    | 'tertiary'
+    | 'default'
+    | 'danger'
+    | 'warning'
+    | 'success'
+    | 'invert'
+    | 'info' = 'primary';
+
+  @property({type: String})
+  variant?:
+    | 'underline'
+    | 'accent'
+    | 'fill'
+    | 'fill-rounded'
+    | 'fill-rounded-traditional' = 'underline';
+
+  @property({type: Boolean})
+  rounded? = false;
+
+  @property({type: Boolean})
+  fill? = false;
+
+  @property({type: Boolean})
+  nobaseline? = false;
 
   @property({type: Array})
-  private _hiddenSlots: string[] = [];
+  private _hiddenTabIndexes: number[] = [];
 
   private _debounceTimeout: any = false;
 
@@ -78,8 +110,8 @@ export class OakTab extends LitElement {
   }
 
   private _adjustPositioning() {
-    const _hiddenSlotsComputed: any = [];
-    this._hiddenSlots = [..._hiddenSlotsComputed];
+    const _hiddenTabIndexesComputed: any = [];
+    this._hiddenTabIndexes = [..._hiddenTabIndexesComputed];
     setTimeout(() => this._doAdjustPositioning());
   }
 
@@ -87,24 +119,24 @@ export class OakTab extends LitElement {
     try {
       if (this.shadowRoot) {
         const tabElList: any = this.shadowRoot.querySelectorAll(
-          `.${customElementName}__tab`
+          `.${customElementName}-${this.variant}__tab`
         );
         const headerEl = this.shadowRoot.getElementById(this.headerElementId);
         const overflowMenuEl = this.shadowRoot.getElementById(
           this.overflowMenuElementId
         );
-        const _hiddenSlotsComputed = [];
+        const _hiddenTabIndexesComputed: number[] = [];
 
         if (tabElList && headerEl && overflowMenuEl) {
           let stopWidth = overflowMenuEl.clientWidth;
           for (let i = 0; i < tabElList.length; ++i) {
             stopWidth += tabElList[i].scrollWidth;
             if (stopWidth > headerEl.clientWidth) {
-              _hiddenSlotsComputed.push(this.slots[i]);
+              _hiddenTabIndexesComputed.push(i);
             }
           }
 
-          this._hiddenSlots = [..._hiddenSlotsComputed];
+          this._hiddenTabIndexes = [..._hiddenTabIndexesComputed];
         }
       }
     } catch (e) {
@@ -112,8 +144,8 @@ export class OakTab extends LitElement {
     }
   }
 
-  private handleClick = (slotName: string) => {
-    this.propagateEvent(TAB_CHANGE_EVENT, slotName);
+  private handleClick = (tabIndex: number) => {
+    this.propagateEvent(TAB_CHANGE_EVENT, tabIndex);
   };
 
   private propagateEvent = (eventName: string, value: any) => {
@@ -130,19 +162,15 @@ export class OakTab extends LitElement {
     );
   };
 
-  private _renderTab(slotName: string, controlElement = false) {
-    return html`<li
-      class=${classMap(
-        this.getClassMap(controlElement ? 'hiddentab' : 'tab', slotName)
-      )}
-    >
+  private _renderTab(tabIndex: number) {
+    return html`<li class=${classMap(this.getClassMap('tab', tabIndex))}>
       <button
-        class=${classMap(this.getClassMap('button', slotName))}
-        @click=${() => this.handleClick(slotName)}
+        class=${classMap(this.getClassMap('button', tabIndex))}
+        @click=${() => this.handleClick(tabIndex)}
         id=${this.elementId}
         type="button"
       >
-        <slot .name=${slotName}></slot>
+        <slot .name=${tabIndex.toString()}></slot>${this.tabs[tabIndex]}
       </button>
     </li>`;
   }
@@ -161,11 +189,11 @@ export class OakTab extends LitElement {
           More ...
         </button>
         <div class=${getStyleClass({})} slot="menu-popup">
-          ${this._hiddenSlots.map(
-            (slotName: any) =>
+          ${this._hiddenTabIndexes.map(
+            (tabIndex: any) =>
               html`<oak-menu-item
-                @menu-click=${() => this.handleClick(slotName)}
-                >${slotName}</oak-menu-item
+                @menu-click=${() => this.handleClick(tabIndex)}
+                >${this.tabs[tabIndex]}</oak-menu-item
               >`
           )}
         </div>
@@ -178,56 +206,54 @@ export class OakTab extends LitElement {
       | 'base'
       | 'header'
       | 'tab'
-      | 'hiddentab'
       | 'button'
       | 'overflow-menu'
       | 'overflow-menu__trigger',
-    slotName = ''
+    tabIndex = 0
   ): any {
-    const _activeTab =
-      isEmptyOrSpaces(this.activeTab) && this.slots.length > 0
-        ? this.slots[0]
-        : this.activeTab;
+    const _baseClass = `${customElementName}-${this.variant}`;
     switch (baseClass) {
       case 'base':
         const data = {
-          [customElementName]: true,
+          [_baseClass]: true,
+          [`${_baseClass}--color-${this.color}`]: true,
+          [`${_baseClass}--variant-${this.variant}`]: true,
         };
         return data;
       case 'header':
         return {
-          [`${customElementName}__${baseClass}`]: true,
+          [`${_baseClass}__${baseClass}`]: true,
+          [`${_baseClass}__${baseClass}--${
+            this.nobaseline ? 'nobaseline' : 'baseline'
+          }`]: true,
         };
       case 'tab':
         return {
-          [`${customElementName}__${baseClass}`]: true,
-          [`${customElementName}__${baseClass}--${this.elementId}`]: true,
-          [`${customElementName}__${baseClass}--hidden`]: this._hiddenSlots.includes(
-            slotName
+          [`${_baseClass}__${baseClass}`]: true,
+          [`${_baseClass}__${baseClass}--${this.elementId}`]: true,
+          [`${_baseClass}__${baseClass}--hidden`]: this._hiddenTabIndexes.includes(
+            tabIndex
           ),
         };
-      case 'hiddentab':
-        return {
-          [`${customElementName}__${baseClass}`]: true,
-        };
       case 'button':
+      case 'overflow-menu__trigger':
+        const localClass = 'button';
         return {
-          [`${customElementName}__${baseClass}`]: true,
-          [`${customElementName}__${baseClass}--active`]:
-            slotName === _activeTab,
+          [`${_baseClass}__${localClass}`]: true,
+          [`${_baseClass}__${localClass}--rounded`]: this.rounded,
+          [`${_baseClass}__${localClass}--fill`]: this.fill,
+          [`${_baseClass}__${localClass}--active`]:
+            baseClass === 'button'
+              ? tabIndex === this.activeTabIndex
+              : this._hiddenTabIndexes.includes(this.activeTabIndex),
+          [`${_baseClass}__${localClass}--color-${this.color}`]: true,
+          [`${_baseClass}__${localClass}--variant-${this.variant}`]: true,
         };
       case 'overflow-menu':
         return {
-          [`${customElementName}__${baseClass}`]: true,
-          [`${customElementName}__${baseClass}--hidden`]:
-            this._hiddenSlots.length === 0,
-        };
-      case 'overflow-menu__trigger':
-        return {
-          [`${customElementName}__${baseClass}`]: true,
-          [`${customElementName}__${baseClass}--active`]: this._hiddenSlots.includes(
-            _activeTab
-          ),
+          [`${_baseClass}__${baseClass}`]: true,
+          [`${_baseClass}__${baseClass}--hidden`]:
+            this._hiddenTabIndexes.length === 0,
         };
       default:
         return {};
@@ -235,7 +261,15 @@ export class OakTab extends LitElement {
   }
 
   static get styles() {
-    return [...globalStyles, oakTabStyles];
+    return [
+      ...globalStyles,
+      oakTabBaseStyles,
+      oakTabVariantUnderlineStyles,
+      oakTabVariantAccentStyles,
+      oakTabVariantFillStyles,
+      oakTabVariantTextStyles,
+      oakTabAnimationStyles,
+    ];
   }
 
   render() {
@@ -245,11 +279,10 @@ export class OakTab extends LitElement {
           class=${classMap(this.getClassMap('header'))}
           id=${this.headerElementId}
         >
-          ${this.slots.map((slotName: string) => this._renderTab(slotName))}
-          ${this._renderOverflowMenu()}
-          ${this.slots.map((slotName: string) =>
-            this._renderTab(slotName, true)
+          ${this.tabs.map((_: string, tabIndex: number) =>
+            this._renderTab(tabIndex)
           )}
+          ${this._renderOverflowMenu()}
         </ul>
         <slot name="content"></slot>
       </div>
