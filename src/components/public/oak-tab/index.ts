@@ -15,6 +15,7 @@ import {oakTabVariantAccentStyles} from './variant-accent-styles';
 import {oakTabVariantFillStyles} from './variant-fill-styles';
 import {oakTabVariantTextStyles} from './variant-text-styles';
 import {oakTabVariantUnderlineStyles} from './variant-underline-styles';
+import {oakTabVariantPillsStyles} from './variant-pills-styles';
 
 let elementIdCounter = 0;
 
@@ -48,12 +49,7 @@ export class OakTab extends LitElement {
     | 'info' = 'primary';
 
   @property({type: String})
-  variant?:
-    | 'underline'
-    | 'accent'
-    | 'fill'
-    | 'fill-rounded'
-    | 'fill-rounded-traditional' = 'underline';
+  variant?: 'underline' | 'accent' | 'fill' | 'text' | 'pills' = 'underline';
 
   @property({type: Boolean})
   rounded? = false;
@@ -268,6 +264,7 @@ export class OakTab extends LitElement {
       oakTabVariantAccentStyles,
       oakTabVariantFillStyles,
       oakTabVariantTextStyles,
+      oakTabVariantPillsStyles,
       oakTabAnimationStyles,
     ];
   }
