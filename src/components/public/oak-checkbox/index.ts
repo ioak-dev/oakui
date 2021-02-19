@@ -1,10 +1,9 @@
 import {LitElement, html, customElement, property} from 'lit-element';
 import {classMap} from 'lit-html/directives/class-map';
+import {checkboxChangeSubject} from '../../../events/CheckboxChangeEvent';
+import {checkboxRegisterSubject} from '../../../events/CheckboxRegisterEvent';
 import {globalStyles} from '../../../global-styles';
-import {
-  INPUT_CHANGE_EVENT,
-  INPUT_INPUT_EVENT,
-} from '../../../types/InputEventTypes';
+import {INPUT_CHANGE_EVENT} from '../../../types/InputEventTypes';
 
 import {oakCheckboxStyles} from './index-styles';
 
@@ -20,7 +19,7 @@ export class OakCheckbox extends LitElement {
   private elementId = `${customElementName}-${elementIdCounter++}`;
 
   @property({type: Boolean})
-  value? = false;
+  value = false;
 
   @property({type: String})
   name = '';
@@ -36,30 +35,58 @@ export class OakCheckbox extends LitElement {
     | 'success'
     | 'info' = 'primary';
 
+  @property({type: String})
+  size?: 'xsmall' | 'small' | 'medium' | 'large' = 'small';
+
   /**
    * 	If true, the element will have a bottom margin.
    */
   @property({type: Boolean})
   gutterBottom?: boolean = false;
 
+  @property({type: String})
+  checkboxGroupName?: string | null | undefined = null;
+
   constructor() {
     super();
   }
 
-  private _handleChange = (event: any) => {
-    this.propagateEvent(INPUT_CHANGE_EVENT, event);
-    this.propagateEvent(INPUT_INPUT_EVENT, event);
+  connectedCallback() {
+    super.connectedCallback();
+    this.init();
+  }
+
+  private init() {
+    if (this.checkboxGroupName) {
+      checkboxRegisterSubject.next({
+        name: this.name,
+        checkboxGroupName: this.checkboxGroupName,
+        value: this.value,
+      });
+    }
+  }
+
+  private _handleChange = () => {
+    this.propagateEvent(INPUT_CHANGE_EVENT);
   };
 
-  private propagateEvent = (eventName: string, event: any) => {
+  private propagateEvent = (eventName: string) => {
+    const _value = !this.value;
+    if (this.checkboxGroupName) {
+      checkboxChangeSubject.next({
+        name: this.name,
+        value: _value,
+        checkboxGroupName: this.checkboxGroupName,
+      });
+    }
     this.dispatchEvent(
       new CustomEvent(eventName, {
         bubbles: true,
         composed: true,
         detail: {
-          id: event.srcElement.id,
-          name: event.srcElement.name,
-          value: !this.value,
+          id: this.elementId,
+          name: this.name,
+          value: _value,
         },
       })
     );
@@ -90,6 +117,7 @@ export class OakCheckbox extends LitElement {
           [`${customElementName}__${baseClass}--color-${this.color}`]: true,
           [`${customElementName}__${baseClass}--checked`]: this.value,
           [`${customElementName}__${baseClass}--notchecked`]: !this.value,
+          [`${customElementName}__${baseClass}--size-${this.size}`]: true,
         };
       case 'input':
         return {

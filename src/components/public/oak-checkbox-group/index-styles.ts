@@ -1,6 +1,6 @@
 import {css} from 'lit-element';
 
-export const oakCheckboxStyles = css`
+export const oakCheckboxGroupStyles = css`
   .oak-checkbox {
     user-select: none;
     -webkit-user-select: none;
@@ -53,17 +53,9 @@ export const oakCheckboxStyles = css`
     position: absolute;
   }
 
-  .oak-checkbox__checkbox-svg--size-xsmall {
-    width: 16px;
-  }
-  .oak-checkbox__checkbox-svg--size-small {
-    width: 20px;
-  }
-  .oak-checkbox__checkbox-svg--size-medium {
+  .oak-checkbox__checkbox-svg {
     width: 24px;
-  }
-  .oak-checkbox__checkbox-svg--size-large {
-    width: 28px;
+    height: auto;
   }
 
   .oak-checkbox__checkbox-svg {

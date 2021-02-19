@@ -1,6 +1,7 @@
 import './dist/components/public/oak-typography/index.js';
 import './dist/components/public/oak-input/index.js';
 import './dist/components/public/oak-checkbox/index.js';
+import './dist/components/public/oak-checkbox-group/index.js';
 import './dist/components/public/oak-button/index.js';
 import './dist/components/public/oak-link/index.js';
 import './dist/components/public/oak-form/index.js';

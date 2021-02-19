@@ -12,6 +12,9 @@ const errorMessageTemplates = {
   [ValidatorType.MIN_NUMBER]: `Should be greater than {{expected}}`,
   [ValidatorType.MAX_NUMBER]: `Should be less than {{expected}}`,
   [ValidatorType.NUMBER_RANGE]: `Should be between {{expected}}`,
+  [ValidatorType.MIN_CHECKED_COUNT_LENGTH]: `Should be more than {{expected}} items`,
+  [ValidatorType.MAX_CHECKED_COUNT_LENGTH]: `Should be less than {{expected}} items`,
+  [ValidatorType.CHECKED_COUNT_LENGTH]: `Should be {{expected}} items`,
 };
 
 export const getError = (validationError: ValidationErrorType): string => {
