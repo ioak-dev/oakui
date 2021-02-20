@@ -88,7 +88,7 @@ export function compose(props: OakSectionProps): string {
     output += ' oak-rounded';
   }
   if (props.gutterBottom) {
-    output += 'oak-gutter-bottom';
+    output += ' oak-gutter-bottom';
   }
   return output;
 }
