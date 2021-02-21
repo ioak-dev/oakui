@@ -6,14 +6,7 @@ export function recomputeDimensionsLeft(
   drawerEl.style.transform = `translateX(-${
     isOpen ? 0 : drawerEl.scrollWidth
   }px)`;
-  contentEl.style.marginLeft = `-${isOpen ? 0 : drawerEl.scrollWidth}px`;
-  if (isOpen) {
-    drawerEl.style.visibility = 'visible';
-  } else {
-    // setTimeout(() => {
-    drawerEl.style.visibility = 'hidden';
-    // }, 200);
-  }
+  contentEl.style.paddingLeft = `${isOpen ? drawerEl.scrollWidth : 0}px`;
 }
 
 export function recomputeDimensionsRight(
@@ -24,5 +17,5 @@ export function recomputeDimensionsRight(
   drawerEl.style.transform = `translateX(${
     isOpen ? 0 : drawerEl.scrollWidth
   }px)`;
-  contentEl.style.marginRight = `-${isOpen ? 0 : drawerEl.scrollWidth}px`;
+  contentEl.style.paddingRight = `${isOpen ? drawerEl.scrollWidth : 0}px`;
 }

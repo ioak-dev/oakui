@@ -30,7 +30,7 @@ export class OakDrawer extends LitElement {
 
   firstUpdated(_changedProperties: any) {
     super.firstUpdated(_changedProperties);
-    setTimeout(() => this._recomputeDimensions(true));
+    setTimeout(() => this._recomputeDimensions());
   }
 
   shouldUpdate(_changedProperties: Map<string | number | symbol, unknown>) {
@@ -42,7 +42,7 @@ export class OakDrawer extends LitElement {
     return true;
   }
 
-  private _recomputeDimensions(initial = false) {
+  private _recomputeDimensions() {
     try {
       if (this.shadowRoot) {
         const drawerEl = this.shadowRoot.getElementById(this.drawerElementId);
@@ -58,12 +58,6 @@ export class OakDrawer extends LitElement {
             default:
               break;
           }
-          if (initial) {
-            setTimeout(() => {
-              contentEl.style.visibility = 'visible';
-              drawerEl.style.visibility = 'visible';
-            }, 220);
-          }
         }
       }
     } catch (e) {
@@ -71,16 +65,22 @@ export class OakDrawer extends LitElement {
     }
   }
 
-  private getClassMap(baseClass: 'base' | 'drawer' | 'content'): any {
+  private getClassMap(
+    baseClass: 'base' | 'container' | 'drawer' | 'content'
+  ): any {
     switch (baseClass) {
       case 'base':
         return {
           [customElementName]: true,
-          [`${customElementName}--${this.position}`]: true,
+        };
+      case 'container':
+        return {
+          [`${customElementName}__${baseClass}`]: true,
         };
       case 'drawer':
         return {
           [`${customElementName}__${baseClass}`]: true,
+          [`${customElementName}__${baseClass}--${this.position}`]: true,
         };
       case 'content':
         return {
