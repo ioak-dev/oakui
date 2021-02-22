@@ -1,9 +1,14 @@
 import {LitElement, html, customElement, property} from 'lit-element';
 import {classMap} from 'lit-html/directives/class-map';
+import OakAppLayoutEvent from '../../event/OakAppLayoutEvent';
 import {globalStyles} from '../../_internal/styles/global-styles';
 
 import {oakAppLayoutStyles} from './index-styles';
-import {recomputeDimensionsLeft, recomputeDimensionsRight} from './service';
+import {
+  recomputeDimensionsLeft,
+  recomputeDimensionsRight,
+  recomputeTopbarSpacing,
+} from './service';
 
 let elementIdCounter = 0;
 
@@ -20,6 +25,9 @@ export class OakAppLayout extends LitElement {
   private rightDrawerElementId = `${this.elementId}-drawer-right`;
   private contentElementId = `${this.elementId}-content`;
 
+  @property({type: String})
+  topbarVariant: 'sticky' | 'static' | 'auto' = 'auto';
+
   @property({type: Boolean})
   leftDrawerOpen = false;
 
@@ -31,6 +39,23 @@ export class OakAppLayout extends LitElement {
 
   @property({type: String})
   rightDrawerType: 'side' | 'over' | 'push' = 'side';
+
+  @property({type: String})
+  topbarColor:
+    | 'global'
+    | 'container'
+    | 'surface'
+    | 'float'
+    | 'primary'
+    | 'secondary'
+    | 'tertiary'
+    | 'default'
+    | 'danger'
+    | 'warning'
+    | 'success'
+    | 'info'
+    | 'invert'
+    | 'custom' = 'primary';
 
   @property({type: Number})
   topElevation?:
@@ -137,6 +162,7 @@ export class OakAppLayout extends LitElement {
   private _recomputeDimensions() {
     try {
       if (this.shadowRoot) {
+        const topbarEl = this.shadowRoot.getElementById(this.topbarElementId);
         const leftDrawerEl = this.shadowRoot.getElementById(
           this.leftDrawerElementId
         );
@@ -146,37 +172,81 @@ export class OakAppLayout extends LitElement {
         const contentEl = this.shadowRoot.getElementById(this.contentElementId);
         recomputeDimensionsLeft(
           this.leftDrawerType,
+          topbarEl,
           contentEl,
           leftDrawerEl,
-          this.leftDrawerOpen
+          this.leftDrawerOpen,
+          this.topbarVariant
         );
         recomputeDimensionsRight(
           this.rightDrawerType,
+          topbarEl,
           contentEl,
           rightDrawerEl,
-          this.rightDrawerOpen
+          this.rightDrawerOpen,
+          this.topbarVariant
         );
+        recomputeTopbarSpacing(topbarEl, contentEl, this.topbarVariant);
       }
     } catch (e) {
       console.log('**error', e);
     }
   }
 
-  private _renderBackdrop() {
-    if (['push', 'over'].includes(this.leftDrawerType) && this.leftDrawerOpen) {
-      return html`<div class="backdrop-fade"></div>`;
-    } else if (
-      ['push', 'over'].includes(this.rightDrawerType) &&
-      this.rightDrawerOpen
+  private _handleClose() {
+    if (this.leftDrawerOpen && ['over', 'push'].includes(this.leftDrawerType)) {
+      this.propagateEvent(OakAppLayoutEvent.CLOSE_DRAWER, {
+        name: 'left',
+        value: true,
+      });
+    }
+    if (
+      this.rightDrawerOpen &&
+      ['over', 'push'].includes(this.rightDrawerType)
     ) {
-      return html`<div class="backdrop-fade"></div>`;
+      this.propagateEvent(OakAppLayoutEvent.CLOSE_DRAWER, {
+        name: 'right',
+        value: true,
+      });
+    }
+  }
+
+  private propagateEvent = (eventType: OakAppLayoutEvent, event: any) => {
+    this.dispatchEvent(
+      new CustomEvent(eventType, {
+        bubbles: true,
+        composed: true,
+        detail: {
+          id: this.elementId,
+          name: event.name,
+          value: event.value,
+        },
+      })
+    );
+  };
+
+  private _renderBackdrop() {
+    if (
+      (['push', 'over'].includes(this.leftDrawerType) && this.leftDrawerOpen) ||
+      (['push', 'over'].includes(this.rightDrawerType) && this.rightDrawerOpen)
+    ) {
+      return html`<div
+        class="backdrop-fade"
+        @click=${this._handleClose}
+      ></div>`;
     } else {
       return html``;
     }
   }
 
   private getClassMap(
-    baseClass: 'base' | 'drawer-left' | 'drawer-right' | 'content'
+    baseClass:
+      | 'base'
+      | 'drawer-left'
+      | 'drawer-right'
+      | 'topbar'
+      | 'content'
+      | 'content__topbar'
   ): any {
     switch (baseClass) {
       case 'base':
@@ -186,16 +256,37 @@ export class OakAppLayout extends LitElement {
       case 'drawer-left':
         return {
           [`${customElementName}__${baseClass}`]: true,
-          [`oak-bs-elevation${this.leftElevation}`]: true,
+          [`${customElementName}__${baseClass}--top-layer`]: [
+            'push',
+            'over',
+          ].includes(this.leftDrawerType),
+          [`oak-bs-elevation${this.leftElevation}`]: this.leftDrawerOpen,
         };
       case 'drawer-right':
         return {
           [`${customElementName}__${baseClass}`]: true,
-          [`oak-bs-elevation${this.rightElevation}`]: true,
+          [`${customElementName}__${baseClass}--top-layer`]: [
+            'push',
+            'over',
+          ].includes(this.rightDrawerType),
+          [`oak-bs-elevation${this.rightElevation}`]: this.rightDrawerOpen,
+        };
+      case 'topbar':
+        return {
+          [`${customElementName}__${baseClass}`]: true,
+          [`${customElementName}__${baseClass}--${this.topbarVariant}`]: true,
+          [`oak-bs-elevation${this.topElevation}`]: true,
+          [`oak-color-bg-${this.topbarColor}`]: true,
+          [`oak-color-${this.topbarColor}-i`]: true,
         };
       case 'content':
         return {
           [`${customElementName}__${baseClass}`]: true,
+        };
+      case 'content__topbar':
+        return {
+          [`${customElementName}__${baseClass}`]: true,
+          [`oak-bs-elevation${this.topElevation}`]: true,
         };
       default:
         return {};
@@ -218,10 +309,23 @@ export class OakAppLayout extends LitElement {
       >
         <slot name="drawer-left"></slot>
       </div>
+      ${this.topbarVariant !== 'auto'
+        ? html`<div
+            class=${classMap(this.getClassMap('topbar'))}
+            id=${this.topbarElementId}
+          >
+            <slot name="topbar"></slot>
+          </div>`
+        : html``}
       <div
         class=${classMap(this.getClassMap('content'))}
         id=${this.contentElementId}
       >
+        ${this.topbarVariant === 'auto'
+          ? html` <div class=${classMap(this.getClassMap('content__topbar'))}>
+              <slot name="topbar"></slot>
+            </div>`
+          : html``}
         <slot name="content"></slot>
       </div>
       <div

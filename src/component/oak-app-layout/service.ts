@@ -1,8 +1,10 @@
 export function recomputeDimensionsLeft(
   drawerType: 'side' | 'over' | 'push',
+  topbarEl: HTMLElement | null,
   contentEl: HTMLElement | null,
   leftDrawerEl: HTMLElement | null,
-  leftDrawerOpen: boolean
+  leftDrawerOpen: boolean,
+  topbarVariant: 'sticky' | 'static' | 'auto'
 ) {
   if (contentEl && leftDrawerEl) {
     switch (drawerType) {
@@ -14,6 +16,16 @@ export function recomputeDimensionsLeft(
         contentEl.style.paddingLeft = `${
           leftDrawerOpen ? leftDrawerEl.scrollWidth : 0
         }px`;
+        if (topbarEl) {
+          topbarEl.style.paddingLeft = `${
+            leftDrawerOpen && topbarVariant !== 'static'
+              ? leftDrawerEl.scrollWidth
+              : 0
+          }px`;
+          if (drawerType === 'side' && topbarVariant === 'static') {
+            leftDrawerEl.style.top = `${topbarEl.scrollHeight}px`;
+          }
+        }
         break;
       case 'over':
         leftDrawerEl.style.transform = `translateX(-${
@@ -29,9 +41,11 @@ export function recomputeDimensionsLeft(
 
 export function recomputeDimensionsRight(
   drawerType: 'side' | 'over' | 'push',
+  topbarEl: HTMLElement | null,
   contentEl: HTMLElement | null,
   rightDrawerEl: HTMLElement | null,
-  rightDrawerOpen: boolean
+  rightDrawerOpen: boolean,
+  topbarVariant: 'sticky' | 'static' | 'auto'
 ) {
   if (contentEl && rightDrawerEl) {
     switch (drawerType) {
@@ -43,6 +57,16 @@ export function recomputeDimensionsRight(
         contentEl.style.paddingRight = `${
           rightDrawerOpen ? rightDrawerEl.scrollWidth : 0
         }px`;
+        if (topbarEl) {
+          topbarEl.style.paddingRight = `${
+            rightDrawerOpen && topbarVariant !== 'static'
+              ? rightDrawerEl.scrollWidth
+              : 0
+          }px`;
+          if (drawerType === 'side' && topbarVariant === 'static') {
+            rightDrawerEl.style.top = `${topbarEl.scrollHeight}px`;
+          }
+        }
         break;
       case 'over':
         rightDrawerEl.style.transform = `translateX(${
@@ -53,5 +77,15 @@ export function recomputeDimensionsRight(
       default:
         break;
     }
+  }
+}
+
+export function recomputeTopbarSpacing(
+  topbarEl: HTMLElement | null,
+  contentEl: HTMLElement | null,
+  topbarVariant: 'sticky' | 'static' | 'auto'
+) {
+  if (topbarVariant !== 'auto' && topbarEl && contentEl) {
+    contentEl.style.paddingTop = `${topbarEl.scrollHeight}px`;
   }
 }

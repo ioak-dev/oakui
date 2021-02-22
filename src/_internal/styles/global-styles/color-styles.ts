@@ -4,6 +4,9 @@ export const colorStyles = css`
   .oak-color-fg-inherit {
     color: inherit;
   }
+  .oak-color-fg-global {
+    color: var(--color-global);
+  }
   .oak-color-fg-container {
     color: var(--color-container);
   }
@@ -43,6 +46,9 @@ export const colorStyles = css`
 
   .oak-color-bg-inherit {
     background-color: inherit;
+  }
+  .oak-color-bg-global {
+    background-color: var(--color-global);
   }
   .oak-color-bg-container {
     background-color: var(--color-container);
@@ -84,6 +90,9 @@ export const colorStyles = css`
   .oak-color-bg-inherit-transparent {
     background-color: inherit;
   }
+  .oak-color-bg-global-transparent {
+    background-color: var(--color-global-transparent);
+  }
   .oak-color-bg-container-transparent {
     background-color: var(--color-container-transparent);
   }
@@ -123,6 +132,9 @@ export const colorStyles = css`
 
   .oak-color-bg-inherit-semitransparent {
     background-color: inherit;
+  }
+  .oak-color-bg-global-semitransparent {
+    background-color: var(--color-global-semitransparent1);
   }
   .oak-color-bg-container-semitransparent {
     background-color: var(--color-container-semitransparent1);
@@ -164,6 +176,9 @@ export const colorStyles = css`
   .oak-color-inherit {
     color: inherit;
   }
+  .oak-color-global {
+    color: var(--color-global);
+  }
   .oak-color-container {
     color: var(--color-container);
   }
@@ -203,6 +218,9 @@ export const colorStyles = css`
 
   .oak-color-inherit-i {
     color: inherit;
+  }
+  .oak-color-global-i {
+    color: var(--color-global-i);
   }
   .oak-color-container-i {
     color: var(--color-container-i);
