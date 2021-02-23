@@ -17,3 +17,4 @@ import './dist/component/oak-paginate/index.js';
 import './dist/component/oak-table/index.js';
 import './dist/component/oak-tab/index.js';
 import './dist/component/oak-app-layout/index.js';
+import './dist/component/oak-sheet/index.js';

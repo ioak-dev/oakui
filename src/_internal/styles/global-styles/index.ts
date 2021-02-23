@@ -1,5 +1,6 @@
 import {componentStyles} from '../component-styles';
 import {animationStyles} from './animation-styles';
+import {backdropStyles} from './backdrop-styles';
 import {borderStyles} from './border-styles';
 import {boxShadowStyles} from './box-shadow-styles';
 import {colorStyles} from './color-styles';
@@ -18,4 +19,5 @@ export const globalStyles = [
   fillStyles,
   animationStyles,
   componentStyles,
+  backdropStyles,
 ];
