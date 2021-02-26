@@ -20,7 +20,7 @@ export const oakSheetPositionTopStyles = css`
   .oak-sheet__sheet--position-top {
     display: flex;
     justify-items: center;
-    align-items: center;
+    align-items: flex-start;
   }
 
   .oak-sheet--show

@@ -20,7 +20,7 @@ export const oakSheetPositionBottomStyles = css`
   .oak-sheet__sheet--position-bottom {
     display: flex;
     justify-items: center;
-    align-items: center;
+    align-items: flex-start;
   }
   .oak-sheet--show
     .oak-sheet__sheet--position-bottom.oak-sheet__sheet--size-vertical-one-third {

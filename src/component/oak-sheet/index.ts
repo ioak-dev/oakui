@@ -31,7 +31,20 @@ export class OakSheet extends LitElement {
   outlined?: boolean = false;
 
   @property({type: String})
-  fill?: 'global' | 'container' | 'surface' | 'float' = 'surface';
+  fillColor?:
+    | 'global'
+    | 'container'
+    | 'surface'
+    | 'float'
+    | 'primary'
+    | 'secondary'
+    | 'tertiary'
+    | 'default'
+    | 'danger'
+    | 'warning'
+    | 'success'
+    | 'info'
+    | 'invert' = 'surface';
 
   @property({type: String})
   sizeHorizontal?: 'one-third' | 'two-third' | 'half' | 'full' | 'auto' =
@@ -96,7 +109,7 @@ export class OakSheet extends LitElement {
       if (propName === 'isOpen' && !this.isOpen) {
         setTimeout(() => {
           this._isOpen = false;
-        }, 300);
+        }, 250);
       }
     });
     return true;
@@ -139,7 +152,8 @@ export class OakSheet extends LitElement {
           [`${customElementName}__${baseClass}--position-${this.position}`]: true,
           [`${customElementName}__${baseClass}--size-horizontal-${this.sizeHorizontal}`]: true,
           [`${customElementName}__${baseClass}--size-vertical-${this.sizeVertical}`]: true,
-          [`oak-color-bg-${this.fill}`]: true,
+          [`oak-color-bg-${this.fillColor}`]: true,
+          [`oak-color-${this.fillColor}-i`]: true,
           [`oak-padding-horizontal${this.paddingHorizontal}`]: true,
           [`oak-padding-vertical${this.paddingVertical}`]: true,
           [`oak-bs-elevation${this.elevation}`]: true,

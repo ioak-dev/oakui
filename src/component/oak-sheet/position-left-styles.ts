@@ -20,7 +20,7 @@ export const oakSheetPositionLeftStyles = css`
   .oak-sheet__sheet--position-left {
     display: flex;
     justify-items: center;
-    align-items: center;
+    align-items: flex-start;
   }
   .oak-sheet--show
     .oak-sheet__sheet--position-left.oak-sheet__sheet--size-horizontal-one-third {
