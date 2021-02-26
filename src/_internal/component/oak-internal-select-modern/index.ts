@@ -246,7 +246,10 @@ export class OakInternalSelectModern extends LitElement {
 
   private _activate = () => {
     this._isActivated = true;
-    this._currentIndex = 0;
+    const chosenIndex = this._searchResults().findIndex(
+      (item) => item === this.value
+    );
+    this._currentIndex = chosenIndex < 0 ? 0 : chosenIndex;
     const docRef = this.shadowRoot?.getElementById(this.elementId);
     if (docRef) {
       docRef.addEventListener('keydown', this.keydownEventHandler);
@@ -306,17 +309,23 @@ export class OakInternalSelectModern extends LitElement {
     baseClass:
       | 'popup'
       | 'ul'
+      | 'li'
+      | 'li-indicator'
+      | 'li-text'
       | 'search-filter'
       | 'input'
       | 'action'
       | 'value'
       | 'placeholder'
-      | 'margin'
+      | 'margin',
+    index?: number
   ): any => {
     switch (baseClass) {
       case 'action':
       case 'value':
       case 'placeholder':
+      case 'li-indicator':
+      case 'li-text':
         return {
           [`${customElementName}__${baseClass}`]: true,
         };
@@ -324,6 +333,12 @@ export class OakInternalSelectModern extends LitElement {
         return {
           [`${customElementName}__${baseClass}`]: true,
           activated: this._isActivated,
+        };
+      case 'li':
+        return {
+          [`${customElementName}__${baseClass}`]: true,
+          [`${customElementName}__${baseClass}--active`]:
+            this._currentIndex === index,
         };
       case 'margin':
         return {
@@ -424,10 +439,15 @@ export class OakInternalSelectModern extends LitElement {
                 html`<li
                   id=${`${this.liElementId}-${index}`}
                   role="option"
-                  class=${this._currentIndex === index ? 'option-active' : ''}
+                  class=${classMap(this.getClassMap('li', index))}
                   @click=${() => this.handleChange(index)}
                 >
-                  ${item}
+                  <div class=${classMap(this.getClassMap('li-indicator'))}>
+                    ${this.value === item ? html`S-` : html``}
+                  </div>
+                  <div class=${classMap(this.getClassMap('li-text'))}>
+                    ${item}
+                  </div>
                 </li>`
             )}
             ${this._searchResults().length === 0

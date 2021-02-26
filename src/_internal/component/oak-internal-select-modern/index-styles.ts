@@ -39,7 +39,16 @@ export const oakInternalSelectModernStyles = css`
   }
 
   .oak-internal-select-modern__popup ul li {
-    padding: 7px 16px;
+    padding: 7px 8px;
     cursor: pointer;
+  }
+
+  .oak-internal-select-modern__li {
+    display: flex;
+    align-items: center;
+  }
+  .oak-internal-select-modern__li-indicator {
+    margin-right: 8px;
+    width: 16px;
   }
 `;

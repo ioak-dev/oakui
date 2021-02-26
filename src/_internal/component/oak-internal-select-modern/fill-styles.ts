@@ -28,22 +28,30 @@ export const oakInternalSelectModernFillStyles = css`
   }
 
   .oak-internal-select-modern__popup--fill-none ul li:hover,
-  .oak-internal-select-modern__popup--fill-none ul li.option-active {
+  .oak-internal-select-modern__popup--fill-none
+    ul
+    li.oak-internal-select-modern__li--active {
     background-color: var(--color-global-darker);
   }
 
   .oak-internal-select-modern__popup--fill-container ul li:hover,
-  .oak-internal-select-modern__popup--fill-container ul li.option-active {
+  .oak-internal-select-modern__popup--fill-container
+    ul
+    li.oak-internal-select-modern__li--active {
     background-color: var(--color-container-darker);
   }
 
   .oak-internal-select-modern__popup--fill-surface ul li:hover,
-  .oak-internal-select-modern__popup--fill-surface ul li.option-active {
+  .oak-internal-select-modern__popup--fill-surface
+    ul
+    li.oak-internal-select-modern__li--active {
     background-color: var(--color-surface-darker);
   }
 
   .oak-internal-select-modern__popup--fill-float ul li:hover,
-  .oak-internal-select-modern__popup--fill-float ul li.option-active {
+  .oak-internal-select-modern__popup--fill-float
+    ul
+    li.oak-internal-select-modern__li--active {
     background-color: var(--color-float-darker);
   }
 `;
