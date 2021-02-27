@@ -130,16 +130,10 @@ export class OakInternalSelectModern extends LitElement {
     //
   }
 
-  private handleChange = (index?: number) => {
+  private handleChange = (index: number) => {
     if (this._isActivated) {
-      this.propagateCustomEvent(
-        INPUT_CHANGE_EVENT,
-        this.search()[index || this._currentIndex]
-      );
-      this.propagateCustomEvent(
-        INPUT_INPUT_EVENT,
-        this.search()[index || this._currentIndex]
-      );
+      this.propagateCustomEvent(INPUT_CHANGE_EVENT, this.search()[index]);
+      this.propagateCustomEvent(INPUT_INPUT_EVENT, this.search()[index]);
       this._deactivate();
     }
   };
@@ -166,7 +160,7 @@ export class OakInternalSelectModern extends LitElement {
         break;
       case 'Enter':
         event.preventDefault();
-        this.handleChange();
+        this.handleChange(this._currentIndex);
         break;
       case 'Tab':
         event.preventDefault();
@@ -443,7 +437,20 @@ export class OakInternalSelectModern extends LitElement {
                   @click=${() => this.handleChange(index)}
                 >
                   <div class=${classMap(this.getClassMap('li-indicator'))}>
-                    ${this.value === item ? html`S-` : html``}
+                    ${this.value === item
+                      ? html`<svg
+                          height="16"
+                          viewBox="0 0 16 16"
+                          version="1.1"
+                          width="16"
+                          aria-hidden="true"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"
+                          ></path>
+                        </svg>`
+                      : html``}
                   </div>
                   <div class=${classMap(this.getClassMap('li-text'))}>
                     ${item}

@@ -24,4 +24,14 @@ export const oakPaginateStyles = css`
     display: flex;
     align-items: center;
   }
+  .oak-paginate__page-nav svg {
+    width: 1em;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+  }
+  .oak-paginate__page-nav svg path {
+    fill: var(--color-1);
+  }
 `;

@@ -224,12 +224,6 @@ export class OakSelect extends LitElement {
           }px`;
           popupElRef.style.bottom = 'auto';
         }
-        console.log(
-          actionElRef.getBoundingClientRect().left,
-          actionElRef.getBoundingClientRect().right,
-          document.documentElement.clientWidth,
-          actionElRef.getBoundingClientRect()
-        );
         if (actionElRef.getBoundingClientRect().left > window.innerWidth / 2) {
           popupElRef.style.right = `${
             document.documentElement.clientWidth -

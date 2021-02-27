@@ -17,4 +17,14 @@ export const oakInternalPopupInputActionStyles = css`
     box-shadow: var(--formelement-outline-box-shadow);
     border-color: var(--formelement-outline-border-color);
   }
+  .oak-internal-popup-input-action--down-arrow svg {
+    width: 1em;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+  }
+  .oak-internal-popup-input-action--down-arrow svg path {
+    fill: var(--formelement-color-fg);
+  }
 `;

@@ -88,7 +88,9 @@ export class OakInternalPopupInputAction extends LitElement {
     // window.removeEventListener('scroll', this.adjustPositioning);
   }
 
-  private getClassMap = (baseClass: 'base' | 'value' | 'placeholder'): any => {
+  private getClassMap = (
+    baseClass: 'base' | 'value' | 'placeholder' | 'down-arrow'
+  ): any => {
     switch (baseClass) {
       case 'base':
         return {
@@ -100,6 +102,7 @@ export class OakInternalPopupInputAction extends LitElement {
         };
       case 'value':
       case 'placeholder':
+      case 'down-arrow':
         return {
           [`${customElementName}--${baseClass}`]: true,
         };
@@ -149,8 +152,10 @@ export class OakInternalPopupInputAction extends LitElement {
           : html`<div class=${classMap(this.getClassMap('placeholder'))}>
               ${this.placeholder}
             </div>`}
-        <div>
-          down
+        <div class=${classMap(this.getClassMap('down-arrow'))}>
+          <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path>
+          </svg>
         </div>
       </button>
     `;

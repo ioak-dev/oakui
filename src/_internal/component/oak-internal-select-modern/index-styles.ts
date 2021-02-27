@@ -50,5 +50,10 @@ export const oakInternalSelectModernStyles = css`
   .oak-internal-select-modern__li-indicator {
     margin-right: 8px;
     width: 16px;
+    display: flex;
+  }
+
+  .oak-internal-select-modern__li-indicator svg path {
+    fill: var(--formelement-color-fg);
   }
 `;

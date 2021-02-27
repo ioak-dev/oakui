@@ -36,7 +36,7 @@ export class OakPaginate extends LitElement {
   formElementFill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
 
   @property({type: Array})
-  private _rowsPerPageVariants = ['5', '10', '20', '50'];
+  private _rowsPerPageVariants = [5, 10, 20, 50];
 
   @property({type: Object})
   paginatePref: PaginatePref = {
@@ -188,7 +188,16 @@ export class OakPaginate extends LitElement {
                 .size=${this.formElementSize}
                 semitransparent
               >
-                ${'<'}
+                <svg
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  style="width: 24; height: 24;"
+                >
+                  <path
+                    d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
+                  ></path>
+                </svg>
               </oak-button>
             </div>
             <div>
@@ -200,7 +209,16 @@ export class OakPaginate extends LitElement {
                 .size=${this.formElementSize}
                 semitransparent
               >
-                ${'>'}
+                <svg
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  style="width: 24; height: 24;"
+                >
+                  <path
+                    d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
+                  ></path>
+                </svg>
               </oak-button>
             </div>
           </div>
