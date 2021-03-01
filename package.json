@@ -6,8 +6,9 @@
   "module": "index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && npm run copy-css",
     "build:watch": "tsc --watch",
+    "copy-css": "cp -r ./src/style/ ./dist/",
     "clean": "rimraf my-element.{d.ts,d.ts.map,js,js.map} test/my-element.{d.ts,d.ts.map,js,js.map} test/my-element_test.{d.ts,d.ts.map,js,js.map}",
     "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
     "lint:eslint": "eslint 'src/**/*.ts'",
@@ -37,10 +38,9 @@
   "author": "IOAK",
   "license": "BSD-3-Clause",
   "dependencies": {
-    "date-fns": "^2.17.0",
     "lit-element": "^2.3.1",
     "rxjs": "^6.6.3",
-    "uuid": "^8.3.2"
+    "date-fns": "^2.17.0"
   },
   "devDependencies": {
     "@11ty/eleventy": "^0.10.0",

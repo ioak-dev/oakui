@@ -1,5 +1,5 @@
 import {LitElement, html, customElement, property} from 'lit-element';
-import {classMap} from 'lit-html/directives/class-map';
+import {compose} from '../../style-composer/OakTypographyComposer';
 import {globalStyles} from '../../_internal/styles/global-styles';
 
 import {oakTypographyStyles} from './index-styles';
@@ -88,28 +88,22 @@ export class OakTypography extends LitElement {
     | 'overline'
     | 'inherit' = 'body1';
 
+  @property({type: Object})
+  private getStyleClass = (): string => {
+    return compose({
+      variant: this.variant,
+      align: this.align,
+      color: this.color,
+      display: this.display,
+      gutterBottom: this.gutterBottom,
+      highlightColor: this.highlightColor,
+      noWrap: this.noWrap,
+      paragraph: this.paragraph,
+    });
+  };
+
   constructor() {
     super();
-  }
-
-  private getClassMap(baseClass: 'base'): any {
-    switch (baseClass) {
-      case 'base':
-        return {
-          [customElementName]: true,
-          'oak-typography-root': true,
-          [`oak-typography-${this.variant}`]: true,
-          [`oak-typography-align-${this.align}`]: true,
-          [`oak-typography-display-${this.display}`]: true,
-          [`oak-typography-highlight-${this.highlightColor}`]: true,
-          'oak-typography-paragraph': this.paragraph,
-          'oak-typography-noWrap': this.noWrap,
-          'oak-gutter-bottom': this.gutterBottom,
-          [`oak-color-fg-${this.color}`]: true,
-        };
-      default:
-        return {};
-    }
   }
 
   static get styles() {
@@ -126,58 +120,37 @@ export class OakTypography extends LitElement {
       'overline',
       'inherit',
     ].includes(this.variant)
-      ? html` <p
-          class=${classMap(this.getClassMap('base'))}
-          id=${this.elementId}
-        >
+      ? html` <p class=${this.getStyleClass()} id=${this.elementId}>
           <slot></slot>
         </p>`
       : html``}
     ${this.variant === 'h1'
-      ? html` <h1
-          class=${classMap(this.getClassMap('base'))}
-          id=${this.elementId}
-        >
+      ? html` <h1 class=${this.getStyleClass()} id=${this.elementId}>
           <slot></slot>
         </h1>`
       : html``}
     ${this.variant === 'h2'
-      ? html` <h2
-          class=${classMap(this.getClassMap('base'))}
-          id=${this.elementId}
-        >
+      ? html` <h2 class=${this.getStyleClass()} id=${this.elementId}>
           <slot></slot>
         </h2>`
       : html``}
     ${this.variant === 'h3'
-      ? html` <h3
-          class=${classMap(this.getClassMap('base'))}
-          id=${this.elementId}
-        >
+      ? html` <h3 class=${this.getStyleClass()} id=${this.elementId}>
           <slot></slot>
         </h3>`
       : html``}
     ${this.variant === 'h4'
-      ? html` <h4
-          class=${classMap(this.getClassMap('base'))}
-          id=${this.elementId}
-        >
+      ? html` <h4 class=${this.getStyleClass()} id=${this.elementId}>
           <slot></slot>
         </h4>`
       : html``}
     ${this.variant === 'h5'
-      ? html` <h5
-          class=${classMap(this.getClassMap('base'))}
-          id=${this.elementId}
-        >
+      ? html` <h5 class=${this.getStyleClass()} id=${this.elementId}>
           <slot></slot>
         </h5>`
       : html``}
     ${this.variant === 'h6'
-      ? html` <h6
-          class=${classMap(this.getClassMap('base'))}
-          id=${this.elementId}
-        >
+      ? html` <h6 class=${this.getStyleClass()} id=${this.elementId}>
           <slot></slot>
         </h6>`
       : html``}`;
