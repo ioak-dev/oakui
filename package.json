@@ -9,7 +9,6 @@
     "build": "tsc && npm run copy-css",
     "build:watch": "tsc --watch",
     "copy-css": "cp -r ./src/style/ ./dist/",
-    "publish": "npm publish --access public",
     "clean": "rimraf my-element.{d.ts,d.ts.map,js,js.map} test/my-element.{d.ts,d.ts.map,js,js.map} test/my-element_test.{d.ts,d.ts.map,js,js.map}",
     "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
     "lint:eslint": "eslint 'src/**/*.ts'",
