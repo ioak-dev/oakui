@@ -1,6 +1,6 @@
 {
   "name": "@oakui/core",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "oakui is a framework agnostic UI component library, built using web components",
   "main": "index.js",
   "module": "index.js",
