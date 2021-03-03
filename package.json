@@ -1,7 +1,7 @@
 {
-  "name": "oakui",
-  "version": "0.0.0",
-  "description": "oakui is a framework agnostic UI component library",
+  "name": "@oakui/core",
+  "version": "1.0.2",
+  "description": "oakui is a framework agnostic UI component library, built using web components",
   "main": "index.js",
   "module": "index.js",
   "type": "module",
@@ -9,6 +9,7 @@
     "build": "tsc && npm run copy-css",
     "build:watch": "tsc --watch",
     "copy-css": "cp -r ./src/style/ ./dist/",
+    "publish": "npm publish --access public",
     "clean": "rimraf my-element.{d.ts,d.ts.map,js,js.map} test/my-element.{d.ts,d.ts.map,js,js.map} test/my-element_test.{d.ts,d.ts.map,js,js.map}",
     "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
     "lint:eslint": "eslint 'src/**/*.ts'",
