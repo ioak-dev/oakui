@@ -6,7 +6,6 @@ import {TABLE_PAGINATE_EVENT} from '../../types/TableEventTypes';
 import {oakTableStyles} from './index-styles';
 
 import '../oak-paginate';
-import {TableHeader} from '../../types/TableHeaderType';
 import {PaginatePref} from '../../types/PaginatePrefType';
 
 let elementIdCounter = 0;
@@ -23,17 +22,11 @@ export class OakTable extends LitElement {
   @property({type: String, reflect: true})
   id = `${this.elementId}-id`;
 
-  @property({type: Array})
-  header: TableHeader[] = [];
-
-  @property({type: Array})
-  data: any[] = [];
-
   /**
    * Applicable when serverSidePagination = true
    */
   @property({type: Number})
-  totalRows?: number = 0;
+  totalRows = 0;
 
   @property({type: Number})
   elevation?:
@@ -70,7 +63,7 @@ export class OakTable extends LitElement {
   variant?: 'outlined' | null = null;
 
   @property({type: String})
-  fill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
+  fill?: 'global' | 'container' | 'surface' | 'float' | 'none' = 'surface';
 
   @property({type: String})
   navPlacement?: 'top' | 'bottom' | 'none' = 'top';
@@ -122,9 +115,7 @@ export class OakTable extends LitElement {
     return html`<div class=${classMap(this.getClassMap('paginate'))}>
       <oak-paginate
         @paginate-change=${this._onPageChange}
-        .header=${this.header}
         .totalRows=${this.totalRows}
-        .fill=${this.fill}
         .formElementSize=${this.formElementSize}
         .formElementShape=${this.formElementShape}
         .paginatePref=${this.paginatePref}

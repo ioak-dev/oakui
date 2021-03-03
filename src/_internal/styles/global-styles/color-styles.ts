@@ -41,7 +41,7 @@ export const colorStyles = css`
     color: var(--color-success);
   }
   .oak-color-fg-invert {
-    color: var(--color-invert);
+    color: var(--color-invert-i);
   }
 
   .oak-color-bg-inherit {

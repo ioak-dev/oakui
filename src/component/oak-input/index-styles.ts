@@ -21,4 +21,10 @@ export const oakInputStyles = css`
   input.validation-failure:focus {
     box-shadow: var(--formelement-outline-box-shadow-error);
   }
+  input.oak-input--error-style-fill.validation-failure {
+    background-color: var(--color-danger-transparent);
+  }
+  input.oak-input--error-style-fill.validation-failure:focus {
+    background-color: var(--color-danger-semitransparent1);
+  }
 `;

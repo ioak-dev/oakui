@@ -82,7 +82,6 @@ export class OakForm extends LitElement {
   };
 
   private propagateEvent = (eventName: string, formControlEvent: any) => {
-    console.log('****' + eventName, formControlEvent);
     this.dispatchEvent(
       new CustomEvent(eventName, {
         bubbles: true,

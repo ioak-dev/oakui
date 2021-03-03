@@ -33,7 +33,13 @@ export interface OakTypographyProps {
   /**
    * Controls the display type
    */
-  display?: 'initial' | 'block' | 'inline';
+  display?:
+    | 'inherit'
+    | 'initial'
+    | 'inline'
+    | 'block'
+    | 'inline-block'
+    | 'inline-flex';
 
   /**
    * If true, the text will not wrap, but instead will truncate with a text overflow ellipsis.

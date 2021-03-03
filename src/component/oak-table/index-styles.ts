@@ -9,10 +9,14 @@ export const oakTableStyles = css`
     padding: 10px 6px;
   }
 
-  .oak-table__datagrid--nav-top.oak-table__datagrid--fill-none {
+  .oak-table__datagrid {
+    overflow: auto;
+  }
+
+  .oak-table__datagrid--nav-top.oak-table__datagrid--fill-global {
     border-top: 1px solid var(--color-global-darker);
   }
-  .oak-table__datagrid--nav-bottom.oak-table__datagrid--fill-none {
+  .oak-table__datagrid--nav-bottom.oak-table__datagrid--fill-global {
     border-bottom: 1px solid var(--color-global-darker);
   }
 

@@ -14,7 +14,7 @@ export const oakCheckboxStyles = css`
     transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     border-radius: 50%;
     border: 0;
-    margin: 0;
+    /* margin: 0; */
     outline: 0;
     /* padding: 0; */
     position: relative;

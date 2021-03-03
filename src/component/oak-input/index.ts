@@ -70,6 +70,9 @@ export class OakInput extends LitElement {
   @property({type: String})
   fill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
 
+  @property({type: String})
+  errorStyle?: 'outline' | 'fill' = 'outline';
+
   /**
    * 	If true, the text will have a bottom margin.
    */
@@ -264,6 +267,7 @@ export class OakInput extends LitElement {
           [`${customElementName}-${baseClass}`]: true,
           [`${customElementName}--size-${this.size}`]: true,
           [`${customElementName}--fill-${this.fill}`]: true,
+          [`${customElementName}--error-style-${this.errorStyle}`]: true,
           [`oak-shape-${this.shape}`]: true,
           [`oak-fill-${this.fill}`]: true,
           [`oak-fill-${this.fill}--hover`]: true,

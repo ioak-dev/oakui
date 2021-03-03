@@ -1,0 +1,174 @@
+.oak-section-extern--fullwidth {
+  width: 100%;
+}
+.oak-section-extern--outline-container {
+  border: 1px solid var(--color-container);
+}
+.oak-section-extern--outline-surface {
+  border: 1px solid var(--color-surface);
+}
+.oak-section-extern--outline-float {
+  border: 1px solid var(--color-float);
+}
+.oak-section-extern--outline-default {
+  border: 1px solid var(--color-default);
+}
+.oak-section-extern--outline-info {
+  border: 1px solid var(--color-info);
+}
+.oak-section-extern--outline-invert {
+  border: 1px solid var(--color-invert);
+}
+.oak-section-extern--outline-primary {
+  border: 1px solid var(--color-primary);
+}
+.oak-section-extern--outline-secondary {
+  border: 1px solid var(--color-secondary);
+}
+.oak-section-extern--outline-tertiary {
+  border: 1px solid var(--color-tertiary);
+}
+.oak-section-extern--outline-danger {
+  border: 1px solid var(--color-danger);
+}
+.oak-section-extern--outline-warning {
+  border: 1px solid var(--color-warning);
+}
+.oak-section-extern--outline-success {
+  border: 1px solid var(--color-success);
+}
+
+.oak-section-extern--fill-container {
+  background-color: var(--color-container);
+  color: var(--color-container-i);
+}
+.oak-section-extern--fill-surface {
+  background-color: var(--color-surface);
+  color: var(--color-surface-i);
+}
+.oak-section-extern--fill-float {
+  background-color: var(--color-float);
+  color: var(--color-float-i);
+}
+.oak-section-extern--fill-default {
+  background-color: var(--color-default);
+  color: var(--color-default-i);
+}
+.oak-section-extern--fill-info {
+  background-color: var(--color-info);
+  color: var(--color-info-i);
+}
+.oak-section-extern--fill-invert {
+  background-color: var(--color-invert);
+  color: var(--color-invert-i);
+}
+.oak-section-extern--fill-primary {
+  background-color: var(--color-primary);
+  color: var(--color-primary-i);
+}
+.oak-section-extern--fill-secondary {
+  background-color: var(--color-secondary);
+  color: var(--color-secondary-i);
+}
+.oak-section-extern--fill-tertiary {
+  background-color: var(--color-tertiary);
+  color: var(--color-tertiary-i);
+}
+.oak-section-extern--fill-danger {
+  background-color: var(--color-danger);
+  color: var(--color-danger-i);
+}
+.oak-section-extern--fill-warning {
+  background-color: var(--color-warning);
+  color: var(--color-warning-i);
+}
+.oak-section-extern--fill-success {
+  background-color: var(--color-success);
+  color: var(--color-success-i);
+}
+
+.oak-section-extern--semitransparent.oak-section-extern--fill-container {
+  background-color: var(--color-container-transparent);
+  color: inherit;
+}
+.oak-section-extern--semitransparent.oak-section-extern--fill-surface {
+  background-color: var(--color-surface-transparent);
+  color: inherit;
+}
+.oak-section-extern--semitransparent.oak-section-extern--fill-float {
+  background-color: var(--color-float-transparent);
+  color: inherit;
+}
+.oak-section-extern--semitransparent.oak-section-extern--fill-default {
+  background-color: var(--color-default-transparent);
+  color: inherit;
+}
+.oak-section-extern--semitransparent.oak-section-extern--fill-info {
+  background-color: var(--color-info-transparent);
+  color: inherit;
+}
+.oak-section-extern--semitransparent.oak-section-extern--fill-invert {
+  background-color: var(--color-invert-transparent);
+  color: inherit;
+}
+.oak-section-extern--semitransparent.oak-section-extern--fill-primary {
+  background-color: var(--color-primary-transparent);
+  color: inherit;
+}
+.oak-section-extern--semitransparent.oak-section-extern--fill-secondary {
+  background-color: var(--color-secondary-transparent);
+  color: inherit;
+}
+.oak-section-extern--semitransparent.oak-section-extern--fill-tertiary {
+  background-color: var(--color-tertiary-transparent);
+  color: inherit;
+}
+.oak-section-extern--semitransparent.oak-section-extern--fill-danger {
+  background-color: var(--color-danger-transparent);
+  color: inherit;
+}
+.oak-section-extern--semitransparent.oak-section-extern--fill-warning {
+  background-color: var(--color-warning-transparent);
+  color: inherit;
+}
+.oak-section-extern--semitransparent.oak-section-extern--fill-success {
+  background-color: var(--color-success-transparent);
+  color: inherit;
+}
+
+.oak-section-extern--semitransparent.oak-section-extern--text-primary,
+.oak-section-extern--text-primary {
+  color: var(--color-primary);
+}
+.oak-section-extern--semitransparent.oak-section-extern--text-secondary,
+.oak-section-extern--text-secondary {
+  color: var(--color-secondary);
+}
+.oak-section-extern--semitransparent.oak-section-extern--text-tertiary,
+.oak-section-extern--text-tertiary {
+  color: var(--color-tertiary);
+}
+.oak-section-extern--semitransparent.oak-section-extern--text-default,
+.oak-section-extern--text-default {
+  color: var(--color-default);
+}
+.oak-section-extern--semitransparent.oak-section-extern--text-info,
+.oak-section-extern--text-info {
+  color: var(--color-info);
+}
+.oak-section-extern--semitransparent.oak-section-extern--text-invert,
+.oak-section-extern--text-invert {
+  color: var(--color-invert);
+}
+.oak-section-extern--semitransparent.oak-section-extern--text-danger,
+.oak-section-extern--text-danger {
+  color: var(--color-danger);
+}
+.oak-section-extern--semitransparent.oak-section-extern--text-warning,
+.oak-section-extern--text-warning {
+  color: var(--color-warning);
+}
+.oak-section-extern--semitransparent.oak-section-extern--text-success,
+.oak-section-extern--text-success {
+  color: var(--color-success);
+}

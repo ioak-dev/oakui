@@ -71,6 +71,7 @@ export interface OakSectionProps {
     | 'invert'
     | 'auto';
   gutterBottom?: boolean;
+  fullWidth?: boolean;
 }
 
 export function compose(props: OakSectionProps): string {
@@ -89,6 +90,9 @@ export function compose(props: OakSectionProps): string {
   }
   if (props.gutterBottom) {
     output += ' oak-gutter-bottom';
+  }
+  if (props.fullWidth) {
+    output += ` ${BASE_CLASS_NAME}--fullwidth`;
   }
   return output;
 }

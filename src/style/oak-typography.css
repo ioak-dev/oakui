@@ -122,9 +122,22 @@
 .oak-typography-paragraph {
   margin-bottom: var(--oak-typography-paragraph-margin-bottom);
 }
+
+.oak-typography-display-inherit {
+  display: inherit;
+}
+.oak-typography-display-initial {
+  display: initial;
+}
 .oak-typography-display-inline {
   display: inline;
 }
 .oak-typography-display-block {
   display: block;
+}
+.oak-typography-display-inline-block {
+  display: inline-block;
+}
+.oak-typography-display-inline-flex {
+  display: inline-flex;
 }
