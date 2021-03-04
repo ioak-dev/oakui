@@ -57,6 +57,40 @@ export class OakAppLayout extends LitElement {
     | 'invert'
     | 'custom' = 'primary';
 
+  @property({type: String})
+  leftDrawerColor:
+    | 'global'
+    | 'container'
+    | 'surface'
+    | 'float'
+    | 'primary'
+    | 'secondary'
+    | 'tertiary'
+    | 'default'
+    | 'danger'
+    | 'warning'
+    | 'success'
+    | 'info'
+    | 'invert'
+    | 'custom' = 'primary';
+
+  @property({type: String})
+  rightDrawerColor:
+    | 'global'
+    | 'container'
+    | 'surface'
+    | 'float'
+    | 'primary'
+    | 'secondary'
+    | 'tertiary'
+    | 'default'
+    | 'danger'
+    | 'warning'
+    | 'success'
+    | 'info'
+    | 'invert'
+    | 'custom' = 'primary';
+
   @property({type: Number})
   topElevation?:
     | 0
@@ -261,6 +295,8 @@ export class OakAppLayout extends LitElement {
             'over',
           ].includes(this.leftDrawerType),
           [`oak-bs-elevation${this.leftElevation}`]: this.leftDrawerOpen,
+          [`oak-color-bg-${this.leftDrawerColor}`]: true,
+          [`oak-color-${this.leftDrawerColor}-i`]: true,
         };
       case 'drawer-right':
         return {
@@ -270,6 +306,8 @@ export class OakAppLayout extends LitElement {
             'over',
           ].includes(this.rightDrawerType),
           [`oak-bs-elevation${this.rightElevation}`]: this.rightDrawerOpen,
+          [`oak-color-bg-${this.rightDrawerColor}`]: true,
+          [`oak-color-${this.rightDrawerColor}-i`]: true,
         };
       case 'topbar':
         return {
@@ -282,6 +320,8 @@ export class OakAppLayout extends LitElement {
       case 'content':
         return {
           [`${customElementName}__${baseClass}`]: true,
+          ['oak-color-bg-global']: true,
+          ['oak-color-global-i']: true,
         };
       case 'content__topbar':
         return {

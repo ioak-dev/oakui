@@ -1,0 +1,88 @@
+.oak-divider {
+  border: none;
+  height: 1px;
+  flex-shrink: 0;
+}
+.oak-divider--color-none {
+  visibility: hidden;
+}
+
+.oak-divider--mode-darker.oak-divider--color-global {
+  background-color: var(--color-global-darker);
+}
+.oak-divider--mode-darker.oak-divider--color-container {
+  background-color: var(--color-container-darker);
+}
+.oak-divider--mode-darker.oak-divider--color-surface {
+  background-color: var(--color-surface-darker);
+}
+.oak-divider--mode-darker.oak-divider--color-float {
+  background-color: var(--color-float-darker);
+}
+.oak-divider--mode-darker.oak-divider--color-primary {
+  background-color: var(--color-primary-darker);
+}
+.oak-divider--mode-darker.oak-divider--color-secondary {
+  background-color: var(--color-secondary-darker);
+}
+.oak-divider--mode-darker.oak-divider--color-tertiary {
+  background-color: var(--color-tertiary-darker);
+}
+.oak-divider--mode-darker.oak-divider--color-default {
+  background-color: var(--color-default-darker);
+}
+.oak-divider--mode-darker.oak-divider--color-danger {
+  background-color: var(--color-danger-darker);
+}
+.oak-divider--mode-darker.oak-divider--color-warning {
+  background-color: var(--color-warning-darker);
+}
+.oak-divider--mode-darker.oak-divider--color-success {
+  background-color: var(--color-success-darker);
+}
+.oak-divider--mode-darker.oak-divider--color-info {
+  background-color: var(--color-info-darker);
+}
+.oak-divider--mode-darker.oak-divider--color-invert {
+  background-color: var(--color-invert-darker);
+}
+
+.oak-divider--mode-lighter.oak-divider--color-global {
+  background-color: var(--color-global-lighter);
+}
+.oak-divider--mode-lighter.oak-divider--color-container {
+  background-color: var(--color-container-lighter);
+}
+.oak-divider--mode-lighter.oak-divider--color-surface {
+  background-color: var(--color-surface-lighter);
+}
+.oak-divider--mode-lighter.oak-divider--color-float {
+  background-color: var(--color-float-lighter);
+}
+.oak-divider--mode-lighter.oak-divider--color-primary {
+  background-color: var(--color-primary-lighter);
+}
+.oak-divider--mode-lighter.oak-divider--color-secondary {
+  background-color: var(--color-secondary-lighter);
+}
+.oak-divider--mode-lighter.oak-divider--color-tertiary {
+  background-color: var(--color-tertiary-lighter);
+}
+.oak-divider--mode-lighter.oak-divider--color-default {
+  background-color: var(--color-default-lighter);
+}
+.oak-divider--mode-lighter.oak-divider--color-danger {
+  background-color: var(--color-danger-lighter);
+}
+.oak-divider--mode-lighter.oak-divider--color-warning {
+  background-color: var(--color-warning-lighter);
+}
+.oak-divider--mode-lighter.oak-divider--color-success {
+  background-color: var(--color-success-lighter);
+}
+.oak-divider--mode-lighter.oak-divider--color-info {
+  background-color: var(--color-info-lighter);
+}
+.oak-divider--mode-lighter.oak-divider--color-invert {
+  background-color: var(--color-invert-lighter);
+}

@@ -1,0 +1,92 @@
+.oak-margin-horizontal0 {
+  margin-left: var(--oak-padding-horizontal0);
+  margin-right: var(--oak-padding-horizontal0);
+}
+.oak-margin-horizontal1 {
+  margin-left: var(--oak-padding-horizontal1);
+  margin-right: var(--oak-padding-horizontal1);
+}
+.oak-margin-horizontal2 {
+  margin-left: var(--oak-padding-horizontal2);
+  margin-right: var(--oak-padding-horizontal2);
+}
+.oak-margin-horizontal3 {
+  margin-left: var(--oak-padding-horizontal3);
+  margin-right: var(--oak-padding-horizontal3);
+}
+.oak-margin-horizontal4 {
+  margin-left: var(--oak-padding-horizontal4);
+  margin-right: var(--oak-padding-horizontal4);
+}
+.oak-margin-horizontal5 {
+  margin-left: var(--oak-padding-horizontal5);
+  margin-right: var(--oak-padding-horizontal5);
+}
+.oak-margin-horizontal6 {
+  margin-left: var(--oak-padding-horizontal6);
+  margin-right: var(--oak-padding-horizontal6);
+}
+.oak-margin-horizontal7 {
+  margin-left: var(--oak-padding-horizontal7);
+  margin-right: var(--oak-padding-horizontal7);
+}
+.oak-margin-horizontal8 {
+  margin-left: var(--oak-padding-horizontal8);
+  margin-right: var(--oak-padding-horizontal8);
+}
+.oak-margin-horizontal9 {
+  margin-left: var(--oak-padding-horizontal9);
+  margin-right: var(--oak-padding-horizontal9);
+}
+.oak-margin-horizontal10 {
+  margin-left: var(--oak-padding-horizontal10);
+  margin-right: var(--oak-padding-horizontal10);
+}
+
+.oak-margin-vertical0 {
+  margin-top: var(--oak-padding-vertical0);
+  margin-bottom: var(--oak-padding-vertical0);
+}
+.oak-margin-vertical1 {
+  margin-top: var(--oak-padding-vertical1);
+  margin-bottom: var(--oak-padding-vertical1);
+}
+.oak-margin-vertical2 {
+  margin-top: var(--oak-padding-vertical2);
+  margin-bottom: var(--oak-padding-vertical2);
+}
+.oak-margin-vertical3 {
+  margin-top: var(--oak-padding-vertical3);
+  margin-bottom: var(--oak-padding-vertical3);
+}
+.oak-margin-vertical4 {
+  margin-top: var(--oak-padding-vertical4);
+  margin-bottom: var(--oak-padding-vertical4);
+}
+.oak-margin-vertical5 {
+  margin-top: var(--oak-padding-vertical5);
+  margin-bottom: var(--oak-padding-vertical5);
+}
+.oak-margin-vertical6 {
+  margin-top: var(--oak-padding-vertical6);
+  margin-bottom: var(--oak-padding-vertical6);
+}
+.oak-margin-vertical7 {
+  margin-top: var(--oak-padding-vertical7);
+  margin-bottom: var(--oak-padding-vertical7);
+}
+.oak-margin-vertical8 {
+  margin-top: var(--oak-padding-vertical8);
+  margin-bottom: var(--oak-padding-vertical8);
+}
+.oak-margin-vertical9 {
+  margin-top: var(--oak-padding-vertical9);
+  margin-bottom: var(--oak-padding-vertical9);
+}
+.oak-margin-vertical10 {
+  margin-top: var(--oak-padding-vertical10);
+  margin-bottom: var(--oak-padding-vertical10);
+}
+.oak-gutter-bottom {
+  margin-bottom: var(--oak-gutter-bottom);
+}

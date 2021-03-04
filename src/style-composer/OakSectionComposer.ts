@@ -77,8 +77,12 @@ export interface OakSectionProps {
 export function compose(props: OakSectionProps): string {
   let output = BASE_CLASS_NAME;
   output += ` oak-bs-elevation${props.elevation || 0}`;
-  output += ` oak-padding-horizontal${props.paddingHorizontal || 2}`;
-  output += ` oak-padding-vertical${props.paddingVertical || 2}`;
+  output += ` oak-padding-horizontal${
+    props.paddingHorizontal === null ? 2 : props.paddingHorizontal
+  }`;
+  output += ` oak-padding-vertical${
+    props.paddingVertical === null ? 2 : props.paddingVertical
+  }`;
   output += ` ${BASE_CLASS_NAME}--outline-${props.outlineColor || 'none'}`;
   output += ` ${BASE_CLASS_NAME}--fill-${props.fillColor || 'container'}`;
   output += ` ${BASE_CLASS_NAME}--text-${props.textColor || 'auto'}`;

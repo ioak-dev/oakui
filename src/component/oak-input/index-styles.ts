@@ -1,6 +1,9 @@
 import {css} from 'lit-element';
 
 export const oakInputStyles = css`
+  .oak-input {
+    text-align: left;
+  }
   input {
     width: 100%;
     border: 1px solid var(--global-border-color);

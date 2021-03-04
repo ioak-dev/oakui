@@ -6,9 +6,12 @@
   "module": "index.js",
   "type": "module",
   "scripts": {
+    "build-only": "tsc",
     "build": "tsc && npm run copy-css",
     "build:watch": "tsc --watch",
     "copy-css": "cp -r ./src/style/ ./dist/",
+    "move-package": "cp -rf ./dist/* ../npm-oakui/",
+    "package": "npm run build && npm run move-package",
     "clean": "rimraf my-element.{d.ts,d.ts.map,js,js.map} test/my-element.{d.ts,d.ts.map,js,js.map} test/my-element_test.{d.ts,d.ts.map,js,js.map}",
     "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
     "lint:eslint": "eslint 'src/**/*.ts'",
