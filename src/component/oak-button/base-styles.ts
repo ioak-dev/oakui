@@ -5,15 +5,12 @@ export const oakButtonBaseStyles = css`
     display: grid;
     align-items: center;
     align-content: center;
-    --btn-text-color: #fcfcfc;
-    --btn-text-color-dark: #000;
     user-select: none;
     border-radius: var(--formelement-border-radius);
     white-space: nowrap;
     font-size: 12.5px;
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
-    // border: 2px solid var(--color-bg);
     background: none;
     color: var(--color-1);
     cursor: pointer;

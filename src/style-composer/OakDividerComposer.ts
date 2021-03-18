@@ -1,7 +1,7 @@
 const BASE_CLASS_NAME = 'oak-divider';
 
 export interface OakDividerProps {
-  colorMode?: 'darker' | 'lighter';
+  colorMode?: 'darker' | 'lighter' | 'even' | 'i';
   color?:
     | 'none'
     | 'global'
@@ -17,7 +17,6 @@ export interface OakDividerProps {
     | 'success'
     | 'info'
     | 'invert';
-  marginVertical?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 }
 
 export function compose(props: OakDividerProps): string {
@@ -25,7 +24,6 @@ export function compose(props: OakDividerProps): string {
 
   output += ` ${BASE_CLASS_NAME}--color-${props.color || 'global'}`;
   output += ` ${BASE_CLASS_NAME}--mode-${props.colorMode || 'darker'}`;
-  output += ` oak-margin-vertical${props.marginVertical || 0}`;
 
   return output;
 }

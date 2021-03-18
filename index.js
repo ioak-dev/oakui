@@ -18,3 +18,6 @@ import './dist/component/oak-table/index.js';
 import './dist/component/oak-tab/index.js';
 import './dist/component/oak-app-layout/index.js';
 import './dist/component/oak-sheet/index.js';
+import './dist/component/oak-expansion-panel/index.js';
+import './dist/component/oak-click-area/index.js';
+import './dist/component/oak-toolbar/index.js';

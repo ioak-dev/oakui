@@ -1,6 +1,5 @@
 .oak-divider {
-  border: none;
-  height: 1px;
+  border-bottom: 1px solid;
   flex-shrink: 0;
 }
 .oak-divider--color-none {
@@ -8,81 +7,161 @@
 }
 
 .oak-divider--mode-darker.oak-divider--color-global {
-  background-color: var(--color-global-darker);
+  border-color: var(--color-global-darker);
 }
 .oak-divider--mode-darker.oak-divider--color-container {
-  background-color: var(--color-container-darker);
+  border-color: var(--color-container-darker);
 }
 .oak-divider--mode-darker.oak-divider--color-surface {
-  background-color: var(--color-surface-darker);
+  border-color: var(--color-surface-darker);
 }
 .oak-divider--mode-darker.oak-divider--color-float {
-  background-color: var(--color-float-darker);
+  border-color: var(--color-float-darker);
 }
 .oak-divider--mode-darker.oak-divider--color-primary {
-  background-color: var(--color-primary-darker);
+  border-color: var(--color-primary-darker);
 }
 .oak-divider--mode-darker.oak-divider--color-secondary {
-  background-color: var(--color-secondary-darker);
+  border-color: var(--color-secondary-darker);
 }
 .oak-divider--mode-darker.oak-divider--color-tertiary {
-  background-color: var(--color-tertiary-darker);
+  border-color: var(--color-tertiary-darker);
 }
 .oak-divider--mode-darker.oak-divider--color-default {
-  background-color: var(--color-default-darker);
+  border-color: var(--color-default-darker);
 }
 .oak-divider--mode-darker.oak-divider--color-danger {
-  background-color: var(--color-danger-darker);
+  border-color: var(--color-danger-darker);
 }
 .oak-divider--mode-darker.oak-divider--color-warning {
-  background-color: var(--color-warning-darker);
+  border-color: var(--color-warning-darker);
 }
 .oak-divider--mode-darker.oak-divider--color-success {
-  background-color: var(--color-success-darker);
+  border-color: var(--color-success-darker);
 }
 .oak-divider--mode-darker.oak-divider--color-info {
-  background-color: var(--color-info-darker);
+  border-color: var(--color-info-darker);
 }
 .oak-divider--mode-darker.oak-divider--color-invert {
-  background-color: var(--color-invert-darker);
+  border-color: var(--color-invert-darker);
 }
 
 .oak-divider--mode-lighter.oak-divider--color-global {
-  background-color: var(--color-global-lighter);
+  border-color: var(--color-global-lighter);
 }
 .oak-divider--mode-lighter.oak-divider--color-container {
-  background-color: var(--color-container-lighter);
+  border-color: var(--color-container-lighter);
 }
 .oak-divider--mode-lighter.oak-divider--color-surface {
-  background-color: var(--color-surface-lighter);
+  border-color: var(--color-surface-lighter);
 }
 .oak-divider--mode-lighter.oak-divider--color-float {
-  background-color: var(--color-float-lighter);
+  border-color: var(--color-float-lighter);
 }
 .oak-divider--mode-lighter.oak-divider--color-primary {
-  background-color: var(--color-primary-lighter);
+  border-color: var(--color-primary-lighter);
 }
 .oak-divider--mode-lighter.oak-divider--color-secondary {
-  background-color: var(--color-secondary-lighter);
+  border-color: var(--color-secondary-lighter);
 }
 .oak-divider--mode-lighter.oak-divider--color-tertiary {
-  background-color: var(--color-tertiary-lighter);
+  border-color: var(--color-tertiary-lighter);
 }
 .oak-divider--mode-lighter.oak-divider--color-default {
-  background-color: var(--color-default-lighter);
+  border-color: var(--color-default-lighter);
 }
 .oak-divider--mode-lighter.oak-divider--color-danger {
-  background-color: var(--color-danger-lighter);
+  border-color: var(--color-danger-lighter);
 }
 .oak-divider--mode-lighter.oak-divider--color-warning {
-  background-color: var(--color-warning-lighter);
+  border-color: var(--color-warning-lighter);
 }
 .oak-divider--mode-lighter.oak-divider--color-success {
-  background-color: var(--color-success-lighter);
+  border-color: var(--color-success-lighter);
 }
 .oak-divider--mode-lighter.oak-divider--color-info {
-  background-color: var(--color-info-lighter);
+  border-color: var(--color-info-lighter);
 }
 .oak-divider--mode-lighter.oak-divider--color-invert {
-  background-color: var(--color-invert-lighter);
+  border-color: var(--color-invert-lighter);
+}
+
+.oak-divider--mode-even.oak-divider--color-global {
+  border-color: var(--color-global);
+}
+.oak-divider--mode-even.oak-divider--color-container {
+  border-color: var(--color-container);
+}
+.oak-divider--mode-even.oak-divider--color-surface {
+  border-color: var(--color-surface);
+}
+.oak-divider--mode-even.oak-divider--color-float {
+  border-color: var(--color-float);
+}
+.oak-divider--mode-even.oak-divider--color-primary {
+  border-color: var(--color-primary);
+}
+.oak-divider--mode-even.oak-divider--color-secondary {
+  border-color: var(--color-secondary);
+}
+.oak-divider--mode-even.oak-divider--color-tertiary {
+  border-color: var(--color-tertiary);
+}
+.oak-divider--mode-even.oak-divider--color-default {
+  border-color: var(--color-default);
+}
+.oak-divider--mode-even.oak-divider--color-danger {
+  border-color: var(--color-danger);
+}
+.oak-divider--mode-even.oak-divider--color-warning {
+  border-color: var(--color-warning);
+}
+.oak-divider--mode-even.oak-divider--color-success {
+  border-color: var(--color-success);
+}
+.oak-divider--mode-even.oak-divider--color-info {
+  border-color: var(--color-info);
+}
+.oak-divider--mode-even.oak-divider--color-invert {
+  border-color: var(--color-invert);
+}
+
+.oak-divider--mode-i.oak-divider--color-global {
+  border-color: var(--color-global-i);
+}
+.oak-divider--mode-i.oak-divider--color-container {
+  border-color: var(--color-container-i);
+}
+.oak-divider--mode-i.oak-divider--color-surface {
+  border-color: var(--color-surface-i);
+}
+.oak-divider--mode-i.oak-divider--color-float {
+  border-color: var(--color-float-i);
+}
+.oak-divider--mode-i.oak-divider--color-primary {
+  border-color: var(--color-primary-i);
+}
+.oak-divider--mode-i.oak-divider--color-secondary {
+  border-color: var(--color-secondary-i);
+}
+.oak-divider--mode-i.oak-divider--color-tertiary {
+  border-color: var(--color-tertiary-i);
+}
+.oak-divider--mode-i.oak-divider--color-default {
+  border-color: var(--color-default-i);
+}
+.oak-divider--mode-i.oak-divider--color-danger {
+  border-color: var(--color-danger-i);
+}
+.oak-divider--mode-i.oak-divider--color-warning {
+  border-color: var(--color-warning-i);
+}
+.oak-divider--mode-i.oak-divider--color-success {
+  border-color: var(--color-success-i);
+}
+.oak-divider--mode-i.oak-divider--color-info {
+  border-color: var(--color-info-i);
+}
+.oak-divider--mode-i.oak-divider--color-invert {
+  border-color: var(--color-invert-i);
 }

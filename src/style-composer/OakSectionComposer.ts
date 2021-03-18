@@ -29,6 +29,8 @@ export interface OakSectionProps {
     | 24;
   paddingHorizontal?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
   paddingVertical?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+  marginHorizontal?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+  marginVertical?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
   rounded?: boolean;
   semitransparent?: boolean;
   fillColor?:
@@ -82,6 +84,12 @@ export function compose(props: OakSectionProps): string {
   }`;
   output += ` oak-padding-vertical${
     props.paddingVertical === null ? 2 : props.paddingVertical
+  }`;
+  output += ` oak-margin-horizontal${
+    props.marginHorizontal === null ? 0 : props.marginHorizontal
+  }`;
+  output += ` oak-margin-vertical${
+    props.marginVertical === null ? 0 : props.marginVertical
   }`;
   output += ` ${BASE_CLASS_NAME}--outline-${props.outlineColor || 'none'}`;
   output += ` ${BASE_CLASS_NAME}--fill-${props.fillColor || 'container'}`;
