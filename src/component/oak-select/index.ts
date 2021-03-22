@@ -60,6 +60,9 @@ export class OakSelect extends LitElement {
   @property({type: String})
   fill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
 
+  @property({type: String})
+  autoCompleteVariant: 'none' | 'autocomplete' | 'searchbox' = 'searchbox';
+
   /**
    * 	If true, the text will have a bottom margin.
    */
@@ -132,6 +135,7 @@ export class OakSelect extends LitElement {
             .size=${this.size}
             .shape=${this.shape}
             .fill=${this.fill}
+            .autoCompleteVariant=${this.autoCompleteVariant}
             ?gutterBottom=${this.gutterBottom}
           ></oak-internal-select-modern>`}
     `;

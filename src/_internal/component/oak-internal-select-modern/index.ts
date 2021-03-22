@@ -6,6 +6,8 @@ import {formControlValidateSubject} from '../../events/FormControlValidateEvent'
 import {globalStyles} from '../../styles/global-styles';
 import {ValidationErrorType} from '../../../types/ValidationResultType';
 import '../oak-internal-popup';
+import '../oak-internal-popup-text-input-action';
+import '../oak-internal-popup-input-action';
 import {oakInternalSelectModernStyles} from './index-styles';
 import {isEmptyOrSpaces, toString} from '../../utils/StringUtils';
 import {
@@ -62,6 +64,9 @@ export class OakInternalSelectModern extends LitElement {
 
   @property({type: Boolean})
   disabled = false;
+
+  @property({type: String})
+  autoCompleteVariant: 'none' | 'autocomplete' | 'searchbox' = 'searchbox';
 
   @property({type: Array})
   options: any[] = [];
@@ -266,6 +271,15 @@ export class OakInternalSelectModern extends LitElement {
     }
   };
 
+  private _toggle = () => {
+    console.log('&&&& TOGGLE');
+    if (this._isActivated) {
+      this._deactivate();
+    } else {
+      this._activate();
+    }
+  };
+
   private handleKeydown = (event: any) => {
     if (this._isActivated) {
       this.keydownEventHandler(event.detail.value);
@@ -385,6 +399,10 @@ export class OakInternalSelectModern extends LitElement {
     );
   };
 
+  private _handleSearchCriteriaChange = (event: any) => {
+    this._searchCriteria = event.detail.value;
+  };
+
   render() {
     const labelId = `${this.elementId}-label`;
 
@@ -407,22 +425,43 @@ export class OakInternalSelectModern extends LitElement {
         .shape=${this.shape}
         .fill=${this.fill}
       >
+        <div slot="action">
+          ${this.autoCompleteVariant === 'autocomplete'
+            ? html`<oak-internal-popup-text-input-action
+                @toggle=${this._toggle}
+                .value=${this._isActivated ? this._searchCriteria : this.value}
+                ?isActivated=${this._isActivated}
+                .size=${this.size}
+                .shape=${this.shape}
+                .fill=${this.fill}
+                @search-criteria-change=${this._handleSearchCriteriaChange}
+              ></oak-internal-popup-text-input-action>`
+            : html` <oak-internal-popup-input-action
+                @toggle=${this._toggle}
+                .value=${this.value}
+                .size=${this.size}
+                .shape=${this.shape}
+                .fill=${this.fill}
+              ></oak-internal-popup-input-action>`}
+        </div>
         <div
           slot="popup"
           class=${classMap(this.getClassMap('popup'))}
           id=${this.elementId}
         >
-          <div class=${classMap(this.getClassMap('search-filter'))}>
-            <input
-              class=${classMap(this.getClassMap('input'))}
-              type="text"
-              placeholder="Type to filter"
-              autocomplete="off"
-              .value=${this._searchCriteria}
-              id=${this.inputElementId}
-              @input=${this.handleSearchCriteriaChange}
-            />
-          </div>
+          ${this.autoCompleteVariant === 'searchbox'
+            ? html`<div class=${classMap(this.getClassMap('search-filter'))}>
+                <input
+                  class=${classMap(this.getClassMap('input'))}
+                  type="text"
+                  placeholder="Type to filter"
+                  autocomplete="off"
+                  .value=${this._searchCriteria}
+                  id=${this.inputElementId}
+                  @input=${this.handleSearchCriteriaChange}
+                />
+              </div>`
+            : html``}
           <ul
             role="listbox"
             id=${this.ulElementId}

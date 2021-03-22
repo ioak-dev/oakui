@@ -8,12 +8,12 @@ import '../oak-internal-label';
 import '../oak-internal-form-tooltip';
 import '../oak-internal-form-error';
 import '../oak-internal-popup-input-action';
+import '../oak-internal-popup-text-input-action';
 import '../../../component/oak-input';
 import '../../../component/oak-button';
 import {oakInternalPopupStyles} from './index-styles';
 import {containerScrolledSubject} from '../../events/ContainerScrolledEvent';
 import {
-  POPUP_ACTIVATE,
   POPUP_DEACTIVATE,
   POPUP_KEY_PRESSED,
 } from '../../../event/OakPopupEvent';
@@ -181,12 +181,12 @@ export class OakSelect extends LitElement {
     this.propagateCustomEvent(POPUP_KEY_PRESSED, event);
   };
 
-  private _activate = () => {
-    if (!this.isActivated) {
-      this.propagateCustomEvent(POPUP_ACTIVATE);
-      this._handlePostActivate();
-    }
-  };
+  // private _activate = () => {
+  //   if (!this.isActivated) {
+  //     this.propagateCustomEvent(POPUP_ACTIVATE);
+  //     this._handlePostActivate();
+  //   }
+  // };
 
   private _handlePostActivate = () => {
     setTimeout(() => this.adjustPositioning());
@@ -278,30 +278,30 @@ export class OakSelect extends LitElement {
   //   this._searchCriteria = event.detail.value;
   // };
 
-  private handleInputFocused = () => {
-    if (this.isActivated) {
-      this._deactivate();
-    } else {
-      this._activate();
-    }
-  };
+  // private handleInputFocused = () => {
+  //   if (this.isActivated) {
+  //     this._deactivate();
+  //   } else {
+  //     this._activate();
+  //   }
+  // };
 
-  private _renderAction = () => {
-    switch (this.type) {
-      case 'input':
-        return html` <oak-internal-popup-input-action
-          @toggle=${this.handleInputFocused}
-          .value=${this.value}
-          .size=${this.size}
-          .shape=${this.shape}
-          .fill=${this.fill}
-        ></oak-internal-popup-input-action>`;
-      case 'custom':
-        return html`<slot name="action"></slot>`;
-      default:
-        return html``;
-    }
-  };
+  // private _renderAction = () => {
+  //   switch (this.type) {
+  //     case 'input':
+  //       return html` <oak-internal-popup-input-action
+  //         @toggle=${this.handleInputFocused}
+  //         .value=${this.value}
+  //         .size=${this.size}
+  //         .shape=${this.shape}
+  //         .fill=${this.fill}
+  //       ></oak-internal-popup-input-action>`;
+  //     case 'custom':
+  //       return html`<slot name="action"></slot>`;
+  //     default:
+  //       return html``;
+  //   }
+  // };
 
   static get styles() {
     return [...globalStyles, oakInternalPopupStyles];
@@ -328,7 +328,7 @@ export class OakSelect extends LitElement {
           class=${classMap(this.getClassMap('action'))}
           id=${this.actionElementId}
         >
-          ${this._renderAction()}
+          <slot name="action"></slot>
         </div>
         <div
           class=${classMap(this.getClassMap('popup'))}
