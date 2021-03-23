@@ -167,13 +167,6 @@ export class OakSelect extends LitElement {
       ) {
         this._deactivate();
       }
-
-      // if (
-      //   !event.target.getAttribute('id') ||
-      //   event.target.getAttribute('id') !== this.elementFor
-      // ) {
-      //   this._deactivate();
-      // }
     }
   };
 
@@ -273,35 +266,6 @@ export class OakSelect extends LitElement {
         return {};
     }
   };
-
-  // private handleSearchCriteriaChange = (event: any) => {
-  //   this._searchCriteria = event.detail.value;
-  // };
-
-  // private handleInputFocused = () => {
-  //   if (this.isActivated) {
-  //     this._deactivate();
-  //   } else {
-  //     this._activate();
-  //   }
-  // };
-
-  // private _renderAction = () => {
-  //   switch (this.type) {
-  //     case 'input':
-  //       return html` <oak-internal-popup-input-action
-  //         @toggle=${this.handleInputFocused}
-  //         .value=${this.value}
-  //         .size=${this.size}
-  //         .shape=${this.shape}
-  //         .fill=${this.fill}
-  //       ></oak-internal-popup-input-action>`;
-  //     case 'custom':
-  //       return html`<slot name="action"></slot>`;
-  //     default:
-  //       return html``;
-  //   }
-  // };
 
   static get styles() {
     return [...globalStyles, oakInternalPopupStyles];

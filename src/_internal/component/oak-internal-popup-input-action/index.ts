@@ -21,8 +21,14 @@ const customElementName = 'oak-internal-popup-input-action';
 export class OakInternalPopupInputAction extends LitElement {
   private elementId = `${customElementName}-${elementIdCounter++}`;
 
+  @property({type: Boolean})
+  private multiple = false;
+
   @property()
   value?: string | number | null;
+
+  @property()
+  values?: any[] | null = [];
 
   @property({type: String})
   placeholder?: string = '';
@@ -88,6 +94,15 @@ export class OakInternalPopupInputAction extends LitElement {
     // window.removeEventListener('scroll', this.adjustPositioning);
   }
 
+  private _getValue() {
+    if (this.multiple) {
+      return this.values && this.values.length > 0
+        ? this.values?.join(', ')
+        : null;
+    }
+    return this.value || null;
+  }
+
   private getClassMap = (
     baseClass: 'base' | 'value' | 'placeholder' | 'down-arrow'
   ): any => {
@@ -145,9 +160,9 @@ export class OakInternalPopupInputAction extends LitElement {
         id=${this.elementId}
         type="button"
       >
-        ${this.value
+        ${this._getValue()
           ? html`<div class=${classMap(this.getClassMap('value'))}>
-              ${this.value}
+              ${this._getValue()}
             </div>`
           : html`<div class=${classMap(this.getClassMap('placeholder'))}>
               ${this.placeholder}

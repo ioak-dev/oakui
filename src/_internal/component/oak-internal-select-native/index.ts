@@ -4,16 +4,16 @@ import {formControlRegisterSubject} from '../../events/FormControlRegisterEvent'
 import {formControlValidatedSubject} from '../../events/FormControlValidatedEvent';
 import {formControlValidateSubject} from '../../events/FormControlValidateEvent';
 import {globalStyles} from '../../styles/global-styles';
-import {
-  INPUT_CHANGE_EVENT,
-  INPUT_INPUT_EVENT,
-} from '../../../event/OakInputEvent';
 import {ValidationErrorType} from '../../../types/ValidationResultType';
 import '../oak-internal-label';
 import '../oak-internal-form-tooltip';
 import '../oak-internal-form-error';
 import {oakInternalSelectNativeStyles} from './index-styles';
 import {oakInternalSelectNativeSizeStyles} from './size-styles';
+import {
+  SELECT_CHANGE_EVENT,
+  SELECT_INPUT_EVENT,
+} from '../../../event/OakSelectEvent';
 
 let elementIdCounter = 0;
 const customElementName = 'oak-internal-select-native';
@@ -151,12 +151,12 @@ export class OakInternalSelectNative extends LitElement {
 
   private handleInput = (event: any) => {
     console.log('input', event);
-    this.propagateEvent(INPUT_INPUT_EVENT, event);
+    this.propagateEvent(SELECT_INPUT_EVENT, event);
   };
 
   private handleChange = (event: any) => {
     console.log('change', event);
-    this.propagateEvent(INPUT_CHANGE_EVENT, event);
+    this.propagateEvent(SELECT_CHANGE_EVENT, event);
     // (this.closest('FORM') as any)?.dispatchEvent(new Event('submit'));
   };
 

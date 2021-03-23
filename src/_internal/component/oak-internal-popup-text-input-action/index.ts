@@ -24,8 +24,17 @@ export class OakInternalPopupInputAction extends LitElement {
   @property({type: Boolean})
   private isActivated = false;
 
+  @property({type: Boolean})
+  private multiple = false;
+
   @property()
-  value?: string | number | null;
+  value?: string | number | null = '';
+
+  @property()
+  searchCriteria?: string = '';
+
+  @property()
+  values?: any[] | null = [];
 
   @property({type: String})
   placeholder?: string = '';
@@ -132,6 +141,20 @@ export class OakInternalPopupInputAction extends LitElement {
     }
   };
 
+  private _getValue() {
+    if (this.isActivated) {
+      return this.searchCriteria;
+    }
+    if (this.multiple) {
+      return this.values &&
+        typeof this.values === 'object' &&
+        this.values.length > 0
+        ? this.values.join(', ')
+        : '';
+    }
+    return this.value;
+  }
+
   private handleInputFocused = () => {
     this._propagateCustomEvent('toggle');
   };
@@ -166,7 +189,7 @@ export class OakInternalPopupInputAction extends LitElement {
     return html`
       <oak-input
         type="text"
-        value=${this.value || ''}
+        .value=${this._getValue()}
         class=${classMap(this.getClassMap('base'))}
         .shape=${this.shape}
         .size=${this.size}

@@ -27,6 +27,9 @@ export class OakSelect extends LitElement {
   @property()
   value?: string | number | null;
 
+  @property()
+  values?: any[] | null;
+
   @property({type: String})
   placeholder?: string = '';
 
@@ -110,6 +113,7 @@ export class OakSelect extends LitElement {
             .label=${this.label}
             .name=${this.name}
             .value=${this.value}
+            .values=${this.values}
             .placeholder=${this.placeholder}
             .tooltip=${this.tooltip}
             ?multiple=${this.multiple}
@@ -126,6 +130,7 @@ export class OakSelect extends LitElement {
             .label=${this.label}
             .name=${this.name}
             .value=${this.value}
+            .values=${this.values}
             .placeholder=${this.placeholder}
             .tooltip=${this.tooltip}
             ?multiple=${this.multiple}

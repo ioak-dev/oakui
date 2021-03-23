@@ -12,6 +12,7 @@ export const oakInputStyles = css`
     padding: 0 5px;
     border-radius: var(--formelement-border-radius);
     outline: none;
+    text-overflow: ellipsis;
   }
   input:focus {
     box-shadow: var(--formelement-outline-box-shadow);

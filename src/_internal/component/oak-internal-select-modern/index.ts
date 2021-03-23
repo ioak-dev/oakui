@@ -10,13 +10,13 @@ import '../oak-internal-popup-text-input-action';
 import '../oak-internal-popup-input-action';
 import {oakInternalSelectModernStyles} from './index-styles';
 import {isEmptyOrSpaces, toString} from '../../utils/StringUtils';
-import {
-  INPUT_CHANGE_EVENT,
-  INPUT_INPUT_EVENT,
-} from '../../../event/OakInputEvent';
 import {RequiredValidator} from '../../validator/RequiredValidator';
 import {oakInternalSelectModernSizeStyles} from './size-styles';
 import {oakInternalSelectModernFillStyles} from './fill-styles';
+import {
+  SELECT_CHANGE_EVENT,
+  SELECT_INPUT_EVENT,
+} from '../../../event/OakSelectEvent';
 
 let elementIdCounter = 0;
 const customElementName = 'oak-internal-select-modern';
@@ -49,6 +49,9 @@ export class OakInternalSelectModern extends LitElement {
 
   @property()
   value?: string | number | null;
+
+  @property()
+  values?: any[] | null;
 
   @property({type: String})
   placeholder?: string = '';
@@ -137,20 +140,22 @@ export class OakInternalSelectModern extends LitElement {
 
   private handleChange = (index: number) => {
     if (this._isActivated) {
-      this.propagateCustomEvent(INPUT_CHANGE_EVENT, this.search()[index]);
-      this.propagateCustomEvent(INPUT_INPUT_EVENT, this.search()[index]);
-      this._deactivate();
+      const searchResults = this.search();
+      this.propagateCustomEvent(SELECT_CHANGE_EVENT, searchResults[index]);
+      this.propagateCustomEvent(SELECT_INPUT_EVENT, searchResults[index]);
+      if (!this.multiple) {
+        this._deactivate();
+      }
     }
   };
 
   private search = () => {
     if (isEmptyOrSpaces(this._searchCriteria)) {
       return this.options;
-    } else {
-      return this.options.filter((option: any) =>
-        toString(option).includes(this._searchCriteria)
-      );
     }
+    return this.options.filter((option: any) =>
+      toString(option).includes(this._searchCriteria)
+    );
   };
 
   private keydownEventHandler = (event: any) => {
@@ -272,7 +277,6 @@ export class OakInternalSelectModern extends LitElement {
   };
 
   private _toggle = () => {
-    console.log('&&&& TOGGLE');
     if (this._isActivated) {
       this._deactivate();
     } else {
@@ -386,6 +390,18 @@ export class OakInternalSelectModern extends LitElement {
   }
 
   private propagateCustomEvent = (eventName: string, value?: any) => {
+    let values: any[] = [];
+    if (this.multiple) {
+      if (this.values && this.values.length > 0) {
+        if (this.values.includes(value)) {
+          values = this.values.filter((item) => item !== value);
+        } else {
+          values = [...this.values, value];
+        }
+      } else {
+        values = [value];
+      }
+    }
     this.dispatchEvent(
       new CustomEvent(eventName, {
         bubbles: true,
@@ -393,7 +409,7 @@ export class OakInternalSelectModern extends LitElement {
         detail: {
           id: this.elementId,
           name: this.name,
-          value: value,
+          value: this.multiple ? values : value,
         },
       })
     );
@@ -429,7 +445,10 @@ export class OakInternalSelectModern extends LitElement {
           ${this.autoCompleteVariant === 'autocomplete'
             ? html`<oak-internal-popup-text-input-action
                 @toggle=${this._toggle}
-                .value=${this._isActivated ? this._searchCriteria : this.value}
+                .value=${this.value}
+                .values=${this.values}
+                ?multiple=${this.multiple}
+                .searchCriteria=${this._searchCriteria}
                 ?isActivated=${this._isActivated}
                 .size=${this.size}
                 .shape=${this.shape}
@@ -439,6 +458,8 @@ export class OakInternalSelectModern extends LitElement {
             : html` <oak-internal-popup-input-action
                 @toggle=${this._toggle}
                 .value=${this.value}
+                .values=${this.values}
+                ?multiple=${this.multiple}
                 .size=${this.size}
                 .shape=${this.shape}
                 .fill=${this.fill}
@@ -476,7 +497,8 @@ export class OakInternalSelectModern extends LitElement {
                   @click=${() => this.handleChange(index)}
                 >
                   <div class=${classMap(this.getClassMap('li-indicator'))}>
-                    ${this.value === item
+                    ${(this.multiple && this.values?.includes(item)) ||
+                    (!this.multiple && this.value === item)
                       ? html`<svg
                           height="16"
                           viewBox="0 0 16 16"

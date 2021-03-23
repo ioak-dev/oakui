@@ -17,6 +17,10 @@ export const oakInternalPopupInputActionStyles = css`
     box-shadow: var(--formelement-outline-box-shadow);
     border-color: var(--formelement-outline-border-color);
   }
+  .oak-internal-popup-input-action--value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   .oak-internal-popup-input-action--down-arrow svg {
     width: 1em;
     font-size: 1.5rem;
