@@ -1,8 +1,10 @@
 import {LitElement, html, customElement, property} from 'lit-element';
 import {classMap} from 'lit-html/directives/class-map';
+import {INPUT_CHANGE_EVENT} from '../../event/OakInputEvent';
 import {radioChangeSubject} from '../../_internal/events/RadioChangeEvent';
 import {radioRegisterSubject} from '../../_internal/events/RadioRegisterEvent';
 import {globalStyles} from '../../_internal/styles/global-styles';
+import {isEmptyOrSpaces} from '../../_internal/utils/StringUtils';
 
 import {oakRadioStyles} from './index-styles';
 
@@ -43,7 +45,10 @@ export class OakRadio extends LitElement {
   @property({type: String})
   radioGroupName = '';
 
-  @property({type: String})
+  @property({type: Boolean})
+  private value = false;
+
+  @property({type: Boolean})
   private _value = false;
 
   constructor() {
@@ -71,10 +76,34 @@ export class OakRadio extends LitElement {
   }
 
   private _handleChange = () => {
-    radioChangeSubject.next({
-      name: this.name,
-      radioGroupName: this.radioGroupName,
-    });
+    if (isEmptyOrSpaces(this.radioGroupName)) {
+      this._propagateEvent(INPUT_CHANGE_EVENT);
+    } else {
+      radioChangeSubject.next({
+        name: this.name,
+        radioGroupName: this.radioGroupName,
+      });
+    }
+  };
+
+  private _propagateEvent = (eventName: string) => {
+    if (!isEmptyOrSpaces(this.radioGroupName)) {
+      radioChangeSubject.next({
+        name: this.name,
+        radioGroupName: this.radioGroupName,
+      });
+    }
+    this.dispatchEvent(
+      new CustomEvent(eventName, {
+        bubbles: true,
+        composed: true,
+        detail: {
+          id: this.elementId,
+          name: this.name,
+          value: true,
+        },
+      })
+    );
   };
 
   private getClassMap(
@@ -139,11 +168,13 @@ export class OakRadio extends LitElement {
             class=${classMap(this.getClassMap('input'))}
             type="checkbox"
             name=${this.name}
-            ?checked=${this._value}
+            ?checked=${isEmptyOrSpaces(this.radioGroupName)
+              ? this.value
+              : this._value}
             id=${this.elementId}
             @change=${this._handleChange}
           />
-          ${this._value
+          ${(isEmptyOrSpaces(this.radioGroupName) ? this.value : this._value)
             ? html` <svg
                   class=${classMap(this.getClassMap('radio-svg'))}
                   focusable="false"

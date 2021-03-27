@@ -152,7 +152,11 @@ export class OakInput extends LitElement {
   private validate() {
     this._errors = [];
 
-    if (this.type === 'text' && (this.minLength || this.maxLength)) {
+    if (
+      this.type &&
+      ['text', 'password'].includes(this.type) &&
+      (this.minLength || this.maxLength)
+    ) {
       this._errors = this._errors.concat(
         TextLengthValidator(this.value, this.minLength, this.maxLength)
       );

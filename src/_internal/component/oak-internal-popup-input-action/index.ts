@@ -25,10 +25,7 @@ export class OakInternalPopupInputAction extends LitElement {
   private multiple = false;
 
   @property()
-  value?: string | number | null;
-
-  @property()
-  values?: any[] | null = [];
+  value?: any;
 
   @property({type: String})
   placeholder?: string = '';
@@ -96,9 +93,15 @@ export class OakInternalPopupInputAction extends LitElement {
 
   private _getValue() {
     if (this.multiple) {
-      return this.values && this.values.length > 0
-        ? this.values?.join(', ')
-        : null;
+      console.log(
+        '&&&&&&&&&',
+        this.value,
+        Array.isArray(this.value),
+        this.value && Array.isArray(this.value) ? this.value.join(', ') : ''
+      );
+      return this.value && Array.isArray(this.value)
+        ? this.value.join(', ')
+        : '';
     }
     return this.value || null;
   }

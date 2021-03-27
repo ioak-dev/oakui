@@ -28,13 +28,10 @@ export class OakInternalPopupInputAction extends LitElement {
   private multiple = false;
 
   @property()
-  value?: string | number | null = '';
+  value?: any;
 
   @property()
   searchCriteria?: string = '';
-
-  @property()
-  values?: any[] | null = [];
 
   @property({type: String})
   placeholder?: string = '';
@@ -146,10 +143,8 @@ export class OakInternalPopupInputAction extends LitElement {
       return this.searchCriteria;
     }
     if (this.multiple) {
-      return this.values &&
-        typeof this.values === 'object' &&
-        this.values.length > 0
-        ? this.values.join(', ')
+      return this.value && Array.isArray(this.value)
+        ? this.value.join(', ')
         : '';
     }
     return this.value;
