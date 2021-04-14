@@ -49,7 +49,7 @@ export class OakSelect extends LitElement {
   options?: any[] | null;
 
   @property({type: Array})
-  optionsAsKeyValue?: {key: string | number; value: string | number}[] | null;
+  optionsAsKeyValue?: {id: string | number; value: string | number}[] | null;
 
   @property({type: Boolean})
   native? = false;

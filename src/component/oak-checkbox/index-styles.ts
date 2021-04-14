@@ -71,7 +71,7 @@ export const oakCheckboxStyles = css`
     border-radius: 2px;
   }
   /* .oak-checkbox__input:focus + .oak-checkbox__checkbox-svg {
-    border: 1px solid var(--formelement-outline-border-color);
+    border: 1px solid var(--oak-userinput-outline-border-color);
   } */
 
   .oak-checkbox__checkbox-svg--notchecked {

@@ -14,8 +14,8 @@ export const oakInternalSelectNativeStyles = css`
     outline: none;
   }
   select:focus {
-    box-shadow: var(--formelement-outline-box-shadow);
-    border-color: var(--formelement-outline-border-color);
+    box-shadow: var(--oak-userinput-outline-box-shadow);
+    border-color: var(--oak-userinput-outline-border-color);
     background-color: var(--formelement-color-bg-active);
     color: var(--formelement-color-fg-active);
     appearance: none;
@@ -23,11 +23,19 @@ export const oakInternalSelectNativeStyles = css`
     -moz-appearance: none;
     /* for Chrome */
     -webkit-appearance: none;
+    outline-style: var(--oak-userinput-outline-style);
+    outline-width: var(--oak-userinput-outline-width);
+    outline-offset: var(--oak-userinput-outline-offset);
+    outline-color: var(--oak-userinput-outline-color);
   }
   select.validation-failure {
     border-color: var(--color-danger);
   }
   select.validation-failure:focus {
-    box-shadow: var(--formelement-outline-box-shadow-error);
+    box-shadow: var(--oak-userinput-outline-box-shadow-error);
+    outline-style: var(--oak-userinput-outline-style);
+    outline-width: var(--oak-userinput-outline-width);
+    outline-offset: var(--oak-userinput-outline-offset);
+    outline-color: var(--oak-userinput-outline-color);
   }
 `;

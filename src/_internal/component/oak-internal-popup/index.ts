@@ -62,7 +62,7 @@ export class OakSelect extends LitElement {
   options: any[] = [];
 
   @property({type: Array})
-  optionsAsKeyValue?: {key: string | number; value: string | number}[] | null;
+  optionsAsKeyValue?: {id: string | number; value: string | number}[] | null;
 
   @property({type: Array})
   errors: ValidationErrorType[] = [];

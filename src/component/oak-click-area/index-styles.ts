@@ -8,7 +8,7 @@ export const oakClickAreaStyles = css`
   }
   .oak-click-area__container button {
     width: 100%;
-    display: flex;
+    /* display: flex; */
     background: none;
     user-select: none;
     margin: 0;
@@ -17,16 +17,15 @@ export const oakClickAreaStyles = css`
     border: none;
     text-align: left;
     /* border-radius: var(--global-border-radius); */
-    border: 1px solid transparent;
+    border: none;
   }
   .oak-click-area__container button:focus {
-    outline: none;
-    border: 1px solid var(--formelement-outline-border-color);
-    /* border-color: var(--formelement-outline-border-color); */
-    /* box-shadow: var(--formelement-outline-box-shadow); */
-    /* outline-style: solid;
-    outline-width: 2px;
-    outline-offset: -4px;
-    outline-color: var(--formelement-outline-border-color); */
+    /* border: 1px solid var(--oak-userinput-outline-border-color); */
+    /* border-color: var(--oak-userinput-outline-border-color); */
+    /* box-shadow: var(--oak-userinput-outline-box-shadow); */
+    outline-style: var(--oak-global-outline-style);
+    outline-width: var(--oak-global-outline-width);
+    outline-offset: var(--oak-global-outline-offset);
+    outline-color: var(--oak-global-outline-color);
   }
 `;

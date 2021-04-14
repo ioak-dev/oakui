@@ -74,7 +74,7 @@ export const oakRadioStyles = css`
     border-radius: 50px;
   }
   /* .oak-radio__input:focus + .oak-radio__radio-svg {
-    border: 1px solid var(--formelement-outline-border-color);
+    border: 1px solid var(--oak-userinput-outline-border-color);
   } */
 
   .oak-radio__radio-svg--notchecked {

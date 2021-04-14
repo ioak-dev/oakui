@@ -69,10 +69,10 @@ export class OakInternalSelectModern extends LitElement {
   autoCompleteVariant: 'none' | 'autocomplete' | 'searchbox' = 'searchbox';
 
   @property({type: Array})
-  options: any[] = [];
+  options?: any[] | null;
 
   @property({type: Array})
-  optionsAsKeyValue?: {key: string | number; value: string | number}[] | null;
+  optionsAsKeyValue?: {id: string | number; value: string | number}[] | null;
 
   @property({type: String})
   size?: 'xsmall' | 'small' | 'medium' | 'large' = 'small';
@@ -138,21 +138,12 @@ export class OakInternalSelectModern extends LitElement {
   private handleChange = (index: number) => {
     if (this._isActivated) {
       const searchResults = this.search();
-      this.propagateCustomEvent(SELECT_CHANGE_EVENT, searchResults[index]);
-      this.propagateCustomEvent(SELECT_INPUT_EVENT, searchResults[index]);
+      this.propagateCustomEvent(SELECT_CHANGE_EVENT, searchResults[index]?.id);
+      this.propagateCustomEvent(SELECT_INPUT_EVENT, searchResults[index]?.id);
       if (!this.multiple) {
         this._deactivate();
       }
     }
-  };
-
-  private search = () => {
-    if (isEmptyOrSpaces(this._searchCriteria)) {
-      return this.options;
-    }
-    return this.options.filter((option: any) =>
-      toString(option).includes(this._searchCriteria)
-    );
   };
 
   private keydownEventHandler = (event: any) => {
@@ -248,7 +239,7 @@ export class OakInternalSelectModern extends LitElement {
   private _activate = () => {
     this._isActivated = true;
     const chosenIndex = this._searchResults().findIndex(
-      (item) => item === this.value
+      (item: any) => item.id === this.value
     );
     this._currentIndex = chosenIndex < 0 ? 0 : chosenIndex;
     const docRef = this.shadowRoot?.getElementById(this.elementId);
@@ -287,14 +278,59 @@ export class OakInternalSelectModern extends LitElement {
     }
   };
 
+  private search = () => {
+    return this._searchResults();
+    // if (isEmptyOrSpaces(this._searchCriteria)) {
+    //   return this.options;
+    // }
+    // return this.options.filter((option: any) =>
+    //   toString(option).includes(this._searchCriteria)
+    // );
+  };
+
   private _searchResults = () => {
     if (isEmptyOrSpaces(this._searchCriteria)) {
-      return this.options;
+      return this.options
+        ? this._getOptions(this.options)
+        : this._getOptionsFromKeyValue(this.optionsAsKeyValue);
     } else {
-      return this.options.filter((option: any) =>
-        toString(option).includes(this._searchCriteria)
+      if (this.options) {
+        return this._getOptions(
+          this.options.filter((option: any) =>
+            toString(option).includes(this._searchCriteria)
+          )
+        );
+      }
+      return this._getOptionsFromKeyValue(
+        this.optionsAsKeyValue?.filter((option: any) =>
+          toString(option.value).includes(this._searchCriteria)
+        )
       );
     }
+  };
+
+  private _getOptions = (_options: any) => {
+    if (_options) {
+      return _options.map((item: any) => {
+        return {
+          id: item,
+          value: item,
+        };
+      });
+    }
+    return [];
+  };
+
+  private _getOptionsFromKeyValue = (_options: any) => {
+    if (_options) {
+      return _options.map((item: any) => {
+        return {
+          id: item.id,
+          value: item.value,
+        };
+      });
+    }
+    return [];
   };
 
   private handleSearchCriteriaChange = (event: any) => {
@@ -450,6 +486,8 @@ export class OakInternalSelectModern extends LitElement {
             ? html`<oak-internal-popup-text-input-action
                 @toggle=${this._toggle}
                 .value=${this._getValue()}
+                .options=${this.options}
+                .optionsAsKeyValue=${this.optionsAsKeyValue}
                 ?multiple=${this.multiple}
                 .searchCriteria=${this._searchCriteria}
                 ?isActivated=${this._isActivated}
@@ -461,6 +499,8 @@ export class OakInternalSelectModern extends LitElement {
             : html` <oak-internal-popup-input-action
                 @toggle=${this._toggle}
                 .value=${this._getValue()}
+                .options=${this.options}
+                .optionsAsKeyValue=${this.optionsAsKeyValue}
                 ?multiple=${this.multiple}
                 .size=${this.size}
                 .shape=${this.shape}
@@ -490,8 +530,8 @@ export class OakInternalSelectModern extends LitElement {
             id=${this.ulElementId}
             class=${classMap(this.getClassMap('ul'))}
           >
-            ${this._searchResults().map(
-              (item, index) =>
+            ${this._searchResults()?.map(
+              (item: {id: any; value: any}, index: number) =>
                 html`<li
                   id=${`${this.liElementId}-${index}`}
                   role="option"
@@ -499,8 +539,8 @@ export class OakInternalSelectModern extends LitElement {
                   @click=${() => this.handleChange(index)}
                 >
                   <div class=${classMap(this.getClassMap('li-indicator'))}>
-                    ${(this.multiple && this.value?.includes(item)) ||
-                    (!this.multiple && this.value === item)
+                    ${(this.multiple && this.value?.includes(item.id)) ||
+                    (!this.multiple && this.value === item.id)
                       ? html`<svg
                           height="16"
                           viewBox="0 0 16 16"
@@ -516,7 +556,7 @@ export class OakInternalSelectModern extends LitElement {
                       : html``}
                   </div>
                   <div class=${classMap(this.getClassMap('li-text'))}>
-                    ${item}
+                    ${item.value}
                   </div>
                 </li>`
             )}

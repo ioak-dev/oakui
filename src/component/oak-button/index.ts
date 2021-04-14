@@ -54,6 +54,9 @@ export class OakButton extends LitElement {
   @property({type: Boolean})
   semitransparent = false;
 
+  @property({type: Boolean})
+  fullWidth = false;
+
   @property({type: String})
   type: 'button' | 'submit' | 'reset' = 'button';
 
@@ -69,6 +72,10 @@ export class OakButton extends LitElement {
 
     if (this.semitransparent) {
       style += ' semitransparent';
+    }
+
+    if (this.fullWidth) {
+      style += ' fullwidth';
     }
 
     style += ` size-${this.size}`;

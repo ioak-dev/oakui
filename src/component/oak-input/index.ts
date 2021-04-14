@@ -44,10 +44,11 @@ export class OakInput extends LitElement {
   value?: string | number | null;
 
   @property({type: String})
-  type?: 'text' | 'number' | 'password' | 'date' | 'file' = 'text';
+  type: 'text' | 'number' | 'password' | 'date' | 'file' | 'time' | 'datetime' =
+    'text';
 
   @property({type: String})
-  placeholder?: string = '';
+  placeholder = '';
 
   @property({type: Boolean})
   multiple?: boolean = false;
@@ -68,7 +69,8 @@ export class OakInput extends LitElement {
   shape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' = 'rectangle';
 
   @property({type: String})
-  fill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
+  fill?: 'global' | 'container' | 'surface' | 'float' | 'invert' | 'none' =
+    'surface';
 
   @property({type: String})
   errorStyle?: 'outline' | 'fill' = 'outline';
@@ -305,7 +307,7 @@ export class OakInput extends LitElement {
           .value=${this.type !== 'file' ? this.value : ''}
           placeholder=${this.placeholder}
           ?disabled=${this.disabled}
-          type=${this.type}
+          type=${this.type === 'datetime' ? 'datetime-local' : this.type}
           ?multiple=${this.multiple}
           @change=${this.handleChange}
           @input=${this.handleInput}

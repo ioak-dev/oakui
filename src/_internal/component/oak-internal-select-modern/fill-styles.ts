@@ -14,6 +14,19 @@ export const oakInternalSelectModernFillStyles = css`
     border-bottom: 1px solid var(--color-float-darker);
   }
 
+  .oak-internal-select-modern__popup--fill-global ul li {
+    color: var(--color-global-i);
+  }
+  .oak-internal-select-modern__popup--fill-container ul li {
+    color: var(--color-container-i);
+  }
+  .oak-internal-select-modern__popup--fill-surface ul li {
+    color: var(--color-surface-i);
+  }
+  .oak-internal-select-modern__popup--fill-float ul li {
+    color: var(--color-float-i);
+  }
+
   .oak-internal-select-modern__popup--fill-none ul li:not(:last-child) {
     border-bottom: 1px solid var(--color-global-darker);
   }

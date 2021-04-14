@@ -46,10 +46,10 @@ export class OakInternalPopupInputAction extends LitElement {
   disabled = false;
 
   @property({type: Array})
-  options: any[] = [];
+  options?: any[] | null;
 
   @property({type: Array})
-  optionsAsKeyValue?: {key: string | number; value: string | number}[] | null;
+  optionsAsKeyValue?: {id: string | number; value: string | number}[] | null;
 
   @property({type: Array})
   errors: ValidationErrorType[] = [];
@@ -142,10 +142,25 @@ export class OakInternalPopupInputAction extends LitElement {
     if (this.isActivated) {
       return this.searchCriteria;
     }
+
     if (this.multiple) {
-      return this.value && Array.isArray(this.value)
-        ? this.value.join(', ')
-        : '';
+      if (this.value && Array.isArray(this.value)) {
+        if (this.options) {
+          return this.value.join(', ');
+        }
+        return this.optionsAsKeyValue
+          ?.filter((item) => this.value.includes(item.id))
+          .map((item) => item.value)
+          .join(', ');
+      }
+      return '';
+    }
+    if (this.value) {
+      if (this.options) {
+        return this.value;
+      }
+      return this.optionsAsKeyValue?.find((item) => item.id === this.value)
+        ?.value;
     }
     return this.value;
   }

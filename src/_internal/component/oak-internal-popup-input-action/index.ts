@@ -40,10 +40,10 @@ export class OakInternalPopupInputAction extends LitElement {
   disabled = false;
 
   @property({type: Array})
-  options: any[] = [];
+  options?: any[] | null;
 
   @property({type: Array})
-  optionsAsKeyValue?: {key: string | number; value: string | number}[] | null;
+  optionsAsKeyValue?: {id: string | number; value: string | number}[] | null;
 
   @property({type: Array})
   errors: ValidationErrorType[] = [];
@@ -93,17 +93,25 @@ export class OakInternalPopupInputAction extends LitElement {
 
   private _getValue() {
     if (this.multiple) {
-      console.log(
-        '&&&&&&&&&',
-        this.value,
-        Array.isArray(this.value),
-        this.value && Array.isArray(this.value) ? this.value.join(', ') : ''
-      );
-      return this.value && Array.isArray(this.value)
-        ? this.value.join(', ')
-        : '';
+      if (this.value && Array.isArray(this.value)) {
+        if (this.options) {
+          return this.value.join(', ');
+        }
+        return this.optionsAsKeyValue
+          ?.filter((item) => this.value.includes(item.id))
+          .map((item) => item.value)
+          .join(', ');
+      }
+      return '';
     }
-    return this.value || null;
+    if (this.value) {
+      if (this.options) {
+        return this.value;
+      }
+      return this.optionsAsKeyValue?.find((item) => item.id === this.value)
+        ?.value;
+    }
+    return null;
   }
 
   private getClassMap = (

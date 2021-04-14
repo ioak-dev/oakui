@@ -14,10 +14,14 @@ export const oakButtonBaseStyles = css`
     background: none;
     color: var(--color-1);
     cursor: pointer;
-    transition: 0.4s cubic-bezier(0.5, 1.6, 0.4, 0.7);
+    transition: background-color 0.4s cubic-bezier(0.5, 1.6, 0.4, 0.7),
+      border-color 0.4s cubic-bezier(0.5, 1.6, 0.4, 0.7);
     position: relative;
     overflow: hidden;
     z-index: 0;
+  }
+  button.fullwidth {
+    width: 100%;
   }
   button .button-label-container {
     display: grid;
@@ -26,7 +30,11 @@ export const oakButtonBaseStyles = css`
     column-gap: 10px;
   }
   button:focus {
-    outline: none;
-    box-shadow: var(--formelement-outline-box-shadow);
+    outline-style: var(--oak-global-outline-style);
+    outline-width: var(--oak-global-outline-width);
+    outline-offset: var(--oak-global-outline-offset);
+    outline-color: var(--oak-global-outline-color);
+    /* outline: none;
+    box-shadow: var(--oak-userinput-outline-box-shadow); */
   }
 `;

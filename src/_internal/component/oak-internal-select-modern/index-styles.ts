@@ -15,10 +15,14 @@ export const oakInternalSelectModernStyles = css`
     outline: none;
   }
   input:focus {
-    box-shadow: var(--formelement-outline-box-shadow);
-    border-color: var(--formelement-outline-border-color);
+    box-shadow: var(--oak-userinput-outline-box-shadow);
+    border-color: var(--oak-userinput-outline-border-color);
     // background-color: var(--formelement-color-bg-active);
     // color: var(--formelement-color-fg-active);
+    outline-style: var(--oak-userinput-outline-style);
+    outline-width: var(--oak-userinput-outline-width);
+    outline-offset: var(--oak-userinput-outline-offset);
+    outline-color: var(--oak-userinput-outline-color);
   }
 
   .oak-internal-select-modern__popup ul {

@@ -14,8 +14,12 @@ export const oakInternalPopupInputActionStyles = css`
   }
   .oak-internal-popup-input-action:focus {
     outline: none;
-    box-shadow: var(--formelement-outline-box-shadow);
-    border-color: var(--formelement-outline-border-color);
+    box-shadow: var(--oak-userinput-outline-box-shadow);
+    border-color: var(--oak-userinput-outline-border-color);
+    outline-style: var(--oak-userinput-outline-style);
+    outline-width: var(--oak-userinput-outline-width);
+    outline-offset: var(--oak-userinput-outline-offset);
+    outline-color: var(--oak-userinput-outline-color);
   }
   .oak-internal-popup-input-action--value {
     overflow: hidden;

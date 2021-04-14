@@ -1,6 +1,6 @@
 import {LitElement, html, customElement} from 'lit-element';
 import {classMap} from 'lit-html/directives/class-map';
-import {BUTTON_CLICK_EVENT} from '../../event/OakButtonEvent';
+import {CLICK_AREA_CLICK_EVENT} from '../../event/OakClickAreaEvent';
 import {globalStyles} from '../../_internal/styles/global-styles';
 import {oakClickAreaStyles} from './index-styles';
 
@@ -20,7 +20,7 @@ export class OakClickArea extends LitElement {
   }
 
   private _handleClick = () => {
-    this._propagateEvent(BUTTON_CLICK_EVENT);
+    this._propagateEvent(CLICK_AREA_CLICK_EVENT);
   };
 
   private _propagateEvent = (eventName: string) => {

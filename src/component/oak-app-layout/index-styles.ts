@@ -67,6 +67,17 @@ export const oakAppLayoutStyles = css`
     padding-left: 0;
     transition: padding-left 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
   }
+
+  /* set custom color fills */
+  .oak-app-layout__topbar--color-custom {
+    background-color: var(--oak-app-layout-topbar-bg);
+    color: var(--oak-app-layout-topbar-fg);
+  }
+  .oak-app-layout__sidebar--color-custom {
+    background-color: var(--oak-app-layout-sidebar-bg);
+    color: var(--oak-app-layout-sidebar-fg);
+  }
+
   .oak-app-layout--sidebar-state-open .oak-app-layout__main {
     padding-left: var(--oak-app-layout-sidebar-width);
   }
@@ -90,9 +101,13 @@ export const oakAppLayoutStyles = css`
     padding: 0;
   }
   button:focus {
-    outline: none;
-    border-color: var(--formelement-outline-border-color);
-    box-shadow: var(--formelement-outline-box-shadow);
+    /* outline: none;
+    border-color: var(--oak-userinput-outline-border-color);
+    box-shadow: var(--oak-global-outline-box-shadow); */
+    outline-style: var(--oak-global-outline-style);
+    outline-width: var(--oak-global-outline-width);
+    outline-offset: var(--oak-global-outline-offset);
+    outline-color: var(--oak-global-outline-color);
   }
 
   .oak-app-layout__expand-icon {

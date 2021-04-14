@@ -1,8 +1,8 @@
 export const toString = (value: any): string =>
   value ? (typeof value === 'string' ? value : value.toString()) : '';
 
-export const isEmptyOrSpaces = (value: string): boolean =>
-  value.match(/^ *$/) !== null;
+export const isEmptyOrSpaces = (value: string | null | undefined): boolean =>
+  value ? value.match(/^ *$/) !== null : true;
 
 export const parseTemplate = (
   text: string,

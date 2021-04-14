@@ -6,8 +6,7 @@ export const oakInputStyles = css`
   }
   input {
     width: 100%;
-    border: 1px solid var(--global-border-color);
-    color: var(--formelement-color-fg);
+    border: var(--oak-userinput-border);
     box-sizing: border-box;
     padding: 0 5px;
     border-radius: var(--formelement-border-radius);
@@ -15,15 +14,23 @@ export const oakInputStyles = css`
     text-overflow: ellipsis;
   }
   input:focus {
-    box-shadow: var(--formelement-outline-box-shadow);
-    border-color: var(--formelement-outline-border-color);
-    color: var(--formelement-color-fg-active);
+    box-shadow: var(--oak-userinput-box-shadow-focus);
+    border: var(--oak-userinput-border-focus);
+    outline-style: var(--oak-userinput-outline-style);
+    outline-width: var(--oak-userinput-outline-width);
+    outline-offset: var(--oak-userinput-outline-offset);
+    outline-color: var(--oak-userinput-outline-color);
   }
   input.validation-failure {
-    border-color: var(--color-danger);
+    border: var(--oak-userinput-border-error);
   }
   input.validation-failure:focus {
-    box-shadow: var(--formelement-outline-box-shadow-error);
+    box-shadow: var(--oak-userinput-box-shadow-error-focus);
+    border: var(--oak-userinput-border-error-focus);
+    outline-style: var(--oak-userinput-outline-style);
+    outline-width: var(--oak-userinput-outline-width);
+    outline-offset: var(--oak-userinput-outline-offset);
+    outline-color: var(--oak-userinput-outline-color);
   }
   input.oak-input--error-style-fill.validation-failure {
     background-color: var(--color-danger-transparent);

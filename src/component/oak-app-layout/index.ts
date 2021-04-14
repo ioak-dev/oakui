@@ -5,6 +5,7 @@ import {globalStyles} from '../../_internal/styles/global-styles';
 import {oakAppLayoutStyles} from './index-styles';
 
 import '../oak-button';
+import {oakAppLayoutBorderStyles} from './border-styles';
 
 let elementIdCounter = 0;
 
@@ -22,6 +23,12 @@ export class OakAppLayout extends LitElement {
 
   @property({type: String})
   sidebarVariant: 'side' | 'over' | 'push' = 'side';
+
+  @property({type: Boolean})
+  sidebarOutlined? = false;
+
+  @property({type: Boolean})
+  topbarOutlined? = false;
 
   @property({type: String})
   topbarColor:
@@ -155,6 +162,7 @@ export class OakAppLayout extends LitElement {
           [`${customElementName}__${baseClass}`]: true,
           [`${customElementName}__${baseClass}--${this.topbarVariant}`]: true,
           [`${customElementName}__${baseClass}--color-${this.topbarColor}`]: true,
+          [`${customElementName}__${baseClass}--outlined`]: this.topbarOutlined,
           [`oak-bs-elevation${this.topbarElevation}`]: true,
           [`oak-color-bg-${this.topbarColor}`]: true,
           [`oak-color-${this.topbarColor}-i`]: true,
@@ -174,6 +182,9 @@ export class OakAppLayout extends LitElement {
             'push',
             'over',
           ].includes(this.sidebarVariant),
+          [`${customElementName}__${baseClass}--color-${this.sidebarColor}`]: true,
+          [`${customElementName}__${baseClass}--outlined`]: this
+            .sidebarOutlined,
           [`oak-bs-elevation${this.sidebarElevation}`]: this._isSidebarOpen,
           [`oak-color-bg-${this.sidebarColor}`]: true,
           [`oak-color-${this.sidebarColor}-i`]: true,
@@ -190,7 +201,7 @@ export class OakAppLayout extends LitElement {
   }
 
   static get styles() {
-    return [...globalStyles, oakAppLayoutStyles];
+    return [...globalStyles, oakAppLayoutStyles, oakAppLayoutBorderStyles];
   }
 
   private _toggleSidebar() {
