@@ -2,6 +2,7 @@ import {LitElement, html, customElement, property} from 'lit-element';
 import {classMap} from 'lit-html/directives/class-map';
 import {globalStyles} from '../../_internal/styles/global-styles';
 import '../../_internal/component/oak-internal-popup';
+import '../oak-click-area';
 import {oakMenuItemStyles} from './index-styles';
 import {MENU_CLICK_EVENT} from '../../event/OakMenuEvent';
 
@@ -43,12 +44,12 @@ export class OakMenuItem extends LitElement {
       case 'base':
         return {
           [`${customElementName}`]: true,
-          [`oak-fill-${this.fill}`]: true,
-          [`oak-fill-${this.fill}--hover-hc`]: true,
         };
       case 'container':
         return {
           [`${customElementName}__container`]: true,
+          [`oak-fill-${this.fill}`]: true,
+          [`oak-fill-${this.fill}--hover-hc`]: true,
         };
       default:
         return {};
@@ -72,16 +73,14 @@ export class OakMenuItem extends LitElement {
 
   render() {
     return html`
-      <button
-        class=${classMap(this.getClassMap('base'))}
-        @click=${this.handleClick}
+      <oak-click-area
+        @click-area-click=${this.handleClick}
         id=${this.elementId}
-        type="button"
       >
         <div class=${classMap(this.getClassMap('container'))}>
           <slot></slot>
         </div>
-      </button>
+      </oak-click-area>
     `;
   }
 }

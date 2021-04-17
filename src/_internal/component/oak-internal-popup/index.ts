@@ -12,11 +12,12 @@ import '../oak-internal-popup-text-input-action';
 import '../../../component/oak-input';
 import '../../../component/oak-button';
 import {oakInternalPopupStyles} from './index-styles';
-import {containerScrolledSubject} from '../../events/ContainerScrolledEvent';
 import {
   POPUP_DEACTIVATE,
   POPUP_KEY_PRESSED,
 } from '../../../event/OakPopupEvent';
+import {createPopper} from '@popperjs/core';
+import {containerScrolledSubject} from '../../events/ContainerScrolledEvent';
 
 let elementIdCounter = 0;
 const customElementName = 'oak-internal-popup';
@@ -82,6 +83,29 @@ export class OakSelect extends LitElement {
   @property({type: String})
   type?: 'input' | 'custom' = 'input';
 
+  @property({type: String})
+  placement?:
+    | 'top'
+    | 'top-start'
+    | 'top-end'
+    | 'bottom'
+    | 'bottom-start'
+    | 'bottom-end'
+    | 'left'
+    | 'left-start'
+    | 'left-end'
+    | 'right'
+    | 'right-start'
+    | 'right-end' = 'bottom-start';
+
+  @property({type: Array})
+  fallbackPlacements?: string[] = ['top-start'];
+
+  @property({type: String})
+  positioningStrategy?: 'absolute' | 'fixed' = 'absolute';
+
+  private _popperInstance: any = null;
+
   /**
    * Validators
    *
@@ -104,29 +128,58 @@ export class OakSelect extends LitElement {
     this._unregisterEvents();
   }
 
+  firstUpdated(_changedProperties: any) {
+    super.firstUpdated(_changedProperties);
+    setTimeout(() => this._mountPopper());
+  }
+
   shouldUpdate(_changedProperties: Map<string | number | symbol, unknown>) {
     _changedProperties.forEach((_, propName) => {
-      if (propName === 'isActivated' && this.isActivated) {
-        this._handlePostActivate();
+      if (
+        propName === 'isActivated' &&
+        this.isActivated &&
+        this._popperInstance
+      ) {
+        this._popperInstance.forceUpdate();
       }
     });
     return true;
   }
 
-  private _registerEvents() {
-    containerScrolledSubject
-      .asObservable()
-      .subscribe(() => this.adjustPositioning());
+  private _mountPopper() {
+    const trigger = this.shadowRoot?.getElementById(`${this.actionElementId}`);
+    const popup = this.shadowRoot?.getElementById(`${this.popupElementId}`);
+    if (trigger && popup) {
+      this._popperInstance = createPopper(trigger, popup, {
+        placement: this.placement,
+        strategy: this.positioningStrategy,
+        modifiers: [
+          {
+            name: 'flip',
+            options: {
+              fallbackPlacements: this.fallbackPlacements,
+            },
+          },
+          // {
+          //   name: 'preventOverflow',
+          //   options: {
+          //     padding: 0,
+          //   },
+          // },
+        ],
+      });
+    }
+  }
 
+  private _registerEvents() {
+    containerScrolledSubject.asObservable().subscribe(() => {
+      if (this._popperInstance) {
+        this._popperInstance.forceUpdate();
+      }
+    });
     fromEvent(document, 'click')
       .pipe(map((event) => event))
       .subscribe((event) => this.clickEventHandler(event));
-    fromEvent(window, 'resize')
-      .pipe(map((event) => event))
-      .subscribe(() => this.adjustPositioning());
-    fromEvent(window, 'scroll')
-      .pipe(map((event) => event))
-      .subscribe(() => this.adjustPositioning());
     fromEvent(window, 'keydown')
       .pipe(map((event) => event))
       .subscribe((event: any) => {
@@ -174,65 +227,11 @@ export class OakSelect extends LitElement {
     this.propagateCustomEvent(POPUP_KEY_PRESSED, event);
   };
 
-  // private _activate = () => {
-  //   if (!this.isActivated) {
-  //     this.propagateCustomEvent(POPUP_ACTIVATE);
-  //     this._handlePostActivate();
-  //   }
-  // };
-
-  private _handlePostActivate = () => {
-    setTimeout(() => this.adjustPositioning());
-    const docRef = this.shadowRoot?.getElementById(this.actionElementId);
-    if (docRef) {
-      docRef.addEventListener('keydown', this.keydownEventHandler);
-    }
-
-    if (this.scrollableContainers.length > 0) {
-      console.log('*******', this.scrollableContainers);
-    }
-  };
-
   private _deactivate = () => {
     this.propagateCustomEvent(POPUP_DEACTIVATE);
     const docRef = this.shadowRoot?.getElementById(this.elementId);
     if (docRef) {
       docRef.removeEventListener('keydown', this.keydownEventHandler);
-    }
-  };
-
-  private adjustPositioning = () => {
-    if (this.isActivated) {
-      const popupElRef = this.shadowRoot?.getElementById(this.popupElementId);
-      const actionElRef = this.shadowRoot?.getElementById(this.actionElementId);
-      if (actionElRef && popupElRef) {
-        if (actionElRef.getBoundingClientRect().top > window.innerHeight / 2) {
-          popupElRef.style.bottom = `${
-            window.innerHeight - actionElRef.getBoundingClientRect().top + 4
-          }px`;
-          popupElRef.style.top = 'auto';
-        } else {
-          popupElRef.style.top = `${
-            actionElRef.getBoundingClientRect().bottom + 4
-          }px`;
-          popupElRef.style.bottom = 'auto';
-        }
-        if (actionElRef.getBoundingClientRect().left > window.innerWidth / 2) {
-          popupElRef.style.right = `${
-            document.documentElement.clientWidth -
-            actionElRef.getBoundingClientRect().right
-          }px`;
-          popupElRef.style.left = 'auto';
-        } else {
-          popupElRef.style.left = `${
-            actionElRef.getBoundingClientRect().left
-          }px`;
-          popupElRef.style.right = 'auto';
-        }
-        // popupElRef.style.width = `${
-        //   actionElRef.getBoundingClientRect().width
-        // }px`;
-      }
     }
   };
 

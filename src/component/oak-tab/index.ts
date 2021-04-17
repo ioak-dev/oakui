@@ -2,7 +2,6 @@ import {LitElement, html, customElement, property} from 'lit-element';
 import {classMap} from 'lit-html/directives/class-map';
 import {fromEvent} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {containerScrolledSubject} from '../../_internal/events/ContainerScrolledEvent';
 import {globalStyles} from '../../_internal/styles/global-styles';
 import {compose} from '../../style-composer/OakMenuComposer';
 import {TAB_CHANGE_EVENT} from '../../event/OakTabEvent';
@@ -85,10 +84,10 @@ export class OakTab extends LitElement {
   }
 
   private _registerEvents() {
-    containerScrolledSubject.asObservable().subscribe(() => {
-      clearTimeout(this._debounceTimeout);
-      this._debounceTimeout = setTimeout(() => this._adjustPositioning(), 100);
-    });
+    // containerScrolledSubject.asObservable().subscribe(() => {
+    //   clearTimeout(this._debounceTimeout);
+    //   this._debounceTimeout = setTimeout(() => this._adjustPositioning(), 100);
+    // });
     fromEvent(window, 'resize')
       .pipe(map((event) => event))
       .subscribe(() => {

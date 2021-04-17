@@ -1,24 +1,16 @@
 import {css} from 'lit-element';
 
 export const oakMenuItemStyles = css`
-  .oak-menu-item {
-    padding: 8px 16px;
-    line-height: 1.5;
+  .oak-menu-item__container {
+    /* display: contents; */
+    padding: 10px 16px;
     font-size: 14px;
     white-space: nowrap;
-    text-align: center;
     cursor: pointer;
-    border: none;
-    width: 100%;
-    text-align: left;
-    transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  }
-  .oak-menu-item:hover,
-  .oak-menu-item:focus {
-    outline: none;
-    transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  }
-  .oak-menu-item__container {
-    display: contents;
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    justify-content: flex-start;
+    row-gap: 4px;
   }
 `;

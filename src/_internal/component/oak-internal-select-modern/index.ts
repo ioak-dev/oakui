@@ -89,6 +89,9 @@ export class OakInternalSelectModern extends LitElement {
   @property({type: Boolean})
   gutterBottom?: boolean = false;
 
+  @property({type: String})
+  positioningStrategy?: 'absolute' | 'fixed' = 'absolute';
+
   /**
    * Validators
    *
@@ -480,6 +483,7 @@ export class OakInternalSelectModern extends LitElement {
         .size=${this.size}
         .shape=${this.shape}
         .fill=${this.fill}
+        .positioningStrategy=${this.positioningStrategy}
       >
         <div slot="action">
           ${this.autoCompleteVariant === 'autocomplete'

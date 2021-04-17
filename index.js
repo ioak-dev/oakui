@@ -9,6 +9,7 @@ import './dist/component/oak-link/index.js';
 import './dist/component/oak-form/index.js';
 import './dist/component/oak-select/index.js';
 import './dist/component/oak-menu/index.js';
+import './dist/component/oak-popup/index.js';
 import './dist/component/oak-menu-item/index.js';
 import './dist/component/oak-modal/index.js';
 import './dist/component/oak-form-actions-container/index.js';
