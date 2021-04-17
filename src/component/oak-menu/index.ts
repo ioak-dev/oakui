@@ -2,6 +2,7 @@ import {LitElement, html, customElement, property} from 'lit-element';
 import {classMap} from 'lit-html/directives/class-map';
 import {globalStyles} from '../../_internal/styles/global-styles';
 import '../../_internal/component/oak-internal-popup';
+import '../oak-click-area';
 import {oakMenuStyles} from './index-styles';
 
 let elementIdCounter = 0;
@@ -219,12 +220,9 @@ export class OakMenu extends LitElement {
         type="custom"
       >
         <div slot="action">
-          <slot
-            name="menu-trigger"
-            @button-click=${this.handleClick}
-            @link-click=${this.handleClick}
-            @click=${this.handleClick}
-          ></slot>
+          <oak-click-area @click-area-click=${this.handleClick}
+            ><slot name="menu-label"></slot
+          ></oak-click-area>
         </div>
         <div
           slot="popup"

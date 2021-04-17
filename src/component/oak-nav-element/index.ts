@@ -20,6 +20,9 @@ export class OakNavElement extends LitElement {
   @property({type: Boolean})
   active = false;
 
+  @property({type: Number})
+  level: 1 | 2 | 3 = 1;
+
   constructor() {
     super();
   }
@@ -53,10 +56,13 @@ export class OakNavElement extends LitElement {
       case 'container':
         return {
           [`${customElementName}__${baseClass}`]: true,
+          [`${customElementName}__${baseClass}--active`]: this.active,
+          [`${customElementName}__${baseClass}--level-${this.level}`]: true,
         };
       case 'content':
         return {
           [`${customElementName}__${baseClass}`]: true,
+          [`${customElementName}__${baseClass}--level-${this.level}`]: true,
         };
       default:
         return {};

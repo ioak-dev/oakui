@@ -46,6 +46,12 @@ export const oakAppLayoutStyles = css`
     padding-right: 10px;
     transition: padding-left 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
   }
+  .oak-app-layout__topbar--nosidebar {
+    grid-template-columns: 1fr;
+  }
+  .oak-app-layout__topbar--notopbar {
+    display: none;
+  }
   .oak-app-layout--sidebar-state-open .oak-app-layout__topbar {
     padding-left: calc(10px + var(--oak-app-layout-sidebar-width));
   }
@@ -66,6 +72,9 @@ export const oakAppLayoutStyles = css`
     padding-top: var(--oak-app-layout-topbar-height);
     padding-left: 0;
     transition: padding-left 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+  }
+  .oak-app-layout__main.oak-app-layout__main--notopbar {
+    padding-top: 0;
   }
 
   /* set custom color fills */

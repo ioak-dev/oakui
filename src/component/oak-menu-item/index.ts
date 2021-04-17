@@ -38,13 +38,17 @@ export class OakMenuItem extends LitElement {
     this.propagateCustomEvent(MENU_CLICK_EVENT);
   };
 
-  private getClassMap = (baseClass: 'base'): any => {
+  private getClassMap = (baseClass: 'base' | 'container'): any => {
     switch (baseClass) {
       case 'base':
         return {
           [`${customElementName}`]: true,
           [`oak-fill-${this.fill}`]: true,
           [`oak-fill-${this.fill}--hover-hc`]: true,
+        };
+      case 'container':
+        return {
+          [`${customElementName}__container`]: true,
         };
       default:
         return {};
@@ -74,7 +78,9 @@ export class OakMenuItem extends LitElement {
         id=${this.elementId}
         type="button"
       >
-        <slot></slot>
+        <div class=${classMap(this.getClassMap('container'))}>
+          <slot></slot>
+        </div>
       </button>
     `;
   }
