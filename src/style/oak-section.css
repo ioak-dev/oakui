@@ -1,6 +1,7 @@
 .oak-section-extern {
   /* To avoid background and content bleeding outside of the border radius */
   /* overflow: hidden; */
+  /* overflow: auto; */
 }
 
 .oak-section-extern--fullwidth {

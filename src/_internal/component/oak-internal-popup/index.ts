@@ -4,7 +4,6 @@ import {map} from 'rxjs/operators';
 import {classMap} from 'lit-html/directives/class-map';
 import {globalStyles} from '../../styles/global-styles';
 import {ValidationErrorType} from '../../../types/ValidationResultType';
-import '../oak-internal-label';
 import '../oak-internal-form-tooltip';
 import '../oak-internal-form-error';
 import '../oak-internal-popup-input-action';
@@ -37,9 +36,6 @@ export class OakSelect extends LitElement {
 
   @property({type: Array})
   parentElementIds?: string[] = [];
-
-  @property({type: String})
-  label?: string | null;
 
   @property()
   value?: string | number | null;

@@ -2,13 +2,14 @@ import {LitElement, html, customElement, property} from 'lit-element';
 import {classMap} from 'lit-html/directives/class-map';
 import {globalStyles} from '../../styles/global-styles';
 import {ValidationErrorType} from '../../../types/ValidationResultType';
-import '../oak-internal-label';
 import '../oak-internal-form-tooltip';
 import '../oak-internal-form-error';
 import '../../../component/oak-button';
 import '../../../component/oak-input';
 import {oakInternalPopupInputActionStyles} from './index-styles';
 import {oakInternalPopupInputActionSizeStyles} from './size-styles';
+import {oakInternalPopupInputActionBorderStyles} from './border-styles';
+import {oakInternalPopupInputActionFillStyles} from './fill-styles';
 
 let elementIdCounter = 0;
 const customElementName = 'oak-internal-popup-input-action';
@@ -55,10 +56,28 @@ export class OakInternalPopupInputAction extends LitElement {
   size?: 'xsmall' | 'small' | 'medium' | 'large' = 'small';
 
   @property({type: String})
-  shape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' = 'rectangle';
+  shape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' | 'underline' =
+    'rectangle';
 
   @property({type: String})
-  fill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
+  color?:
+    | 'global'
+    | 'container'
+    | 'surface'
+    | 'float'
+    | 'primary'
+    | 'secondary'
+    | 'tertiary'
+    | 'default'
+    | 'info'
+    | 'invert'
+    | 'danger'
+    | 'warning'
+    | 'success'
+    | 'none' = 'container';
+
+  @property({type: Boolean})
+  fill? = false;
 
   /**
    * Validators
@@ -123,8 +142,12 @@ export class OakInternalPopupInputAction extends LitElement {
           [customElementName]: true,
           [`${customElementName}--size-${this.size}`]: true,
           [`oak-shape-${this.shape}`]: true,
-          [`oak-fill-${this.fill}`]: true,
-          [`oak-fill-${this.fill}--hover`]: true,
+          [`${customElementName}--color-${this.color}`]: true,
+          [`${customElementName}--fill`]: this.fill,
+          [`${customElementName}--fill-color-${this.color}`]: this.fill,
+          [`${customElementName}--underline`]: this.shape === 'underline',
+          [`${customElementName}--no-underline`]: this.shape !== 'underline',
+          [`oak-shape-${this.shape}`]: this.shape !== 'underline',
         };
       case 'value':
       case 'placeholder':
@@ -146,6 +169,8 @@ export class OakInternalPopupInputAction extends LitElement {
       ...globalStyles,
       oakInternalPopupInputActionStyles,
       oakInternalPopupInputActionSizeStyles,
+      oakInternalPopupInputActionBorderStyles,
+      oakInternalPopupInputActionFillStyles,
     ];
   }
 

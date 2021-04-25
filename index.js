@@ -1,4 +1,5 @@
 import './dist/component/oak-typography/index.js';
+import './dist/component/oak-label/index.js';
 import './dist/component/oak-input/index.js';
 import './dist/component/oak-checkbox/index.js';
 import './dist/component/oak-checkbox-group/index.js';

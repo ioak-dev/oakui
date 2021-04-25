@@ -63,7 +63,7 @@ export class OakTable extends LitElement {
   variant?: 'outlined' | null = null;
 
   @property({type: String})
-  fill?: 'global' | 'container' | 'surface' | 'float' | 'none' = 'surface';
+  color: 'global' | 'container' | 'surface' | 'float' | 'none' = 'container';
 
   @property({type: String})
   navPlacement?: 'top' | 'bottom' | 'none' = 'top';
@@ -116,6 +116,7 @@ export class OakTable extends LitElement {
       <oak-paginate
         @paginate-change=${this._onPageChange}
         .totalRows=${this.totalRows}
+        .color=${this.color}
         .formElementSize=${this.formElementSize}
         .formElementShape=${this.formElementShape}
         .paginatePref=${this.paginatePref}
@@ -131,7 +132,7 @@ export class OakTable extends LitElement {
           [customElementName]: true,
           [`oak-bs-elevation${this.elevation}`]: true,
           'oak-rounded': this.rounded,
-          [`oak-fill-${this.fill}`]: true,
+          [`oak-fill-${this.color}`]: true,
         };
         if (this.variant) {
           data[`oak-${this.variant}`] = true;
@@ -146,7 +147,7 @@ export class OakTable extends LitElement {
         return {
           [`${customElementName}__${baseClass}`]: true,
           [`${customElementName}__${baseClass}--nav-${this.navPlacement}`]: true,
-          [`${customElementName}__${baseClass}--fill-${this.fill}`]: true,
+          [`${customElementName}__${baseClass}--fill-${this.color}`]: true,
         };
       default:
         return {};
@@ -160,13 +161,15 @@ export class OakTable extends LitElement {
   render() {
     return html`
       <div class=${classMap(this.getClassMap('base'))} id=${this.elementId}>
+        <slot name="top"></slot>
         ${this.navPlacement === 'top' ? this._renderPaginateSection() : html``}
         <div class=${classMap(this.getClassMap('datagrid'))}>
-          <slot></slot>
+          <slot name="grid"></slot>
         </div>
         ${this.navPlacement === 'bottom'
           ? this._renderPaginateSection()
           : html``}
+        <slot name="bottom"></slot>
       </div>
     `;
   }

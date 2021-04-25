@@ -1,35 +1,24 @@
-const BASE_CLASS_NAME = 'oak-table-extern';
+const BASE_CLASS_NAME = 'oak-table';
 
 export interface OakTableProps {
   dense?: boolean;
-  fill?: 'global' | 'container' | 'surface' | 'float' | 'none';
-  elevation?:
-    | 0
-    | 1
-    | 2
-    | 3
-    | 4
-    | 5
-    | 6
-    | 7
-    | 8
-    | 9
-    | 10
-    | 11
-    | 12
-    | 13
-    | 14
-    | 15
-    | 16
-    | 17
-    | 18
-    | 19
-    | 20
-    | 21
-    | 22
-    | 23
-    | 24;
-  variant?: 'outlined';
+  color?: 'global' | 'container' | 'surface' | 'float' | 'none';
+  headerColor?:
+    | 'global'
+    | 'container'
+    | 'surface'
+    | 'float'
+    | 'primary'
+    | 'secondary'
+    | 'tertiary'
+    | 'info'
+    | 'default'
+    | 'invert'
+    | 'danger'
+    | 'warning'
+    | 'success'
+    | 'auto';
+  navPosition?: 'none' | 'top' | 'bottom';
 }
 
 export function compose(props: OakTableProps): string {
@@ -38,11 +27,15 @@ export function compose(props: OakTableProps): string {
   if (props.dense) {
     output += ` ${BASE_CLASS_NAME}--dense`;
   }
+  output += ` ${BASE_CLASS_NAME}--fill-${props.color || 'container'}`;
 
-  output += ` ${BASE_CLASS_NAME}--fill-${props.fill || 'surface'}`;
-  if (props.elevation === 0 && props.variant !== 'outlined') {
-    output += ` ${BASE_CLASS_NAME}--orphan`;
+  if (!props.headerColor || props.headerColor === 'auto') {
+    output += ` ${BASE_CLASS_NAME}--header-fill-${props.color || 'container'}`;
+  } else {
+    output += ` ${BASE_CLASS_NAME}--header-fill-${props.headerColor}`;
   }
+
+  output += ` ${BASE_CLASS_NAME}--nav-${props.navPosition || 'none'}`;
 
   return output;
 }

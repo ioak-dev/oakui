@@ -1,6 +1,6 @@
 import {LitElement, html, customElement, property} from 'lit-element';
-import {globalStyles} from '../../styles/global-styles';
-import {oakInternalLabelStyles} from './index-styles';
+import {globalStyles} from '../../_internal/styles/global-styles';
+import {oakLabelStyles} from './index-styles';
 
 let elementIdCounter = 0;
 
@@ -8,11 +8,14 @@ let elementIdCounter = 0;
  * Label for form elements.
  *
  */
-const customElementName = 'oak-internal-label';
+const customElementName = 'oak-label';
 @customElement(customElementName)
-export class OakInternalLabel extends LitElement {
+export class OakLabel extends LitElement {
   @property({type: String})
   label?: string | null | undefined = null;
+
+  @property({type: Boolean})
+  noMargin? = false;
 
   @property({type: String})
   elementFor = '';
@@ -24,12 +27,15 @@ export class OakInternalLabel extends LitElement {
   }
 
   static get styles() {
-    return [...globalStyles, oakInternalLabelStyles];
+    return [...globalStyles, oakLabelStyles];
   }
 
   render() {
     return html` ${this.label
-      ? html`<label for=${this.elementFor} id=${this.elementId}
+      ? html`<label
+          for=${this.elementFor}
+          id=${this.elementId}
+          class=${`${this.noMargin ? 'no-margin' : ''}`}
           >${this.label}</label
         >`
       : html``}`;

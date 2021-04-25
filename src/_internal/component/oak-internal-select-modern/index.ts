@@ -8,6 +8,7 @@ import {ValidationErrorType} from '../../../types/ValidationResultType';
 import '../oak-internal-popup';
 import '../oak-internal-popup-text-input-action';
 import '../oak-internal-popup-input-action';
+import '../../../component/oak-label';
 import {oakInternalSelectModernStyles} from './index-styles';
 import {isEmptyOrSpaces, toString} from '../../utils/StringUtils';
 import {RequiredValidator} from '../../validator/RequiredValidator';
@@ -28,6 +29,7 @@ const customElementName = 'oak-internal-select-modern';
 @customElement(customElementName)
 export class OakInternalSelectModern extends LitElement {
   private elementId = `${customElementName}-${elementIdCounter++}`;
+  private rootElementId = `${this.elementId}-root`;
   private inputElementId = `${this.elementId}-input`;
   private liElementId = `${this.elementId}-popup-li`;
   private ulElementId = `${this.elementId}-popup-ul`;
@@ -65,8 +67,11 @@ export class OakInternalSelectModern extends LitElement {
   @property({type: Boolean})
   disabled = false;
 
-  @property({type: String})
-  autoCompleteVariant: 'none' | 'autocomplete' | 'searchbox' = 'searchbox';
+  @property({type: Boolean})
+  fill?: boolean = false;
+
+  @property({type: Boolean})
+  autocomplete? = false;
 
   @property({type: Array})
   options?: any[] | null;
@@ -78,10 +83,42 @@ export class OakInternalSelectModern extends LitElement {
   size?: 'xsmall' | 'small' | 'medium' | 'large' = 'small';
 
   @property({type: String})
-  shape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' = 'rectangle';
+  shape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' | 'underline' =
+    'rectangle';
 
   @property({type: String})
-  fill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
+  color?:
+    | 'global'
+    | 'container'
+    | 'surface'
+    | 'float'
+    | 'primary'
+    | 'secondary'
+    | 'tertiary'
+    | 'default'
+    | 'info'
+    | 'invert'
+    | 'danger'
+    | 'warning'
+    | 'success'
+    | 'none' = 'container';
+
+  @property({type: String})
+  popupColor?:
+    | 'global'
+    | 'container'
+    | 'surface'
+    | 'float'
+    | 'primary'
+    | 'secondary'
+    | 'tertiary'
+    | 'default'
+    | 'info'
+    | 'invert'
+    | 'danger'
+    | 'warning'
+    | 'success'
+    | 'auto' = 'auto';
 
   /**
    * 	If true, the text will have a bottom margin.
@@ -160,12 +197,16 @@ export class OakInternalSelectModern extends LitElement {
         this.navigateUp();
         break;
       case 'Enter':
-        event.preventDefault();
-        this.handleChange(this._currentIndex);
+        if (this._isActivated) {
+          event.preventDefault();
+          this.handleChange(this._currentIndex);
+        }
         break;
       case 'Tab':
-        event.preventDefault();
-        this._deactivate();
+        if (this._isActivated) {
+          event.preventDefault();
+          this._deactivate();
+        }
         break;
       default:
         break;
@@ -245,17 +286,15 @@ export class OakInternalSelectModern extends LitElement {
       (item: any) => item.id === this.value
     );
     this._currentIndex = chosenIndex < 0 ? 0 : chosenIndex;
-    const docRef = this.shadowRoot?.getElementById(this.elementId);
-    if (docRef) {
-      docRef.addEventListener('keydown', this.keydownEventHandler);
+    // const docRef = this.shadowRoot?.getElementById(this.elementId);
+    const rootElRef = this.shadowRoot?.getElementById(this.rootElementId);
+    console.log('*********', 'rootElRef', rootElRef);
+    // if (docRef) {
+    //   docRef.addEventListener('keydown', this.keydownEventHandler);
+    // }
+    if (rootElRef) {
+      rootElRef.addEventListener('keydown', this.keydownEventHandler);
     }
-
-    setTimeout(() => {
-      const inputElRef = this.shadowRoot?.getElementById(this.inputElementId);
-      if (inputElRef) {
-        inputElRef.focus();
-      }
-    }, 201);
   };
 
   private _deactivate = () => {
@@ -397,15 +436,18 @@ export class OakInternalSelectModern extends LitElement {
       case 'popup':
         return {
           [`${customElementName}__${baseClass}`]: true,
-          [`${customElementName}__${baseClass}--fill-${this.fill}`]: true,
+          [`${customElementName}__${baseClass}--fill-${this.color}`]:
+            this.popupColor === 'auto',
+          [`${customElementName}__${baseClass}--fill-${this.popupColor}`]:
+            this.popupColor !== 'auto',
         };
       case 'input':
         return {
           [`${customElementName}__${baseClass}`]: true,
           [`${customElementName}__${baseClass}--size-${this.size}`]: true,
-          [`oak-shape-${this.shape}`]: true,
-          [`oak-fill-${this.fill}`]: true,
-          [`oak-fill-${this.fill}--hover`]: true,
+          [`oak-shape-${this.shape}`]: this.shape !== 'underline',
+          [`oak-fill-${this.color}`]: true,
+          [`oak-fill-${this.color}--hover`]: true,
         };
       default:
         return {};
@@ -466,12 +508,14 @@ export class OakInternalSelectModern extends LitElement {
     const labelId = `${this.elementId}-label`;
 
     return html`
-      <oak-internal-label
+      <oak-label
         .label=${this.label}
         id=${labelId}
         elementFor=${this.elementId}
-      ></oak-internal-label>
+        ?noMargin=${this.shape === 'underline'}
+      ></oak-label>
       <oak-internal-popup
+        .id=${this.rootElementId}
         .value=${this.value}
         .placeholder=${this.placeholder}
         .label=${this.label}
@@ -481,12 +525,10 @@ export class OakInternalSelectModern extends LitElement {
         @popup-key-pressed=${this.handleKeydown}
         ?isActivated=${this._isActivated}
         .size=${this.size}
-        .shape=${this.shape}
-        .fill=${this.fill}
         .positioningStrategy=${this.positioningStrategy}
       >
         <div slot="action">
-          ${this.autoCompleteVariant === 'autocomplete'
+          ${this.autocomplete
             ? html`<oak-internal-popup-text-input-action
                 @toggle=${this._toggle}
                 .value=${this._getValue()}
@@ -495,9 +537,10 @@ export class OakInternalSelectModern extends LitElement {
                 ?multiple=${this.multiple}
                 .searchCriteria=${this._searchCriteria}
                 ?isActivated=${this._isActivated}
+                ?fill=${this.fill}
                 .size=${this.size}
                 .shape=${this.shape}
-                .fill=${this.fill}
+                .color=${this.color}
                 @search-criteria-change=${this._handleSearchCriteriaChange}
               ></oak-internal-popup-text-input-action>`
             : html` <oak-internal-popup-input-action
@@ -505,10 +548,11 @@ export class OakInternalSelectModern extends LitElement {
                 .value=${this._getValue()}
                 .options=${this.options}
                 .optionsAsKeyValue=${this.optionsAsKeyValue}
+                ?fill=${this.fill}
                 ?multiple=${this.multiple}
                 .size=${this.size}
                 .shape=${this.shape}
-                .fill=${this.fill}
+                .color=${this.color}
               ></oak-internal-popup-input-action>`}
         </div>
         <div
@@ -516,19 +560,6 @@ export class OakInternalSelectModern extends LitElement {
           class=${classMap(this.getClassMap('popup'))}
           id=${this.elementId}
         >
-          ${this.autoCompleteVariant === 'searchbox'
-            ? html`<div class=${classMap(this.getClassMap('search-filter'))}>
-                <input
-                  class=${classMap(this.getClassMap('input'))}
-                  type="text"
-                  placeholder="Type to filter"
-                  autocomplete="off"
-                  .value=${this._searchCriteria}
-                  id=${this.inputElementId}
-                  @input=${this.handleSearchCriteriaChange}
-                />
-              </div>`
-            : html``}
           <ul
             role="listbox"
             id=${this.ulElementId}

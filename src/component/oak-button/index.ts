@@ -1,6 +1,6 @@
 import {LitElement, html, customElement, property} from 'lit-element';
 import {globalStyles} from '../../_internal/styles/global-styles';
-import '../../_internal/component/oak-internal-label';
+import '../oak-label';
 import {BUTTON_CLICK_EVENT} from '../../event/OakButtonEvent';
 import {formControlSubmitSubject} from '../../_internal/events/FormControlSubmitEvent';
 import {formControlResetSubject} from '../../_internal/events/FormControlResetEvent';

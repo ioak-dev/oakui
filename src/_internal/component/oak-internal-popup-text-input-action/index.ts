@@ -2,7 +2,6 @@ import {LitElement, html, customElement, property} from 'lit-element';
 import {classMap} from 'lit-html/directives/class-map';
 import {globalStyles} from '../../styles/global-styles';
 import {ValidationErrorType} from '../../../types/ValidationResultType';
-import '../oak-internal-label';
 import '../oak-internal-form-tooltip';
 import '../oak-internal-form-error';
 import '../../../component/oak-button';
@@ -61,10 +60,28 @@ export class OakInternalPopupInputAction extends LitElement {
   size?: 'xsmall' | 'small' | 'medium' | 'large' = 'small';
 
   @property({type: String})
-  shape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' = 'rectangle';
+  shape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' | 'underline' =
+    'rectangle';
 
   @property({type: String})
-  fill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
+  color?:
+    | 'global'
+    | 'container'
+    | 'surface'
+    | 'float'
+    | 'primary'
+    | 'secondary'
+    | 'tertiary'
+    | 'default'
+    | 'info'
+    | 'invert'
+    | 'danger'
+    | 'warning'
+    | 'success'
+    | 'none' = 'container';
+
+  @property({type: Boolean})
+  fill? = false;
 
   /**
    * Validators
@@ -124,8 +141,8 @@ export class OakInternalPopupInputAction extends LitElement {
           [customElementName]: true,
           [`${customElementName}--size-${this.size}`]: true,
           [`oak-shape-${this.shape}`]: true,
-          [`oak-fill-${this.fill}`]: true,
-          [`oak-fill-${this.fill}--hover`]: true,
+          [`oak-fill-${this.color}`]: true,
+          [`oak-fill-${this.color}--hover`]: true,
         };
       case 'value':
       case 'placeholder':
@@ -203,7 +220,8 @@ export class OakInternalPopupInputAction extends LitElement {
         class=${classMap(this.getClassMap('base'))}
         .shape=${this.shape}
         .size=${this.size}
-        .fill=${this.fill}
+        .color=${this.color}
+        ?fill=${this.fill}
         @input-focus=${this.handleInputFocused}
         id=${this.elementId}
         @input-input=${this._handleChange}

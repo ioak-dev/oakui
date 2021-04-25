@@ -33,7 +33,7 @@ export class OakPaginate extends LitElement {
   formElementShape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' = 'rectangle';
 
   @property({type: String})
-  formElementFill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
+  color: 'global' | 'container' | 'surface' | 'float' | 'none' = 'surface';
 
   @property({type: Array})
   private _rowsPerPageVariants = [5, 10, 20, 50];
@@ -44,6 +44,12 @@ export class OakPaginate extends LitElement {
     rowsPerPage: 5,
     searchText: '',
   };
+
+  @property({type: String})
+  variant?: 'list' | 'table' | 'dense-table' = 'list';
+
+  @property({type: String})
+  position?: 'top' | 'bottom' = 'top';
 
   constructor() {
     super();
@@ -118,10 +124,10 @@ export class OakPaginate extends LitElement {
   ): any {
     switch (baseClass) {
       case 'base':
-        const data = {
+        return {
           [customElementName]: true,
+          [`${customElementName}--variant-${this.variant}`]: true,
         };
-        return data;
       case 'left':
         return {
           [`${customElementName}__${baseClass}`]: true,
@@ -152,7 +158,7 @@ export class OakPaginate extends LitElement {
       <div class=${classMap(this.getClassMap('base'))} id=${this.elementId}>
         <div class=${classMap(this.getClassMap('left'))}>
           <oak-internal-paginate-filter
-            .formElementFill=${this.formElementFill}
+            .color=${this.color}
             .formElementSize=${this.formElementSize}
             .formElementShape=${this.formElementShape}
             @paginate-search=${this._onSearchChange}
@@ -166,9 +172,10 @@ export class OakPaginate extends LitElement {
               name="rowsPerPage"
               @input-change=${this._onRowsPerPageChange}
               .options=${this._rowsPerPageVariants}
-              .fill=${this.formElementFill}
+              .fill=${this.color}
               .size=${this.formElementSize}
               .shape=${this.formElementShape}
+              positioningStrategy="fixed"
             ></oak-select>
           </div>
           <div class=${classMap(this.getClassMap('page-number'))}>

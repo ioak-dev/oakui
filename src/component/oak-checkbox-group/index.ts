@@ -9,7 +9,7 @@ import {globalStyles} from '../../_internal/styles/global-styles';
 import {CheckedCountValidator} from '../../_internal/validator/CheckedCountValidator';
 import {UserDefinedValidator} from '../../_internal/validator/UserDefinedValidator';
 import {ValidationErrorType} from '../../types/ValidationResultType';
-import '../../_internal/component/oak-internal-label';
+import '../oak-label';
 import '../../_internal/component/oak-internal-form-tooltip';
 import '../../_internal/component/oak-internal-form-error';
 
@@ -198,11 +198,11 @@ export class OakCheckboxGroup extends LitElement {
 
     return html`
       <div class=${classMap(this.getClassMap('base'))}>
-        <oak-internal-label
+        <oak-label
           .label=${this.label}
           elementId=${labelId}
           elementFor=${this.elementId}
-        ></oak-internal-label>
+        ></oak-label>
         <slot></slot>
         <oak-internal-form-tooltip
           .tooltip=${this.tooltip}

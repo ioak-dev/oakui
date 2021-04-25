@@ -5,7 +5,7 @@ import {formControlValidatedSubject} from '../../events/FormControlValidatedEven
 import {formControlValidateSubject} from '../../events/FormControlValidateEvent';
 import {globalStyles} from '../../styles/global-styles';
 import {ValidationErrorType} from '../../../types/ValidationResultType';
-import '../oak-internal-label';
+import '../../../component/oak-label';
 import '../oak-internal-form-tooltip';
 import '../oak-internal-form-error';
 import {oakInternalSelectNativeStyles} from './index-styles';
@@ -41,6 +41,9 @@ export class OakInternalSelectNative extends LitElement {
   @property({type: Boolean})
   multiple?: boolean = false;
 
+  @property({type: Boolean})
+  fill?: boolean = false;
+
   @property({type: String})
   tooltip?: string = '';
 
@@ -60,10 +63,25 @@ export class OakInternalSelectNative extends LitElement {
   size?: 'xsmall' | 'small' | 'medium' | 'large' = 'small';
 
   @property({type: String})
-  shape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' = 'rectangle';
+  shape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' | 'underline' =
+    'rectangle';
 
   @property({type: String})
-  fill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
+  color?:
+    | 'global'
+    | 'container'
+    | 'surface'
+    | 'float'
+    | 'primary'
+    | 'secondary'
+    | 'tertiary'
+    | 'default'
+    | 'info'
+    | 'invert'
+    | 'danger'
+    | 'warning'
+    | 'success'
+    | 'none' = 'container';
 
   /**
    * 	If true, the text will have a bottom margin.
@@ -131,9 +149,13 @@ export class OakInternalSelectNative extends LitElement {
         return {
           [`${customElementName}--${baseClass}`]: true,
           'validation-failure': this._errors.length > 0,
-          [`oak-shape-${this.shape}`]: true,
-          [`oak-fill-${this.fill}`]: true,
-          [`oak-fill-${this.fill}--hover`]: true,
+          [`${customElementName}__${baseClass}--underline`]:
+            this.shape === 'underline',
+          [`${customElementName}__${baseClass}--no-underline`]:
+            this.shape !== 'underline',
+          [`oak-shape-${this.shape}`]: this.shape !== 'underline',
+          [`oak-fill-${this.color}`]: true,
+          [`oak-fill-${this.color}--hover`]: true,
           [`${customElementName}--size-${this.size}`]: true,
         };
       default:
@@ -180,11 +202,11 @@ export class OakInternalSelectNative extends LitElement {
 
     return html`
       <div class=${classMap(this.getClassMap('base'))} id=${this.elementId}>
-        <oak-internal-label
+        <oak-label
           .label=${this.label}
           elementId=${labelId}
           elementFor=${this.elementId}
-        ></oak-internal-label>
+        ></oak-label>
         <select
           class=${classMap(this.getClassMap('select'))}
           aria-labelledby=${labelId}

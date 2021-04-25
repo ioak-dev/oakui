@@ -8,6 +8,12 @@ export const oakPaginateStyles = css`
     grid-template-columns: 1fr auto;
     align-items: center;
   }
+  .oak-paginate--variant-table {
+    padding: 12px 10px;
+  }
+  .oak-paginate--variant-dense-table {
+    padding: 10px 6px;
+  }
   .oak-paginate__left {
     display: grid;
     grid-auto-flow: column;

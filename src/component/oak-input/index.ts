@@ -15,13 +15,15 @@ import {
 import {RegexValidator} from '../../_internal/validator/RegexValidator';
 import {TextLengthValidator} from '../../_internal/validator/TextLengthValidator';
 import {ValidationErrorType} from '../../types/ValidationResultType';
-import '../../_internal/component/oak-internal-label';
+import '../oak-label';
 import '../../_internal/component/oak-internal-form-tooltip';
 import '../../_internal/component/oak-internal-form-error';
 import {oakInputStyles} from './index-styles';
 import {NumberBoundaryValidator} from '../../_internal/validator/NumberBoundaryValidator';
 import {UserDefinedValidator} from '../../_internal/validator/UserDefinedValidator';
 import {oakInputSizeStyles} from './size-styles';
+import {oakInputBorderStyles} from './border-styles';
+import {oakInputFillStyles} from './fill-styles';
 
 let elementIdCounter = 0;
 
@@ -66,14 +68,31 @@ export class OakInput extends LitElement {
   size?: 'xsmall' | 'small' | 'medium' | 'large' = 'small';
 
   @property({type: String})
-  shape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' = 'rectangle';
+  shape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' | 'underline' =
+    'rectangle';
 
   @property({type: String})
-  fill?: 'global' | 'container' | 'surface' | 'float' | 'invert' | 'none' =
-    'surface';
+  color?:
+    | 'global'
+    | 'container'
+    | 'surface'
+    | 'float'
+    | 'primary'
+    | 'secondary'
+    | 'tertiary'
+    | 'default'
+    | 'info'
+    | 'invert'
+    | 'danger'
+    | 'warning'
+    | 'success'
+    | 'none' = 'container';
+
+  @property({type: Boolean})
+  fill? = false;
 
   @property({type: String})
-  errorStyle?: 'outline' | 'fill' = 'outline';
+  elementFor?: string;
 
   /**
    * 	If true, the text will have a bottom margin.
@@ -272,11 +291,12 @@ export class OakInput extends LitElement {
         return {
           [`${customElementName}-${baseClass}`]: true,
           [`${customElementName}--size-${this.size}`]: true,
-          [`${customElementName}--fill-${this.fill}`]: true,
-          [`${customElementName}--error-style-${this.errorStyle}`]: true,
-          [`oak-shape-${this.shape}`]: true,
-          [`oak-fill-${this.fill}`]: true,
-          [`oak-fill-${this.fill}--hover`]: true,
+          [`${customElementName}--color-${this.color}`]: true,
+          [`${customElementName}--fill`]: this.fill,
+          [`${customElementName}--fill-color-${this.color}`]: this.fill,
+          [`${customElementName}--underline`]: this.shape === 'underline',
+          [`${customElementName}--no-underline`]: this.shape !== 'underline',
+          [`oak-shape-${this.shape}`]: this.shape !== 'underline',
           'validation-failure': this._errors.length > 0,
         };
       default:
@@ -285,19 +305,29 @@ export class OakInput extends LitElement {
   }
 
   static get styles() {
-    return [...globalStyles, oakInputStyles, oakInputSizeStyles];
+    return [
+      ...globalStyles,
+      oakInputStyles,
+      oakInputSizeStyles,
+      oakInputBorderStyles,
+      oakInputFillStyles,
+    ];
   }
 
   render() {
     const labelId = `${this.elementId}-label`;
 
     return html`
-      <div class=${classMap(this.getClassMap('base'))} id=${this.elementId}>
-        <oak-internal-label
+      <div
+        class=${classMap(this.getClassMap('base'))}
+        id=${this.elementFor ? this.elementFor : this.elementId}
+      >
+        <oak-label
           .label=${this.label}
           elementId=${labelId}
           elementFor=${this.elementId}
-        ></oak-internal-label>
+          ?noMargin=${this.shape === 'underline'}
+        ></oak-label>
         <input
           class=${classMap(this.getClassMap('input'))}
           autocomplete="off"

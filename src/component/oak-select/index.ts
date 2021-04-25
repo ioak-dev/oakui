@@ -54,17 +54,55 @@ export class OakSelect extends LitElement {
   @property({type: Boolean})
   native? = false;
 
+  @property({type: Boolean})
+  fill? = false;
+
   @property({type: String})
   size?: 'xsmall' | 'small' | 'medium' | 'large' = 'small';
 
-  @property({type: String})
-  shape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' = 'rectangle';
+  @property({type: String}) shape?:
+    | 'sharp'
+    | 'rectangle'
+    | 'rounded'
+    | 'leaf'
+    | 'underline' = 'rectangle';
 
   @property({type: String})
-  fill?: 'container' | 'surface' | 'float' | 'none' = 'surface';
+  color?:
+    | 'global'
+    | 'container'
+    | 'surface'
+    | 'float'
+    | 'primary'
+    | 'secondary'
+    | 'tertiary'
+    | 'default'
+    | 'info'
+    | 'invert'
+    | 'danger'
+    | 'warning'
+    | 'success'
+    | 'none' = 'container';
 
   @property({type: String})
-  autoCompleteVariant: 'none' | 'autocomplete' | 'searchbox' = 'searchbox';
+  popupColor?:
+    | 'global'
+    | 'container'
+    | 'surface'
+    | 'float'
+    | 'primary'
+    | 'secondary'
+    | 'tertiary'
+    | 'default'
+    | 'info'
+    | 'invert'
+    | 'danger'
+    | 'warning'
+    | 'success'
+    | 'auto' = 'auto';
+
+  @property({type: Boolean})
+  autocomplete? = false;
 
   @property({type: String})
   positioningStrategy?: 'absolute' | 'fixed' = 'absolute';
@@ -83,31 +121,6 @@ export class OakSelect extends LitElement {
     return [...globalStyles, oakSelectStyles];
   }
 
-  // private handleInput = (event: any) => {
-  //   console.log('input', event);
-  //   this.propagateEvent(INPUT_INPUT_EVENT, event);
-  // };
-
-  // private handleChange = (event: any) => {
-  //   console.log('change', event);
-  //   this.propagateEvent(INPUT_CHANGE_EVENT, event);
-  // };
-
-  // private propagateEvent = (eventName: string, event: any, value?: any) => {
-  //   this.value = event.srcElement.value;
-  //   this.dispatchEvent(
-  //     new CustomEvent(eventName, {
-  //       bubbles: true,
-  //       composed: true,
-  //       detail: {
-  //         id: event.srcElement.id,
-  //         name: event.srcElement.name,
-  //         value: value || event.srcElement.value,
-  //       },
-  //     })
-  //   );
-  // };
-
   render() {
     return html`
       ${this.native
@@ -121,11 +134,13 @@ export class OakSelect extends LitElement {
             .tooltip=${this.tooltip}
             ?multiple=${this.multiple}
             ?disabled=${this.disabled}
+            ?fill=${this.fill}
             .options=${this.options}
             .optionsAsKeyValue=${this.optionsAsKeyValue}
             .size=${this.size}
             .shape=${this.shape}
-            .fill=${this.fill}
+            .color=${this.color}
+            .popupColor=${this.popupColor}
             ?gutterBottom=${this.gutterBottom}
           ></oak-internal-select-native>`
         : html`<oak-internal-select-modern
@@ -138,12 +153,14 @@ export class OakSelect extends LitElement {
             .tooltip=${this.tooltip}
             ?multiple=${this.multiple}
             ?disabled=${this.disabled}
+            ?fill=${this.fill}
             .options=${this.options}
             .optionsAsKeyValue=${this.optionsAsKeyValue}
             .size=${this.size}
             .shape=${this.shape}
-            .fill=${this.fill}
-            .autoCompleteVariant=${this.autoCompleteVariant}
+            .color=${this.color}
+            .popupColor=${this.popupColor}
+            .autocomplete=${this.autocomplete}
             .positioningStrategy=${this.positioningStrategy}
             ?gutterBottom=${this.gutterBottom}
           ></oak-internal-select-modern>`}
