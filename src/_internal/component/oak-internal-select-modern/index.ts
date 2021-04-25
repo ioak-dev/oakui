@@ -30,7 +30,6 @@ const customElementName = 'oak-internal-select-modern';
 export class OakInternalSelectModern extends LitElement {
   private elementId = `${customElementName}-${elementIdCounter++}`;
   private rootElementId = `${this.elementId}-root`;
-  private inputElementId = `${this.elementId}-input`;
   private liElementId = `${this.elementId}-popup-li`;
   private ulElementId = `${this.elementId}-popup-ul`;
 
@@ -373,11 +372,6 @@ export class OakInternalSelectModern extends LitElement {
       });
     }
     return [];
-  };
-
-  private handleSearchCriteriaChange = (event: any) => {
-    this._searchCriteria = event.srcElement.value;
-    this._currentIndex = 0;
   };
 
   private validate = () => {
