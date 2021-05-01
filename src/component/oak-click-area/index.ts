@@ -35,13 +35,17 @@ export class OakClickArea extends LitElement {
     );
   };
 
-  private getClassMap(baseClass: 'base' | 'container'): any {
+  private getClassMap(baseClass: 'base' | 'container' | 'button-content'): any {
     switch (baseClass) {
       case 'base':
         return {
           [customElementName]: true,
         };
       case 'container':
+        return {
+          [`${customElementName}__${baseClass}`]: true,
+        };
+      case 'button-content':
         return {
           [`${customElementName}__${baseClass}`]: true,
         };
@@ -59,7 +63,9 @@ export class OakClickArea extends LitElement {
       <div class=${classMap(this.getClassMap('base'))} id=${this.elementId}>
         <div class=${classMap(this.getClassMap('container'))}>
           <button @click=${this._handleClick}>
-            <slot></slot>
+            <div class=${classMap(this.getClassMap('button-content'))}>
+              <slot></slot>
+            </div>
           </button>
         </div>
       </div>

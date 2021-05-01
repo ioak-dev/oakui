@@ -43,11 +43,18 @@ export class OakInput extends LitElement {
   label?: string | null | undefined = null;
 
   @property()
-  value?: string | number | null;
+  value?: any;
 
   @property({type: String})
-  type: 'text' | 'number' | 'password' | 'date' | 'file' | 'time' | 'datetime' =
-    'text';
+  type:
+    | 'text'
+    | 'textarea'
+    | 'number'
+    | 'password'
+    | 'date'
+    | 'file'
+    | 'time'
+    | 'datetime' = 'text';
 
   @property({type: String})
   placeholder = '';
@@ -243,7 +250,7 @@ export class OakInput extends LitElement {
   }
 
   private handleKeydown = (event: any) => {
-    if (event.key === 'Enter' && this.type !== 'file') {
+    if (event.key === 'Enter' && !event.shiftKey && this.type !== 'file') {
       this.handleSubmit(event);
     }
   };
@@ -280,7 +287,7 @@ export class OakInput extends LitElement {
   //   return this.shadowRoot!.getElementById(this.elementId)! as HTMLInputElement;
   // }
 
-  private getClassMap(baseClass: 'base' | 'input'): any {
+  private getClassMap(baseClass: 'base' | 'input' | 'textarea'): any {
     switch (baseClass) {
       case 'base':
         return {
@@ -288,6 +295,7 @@ export class OakInput extends LitElement {
           'oak-gutter-bottom': this.gutterBottom,
         };
       case 'input':
+      case 'textarea':
         return {
           [`${customElementName}-${baseClass}`]: true,
           [`${customElementName}--size-${this.size}`]: true,
@@ -328,22 +336,41 @@ export class OakInput extends LitElement {
           elementFor=${this.elementId}
           ?noMargin=${this.shape === 'underline'}
         ></oak-label>
-        <input
-          class=${classMap(this.getClassMap('input'))}
-          autocomplete="off"
-          aria-labelledby=${labelId}
-          name=${this.name}
-          id=${this.elementId}
-          .value=${this.type !== 'file' ? this.value : ''}
-          placeholder=${this.placeholder}
-          ?disabled=${this.disabled}
-          type=${this.type === 'datetime' ? 'datetime-local' : this.type}
-          ?multiple=${this.multiple}
-          @change=${this.handleChange}
-          @input=${this.handleInput}
-          @keydown=${this.handleKeydown}
-          @focus=${this.handleFocus}
-        />
+        ${this.type !== 'textarea'
+          ? html`<input
+              class=${classMap(this.getClassMap('input'))}
+              autocomplete="off"
+              aria-labelledby=${labelId}
+              name=${this.name}
+              id=${this.elementId}
+              .value=${this.type !== 'file' ? this.value : ''}
+              placeholder=${this.placeholder}
+              ?disabled=${this.disabled}
+              type=${this.type === 'datetime' ? 'datetime-local' : this.type}
+              ?multiple=${this.multiple}
+              @change=${this.handleChange}
+              @input=${this.handleInput}
+              @keydown=${this.handleKeydown}
+              @focus=${this.handleFocus}
+            />`
+          : html``}
+        ${this.type === 'textarea'
+          ? html`<textarea
+              class=${classMap(this.getClassMap('textarea'))}
+              autocomplete="off"
+              aria-labelledby=${labelId}
+              name=${this.name}
+              id=${this.elementId}
+              .value=${this.value || ''}
+              placeholder=${this.placeholder}
+              ?disabled=${this.disabled}
+              @change=${this.handleChange}
+              @input=${this.handleInput}
+              @keydown=${this.handleKeydown}
+              @focus=${this.handleFocus}
+              rows="4"
+            ></textarea>`
+          : html``}
         <oak-internal-form-tooltip
           .tooltip=${this.tooltip}
         ></oak-internal-form-tooltip>

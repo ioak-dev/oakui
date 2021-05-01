@@ -20,7 +20,7 @@ export const oakInternalPopupStyles = css`
     width: auto;
     visibility: hidden;
     opacity: 0;
-    border: 1px solid var(--global-border-color);
+    /* border: 1px solid var(--global-border-color); */
     transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
       visibility 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   }

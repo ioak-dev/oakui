@@ -111,7 +111,7 @@ export class OakInternalPaginateFilter extends LitElement {
   render() {
     return html`
       <oak-modal
-        .showModal=${this._showColumnList}
+        .isOpen=${this._showColumnList}
         @close-modal=${() => this._setShowColumnList(false)}
         heading="Choose columns"
       >

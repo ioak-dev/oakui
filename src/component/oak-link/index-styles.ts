@@ -30,6 +30,7 @@ export const oakLinkStyles = css`
     // box-shadow: var(--oak-userinput-outline-box-shadow);
     // border: 1px solid var(--oak-userinput-outline-border-color);
     // border-radius: var(--formelement-border-radius);
+    text-decoration: underline;
   }
 
   button.oak-link,
@@ -58,10 +59,10 @@ export const oakLinkStyles = css`
   a.oak-link:focus {
     /* outline: none;
     box-shadow: var(--oak-userinput-outline-box-shadow); */
-    outline-style: var(--oak-userinput-outline-style);
+    /* outline-style: var(--oak-userinput-outline-style);
     outline-width: var(--oak-userinput-outline-width);
     outline-offset: var(--oak-userinput-outline-offset);
-    outline-color: var(--oak-userinput-outline-color);
+    outline-color: var(--oak-userinput-outline-color); */
   }
 
   button.oak-link.primary,

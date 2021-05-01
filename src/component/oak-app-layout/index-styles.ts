@@ -63,7 +63,7 @@ export const oakAppLayoutStyles = css`
   }
 
   .oak-app-layout__main {
-    z-index: 30;
+    /* z-index: 30; */
     position: relative;
     display: flex;
     flex-direction: column;

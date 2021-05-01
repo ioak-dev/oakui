@@ -28,4 +28,8 @@ export const oakClickAreaStyles = css`
     outline-offset: var(--oak-global-outline-offset);
     outline-color: var(--oak-global-outline-color);
   }
+  .oak-click-area__button-content {
+    width: 100%;
+    height: 100%;
+  }
 `;

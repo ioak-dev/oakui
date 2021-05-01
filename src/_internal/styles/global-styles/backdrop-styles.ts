@@ -10,7 +10,7 @@ export const backdropStyles = css`
     left: 0;
     height: 100%;
     width: 100%;
-    background-color: var(--color-backdrop-1);
+    background-color: var(--oak-backdrop-color-1);
     overflow: hidden;
   }
   .oak-backdrop-2 {
@@ -19,7 +19,7 @@ export const backdropStyles = css`
     left: 0;
     height: 100%;
     width: 100%;
-    background-color: var(--color-backdrop-2);
+    background-color: var(--oak-backdrop-color-2);
     overflow: hidden;
   }
   .oak-backdrop-3 {
@@ -28,7 +28,7 @@ export const backdropStyles = css`
     left: 0;
     height: 100%;
     width: 100%;
-    background-color: var(--color-backdrop-3);
+    background-color: var(--oak-backdrop-color-3);
     overflow: hidden;
   }
   .oak-backdrop-4 {
@@ -37,7 +37,7 @@ export const backdropStyles = css`
     left: 0;
     height: 100%;
     width: 100%;
-    background-color: var(--color-backdrop-4);
+    background-color: var(--oak-backdrop-color-4);
     overflow: hidden;
   }
   .oak-backdrop-5 {
@@ -46,7 +46,7 @@ export const backdropStyles = css`
     left: 0;
     height: 100%;
     width: 100%;
-    background-color: var(--color-backdrop-5);
+    background-color: var(--oak-backdrop-color-5);
     overflow: hidden;
   }
 `;

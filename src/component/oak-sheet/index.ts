@@ -1,5 +1,7 @@
 import {LitElement, html, customElement, property} from 'lit-element';
 import {classMap} from 'lit-html/directives/class-map';
+import {fromEvent} from 'rxjs';
+import {map} from 'rxjs/operators';
 import OakSheetEvent from '../../event/OakSheetEvent';
 import {globalStyles} from '../../_internal/styles/global-styles';
 import {oakSheetBackdropStyles} from './backdrop-styles';
@@ -99,6 +101,21 @@ export class OakSheet extends LitElement {
 
   firstUpdated(_changedProperties: any) {
     super.firstUpdated(_changedProperties);
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.init();
+  }
+
+  private init() {
+    fromEvent(window, 'keydown')
+      .pipe(map((event) => event))
+      .subscribe((event: any) => {
+        if (['Escape'].includes(event.key)) {
+          this._handleClose();
+        }
+      });
   }
 
   shouldUpdate(_changedProperties: Map<string | number | symbol, unknown>) {
