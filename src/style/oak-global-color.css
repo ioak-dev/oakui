@@ -1,0 +1,42 @@
+.oak-color-fg-inherit {
+  color: inherit;
+}
+.oak-color-fg-global {
+  color: var(--color-global);
+}
+.oak-color-fg-container {
+  color: var(--color-container);
+}
+.oak-color-fg-surface {
+  color: var(--color-surface);
+}
+.oak-color-fg-float {
+  color: var(--color-float);
+}
+.oak-color-fg-primary {
+  color: var(--color-primary);
+}
+.oak-color-fg-secondary {
+  color: var(--color-secondary);
+}
+.oak-color-fg-tertiary {
+  color: var(--color-tertiary);
+}
+.oak-color-fg-default {
+  color: var(--color-default);
+}
+.oak-color-fg-info {
+  color: var(--color-info);
+}
+.oak-color-fg-danger {
+  color: var(--color-danger);
+}
+.oak-color-fg-warning {
+  color: var(--color-warning);
+}
+.oak-color-fg-success {
+  color: var(--color-success);
+}
+.oak-color-fg-invert {
+  color: var(--color-invert-i);
+}

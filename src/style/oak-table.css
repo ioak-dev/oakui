@@ -1,0 +1,182 @@
+.oak-table {
+  overflow-x: auto;
+  width: 100%;
+  border-collapse: collapse;
+  white-space: nowrap;
+}
+.oak-table thead tr th {
+  text-align: start;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Table header color */
+.oak-table--header-fill-global thead tr,
+.oak-table--header-fill-global thead tr th {
+  background-color: var(--color-global);
+  color: var(--color-global-i);
+}
+.oak-table--header-fill-container thead tr,
+.oak-table--header-fill-container thead tr th {
+  background-color: var(--color-container);
+  color: var(--color-container-i);
+}
+.oak-table--header-fill-surface thead tr,
+.oak-table--header-fill-surface thead tr th {
+  background-color: var(--color-surface);
+  color: var(--color-surface-i);
+}
+.oak-table--header-fill-float thead tr,
+.oak-table--header-fill-float thead tr th {
+  background-color: var(--color-float);
+  color: var(--color-float-i);
+}
+.oak-table--header-fill-primary thead tr,
+.oak-table--header-fill-primary thead tr th {
+  background-color: var(--color-primary);
+  color: var(--color-primary-i);
+}
+.oak-table--header-fill-secondary thead tr,
+.oak-table--header-fill-secondary thead tr th {
+  background-color: var(--color-secondary);
+  color: var(--color-secondary-i);
+}
+.oak-table--header-fill-tertiary thead tr,
+.oak-table--header-fill-tertiary thead tr th {
+  background-color: var(--color-tertiary);
+  color: var(--color-tertiary-i);
+}
+.oak-table--header-fill-info thead tr,
+.oak-table--header-fill-info thead tr th {
+  background-color: var(--color-info);
+  color: var(--color-info-i);
+}
+.oak-table--header-fill-default thead tr,
+.oak-table--header-fill-default thead tr th {
+  background-color: var(--color-default);
+  color: var(--color-default-i);
+}
+.oak-table--header-fill-invert thead tr,
+.oak-table--header-fill-invert thead tr th {
+  background-color: var(--color-invert);
+  color: var(--color-invert-i);
+}
+.oak-table--header-fill-danger thead tr,
+.oak-table--header-fill-danger thead tr th {
+  background-color: var(--color-danger);
+  color: var(--color-danger-i);
+}
+.oak-table--header-fill-warning thead tr,
+.oak-table--header-fill-warning thead tr th {
+  background-color: var(--color-warning);
+  color: var(--color-warning-i);
+}
+.oak-table--header-fill-success thead tr,
+.oak-table--header-fill-success thead tr th {
+  background-color: var(--color-success);
+  color: var(--color-success-i);
+}
+
+/* Table background color */
+.oak-table--fill-global tbody tr,
+.oak-table--fill-global tbody tr td {
+  background-color: var(--color-global);
+  color: var(--color-global-i);
+}
+.oak-table--fill-container tbody tr,
+.oak-table--fill-container tbody tr td {
+  background-color: var(--color-container);
+  color: var(--color-container-i);
+}
+.oak-table--fill-surface tbody tr,
+.oak-table--fill-surface tbody tr td {
+  background-color: var(--color-surface);
+  color: var(--color-surface-i);
+}
+.oak-table--fill-float tbody tr,
+.oak-table--fill-float tbody tr td {
+  background-color: var(--color-float);
+  color: var(--color-float-i);
+}
+
+/* Table row hover color */
+.oak-table--fill-global tbody tr:hover,
+.oak-table--fill-global tbody tr:hover td {
+  background-color: var(--color-global-dark);
+  color: var(--color-global-dark-i);
+}
+.oak-table--fill-container tbody tr:hover,
+.oak-table--fill-container tbody tr:hover td {
+  background-color: var(--color-container-dark);
+  color: var(--color-container-dark-i);
+}
+.oak-table--fill-surface tbody tr:hover,
+.oak-table--fill-surface tbody tr:hover td {
+  background-color: var(--color-surface-dark);
+  color: var(--color-surface-dark-i);
+}
+.oak-table--fill-float tbody tr:hover,
+.oak-table--fill-float tbody tr:hover td {
+  background-color: var(--color-float-dark);
+  color: var(--color-float-dark-i);
+}
+
+/* Divider between Nav section and table grid */
+.oak-table--nav-top.oak-table--fill-global thead {
+  border-top: 1px solid var(--color-global-darker);
+}
+.oak-table--nav-top.oak-table--fill-container thead {
+  border-top: 1px solid var(--color-container-darker);
+}
+.oak-table--nav-top.oak-table--fill-surface thead {
+  border-top: 1px solid var(--color-surface-darker);
+}
+.oak-table--nav-top.oak-table--fill-float thead {
+  border-top: 1px solid var(--color-float-darker);
+}
+
+.oak-table--nav-bottom.oak-table--fill-global tbody {
+  border-bottom: 1px solid var(--color-global-darker);
+}
+.oak-table--nav-bottom.oak-table--fill-container tbody {
+  border-bottom: 1px solid var(--color-container-darker);
+}
+.oak-table--nav-bottom.oak-table--fill-surface tbody {
+  border-bottom: 1px solid var(--color-surface-darker);
+}
+.oak-table--nav-bottom.oak-table--fill-float tbody {
+  border-bottom: 1px solid var(--color-float-darker);
+}
+
+/* Table row dividers */
+.oak-table--fill-none tbody tr {
+  border-top: 1px solid var(--global-border-color);
+}
+.oak-table--fill-global tbody tr {
+  border-top: 1px solid var(--color-global-darker);
+}
+.oak-table--fill-container tbody tr {
+  border-top: 1px solid var(--color-container-darker);
+}
+.oak-table--fill-surface tbody tr {
+  border-top: 1px solid var(--color-surface-darker);
+}
+.oak-table--fill-float tbody tr {
+  border-top: 1px solid var(--color-float-darker);
+}
+
+.oak-table--orphan.oak-table--fill-none table tbody tr:last-child {
+  border-bottom: 1px solid var(--global-border-color);
+}
+.oak-table--orphan.oak-table--fill-global table tbody tr:last-child {
+  border-bottom: 1px solid var(--color-global-darker);
+}
+.oak-table--orphan.oak-table--fill-container table tbody tr:last-child {
+  border-bottom: 1px solid var(--color-container-darker);
+}
+.oak-table--orphan.oak-table--fill-surface table tbody tr:last-child {
+  border-bottom: 1px solid var(--color-surface-darker);
+}
+.oak-table--orphan.oak-table--fill-float table tbody tr:last-child {
+  border-bottom: 1px solid var(--color-float-darker);
+}
