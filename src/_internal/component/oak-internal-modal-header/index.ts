@@ -15,7 +15,7 @@ export class OakModalHeader extends LitElement {
   private elementId = `oak-internal-modal-header-${elementIdCounter++}`;
 
   @property({type: String})
-  heading: string = '';
+  heading = '';
 
   constructor() {
     super();

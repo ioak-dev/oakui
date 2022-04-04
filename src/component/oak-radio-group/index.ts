@@ -13,6 +13,8 @@ import '../../_internal/component/oak-internal-form-error';
 import {oakRadioGroupStyles} from './index-styles';
 import {radioChangeSubject} from '../../_internal/events/RadioChangeEvent';
 import {INPUT_CHANGE_EVENT} from '../../event/OakInputEvent';
+import {Subscription} from 'rxjs';
+import {radioRegisterSubject} from '../../_internal/events/RadioRegisterEvent';
 
 let elementIdCounter = 0;
 
@@ -53,7 +55,7 @@ export class OakRadioGroup extends LitElement {
    * Validators
    *
    */
-  @property({type: Function})
+  @property({type: Object})
   validatorFunction?: Function;
 
   /**
@@ -62,22 +64,60 @@ export class OakRadioGroup extends LitElement {
   @property({type: Array})
   private _errors: ValidationErrorType[] = [];
 
+  private _subscriptions: Subscription[] = [];
+
   constructor() {
     super();
   }
+
   connectedCallback() {
     super.connectedCallback();
     this.formControlInit();
     this.radioInit();
+    this._broadcastInitialValue();
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this._subscriptions.forEach((item) => item.unsubscribe());
+  }
+
+  // shouldUpdate(_changedProperties: Map<string | number | symbol, unknown>) {
+  //   _changedProperties.forEach((_, propName) => {
+  //     if (propName === 'value' || propName === 'radioGroupName') {
+  //       this._broadcastInitialValue();
+  //     }
+  //   });
+  //   return true;
+  // }
+
+  private _broadcastInitialValue() {
+    if (this.radioGroupName) {
+      radioChangeSubject.next({
+        name: this.value,
+        radioGroupName: this.radioGroupName,
+      });
+    }
   }
 
   private radioInit() {
-    radioChangeSubject.asObservable().subscribe((message) => {
-      console.log('**from radio group change**', message);
-      if (message.radioGroupName === this.radioGroupName) {
-        this._handleChange(message.name);
-      }
-    });
+    this._subscriptions.push(
+      radioRegisterSubject.asObservable().subscribe((message) => {
+        if (
+          message.radioGroupName === this.radioGroupName &&
+          message.name === this.value
+        ) {
+          this._broadcastInitialValue();
+        }
+      })
+    );
+    this._subscriptions.push(
+      radioChangeSubject.asObservable().subscribe((message) => {
+        if (message.radioGroupName === this.radioGroupName) {
+          this._handleChange(message.name);
+        }
+      })
+    );
   }
 
   private formControlInit() {
@@ -87,13 +127,15 @@ export class OakRadioGroup extends LitElement {
         formGroupName: this.formGroupName,
       });
 
-      formControlValidateSubject
-        .asObservable()
-        .subscribe((message: {formGroupName: string | undefined}) => {
-          if (message.formGroupName === this.formGroupName) {
-            this._validate();
-          }
-        });
+      this._subscriptions.push(
+        formControlValidateSubject
+          .asObservable()
+          .subscribe((message: {formGroupName: string | undefined}) => {
+            if (message.formGroupName === this.formGroupName) {
+              this._validate();
+            }
+          })
+      );
     }
   }
 

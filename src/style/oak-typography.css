@@ -141,3 +141,13 @@
 .oak-typography-display-inline-flex {
   display: inline-flex;
 }
+
+.oak-typography-transform--uppercase {
+  text-transform: uppercase;
+}
+.oak-typography-transform--lowercase {
+  text-transform: lowercase;
+}
+.oak-typography-transform--titlecase {
+  text-transform: capitalize;
+}

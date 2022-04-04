@@ -1,6 +1,10 @@
 const BASE_CLASS_NAME = 'oak-typography';
 
 export interface OakTypographyProps {
+  baseClass?: string;
+
+  transform?: 'lowercase' | 'uppercase' | 'titlecase';
+
   color?:
     | 'inherit'
     | 'primary'
@@ -31,31 +35,10 @@ export interface OakTypographyProps {
   align?: 'inherit' | 'left' | 'center' | 'right' | 'justify';
 
   /**
-   * Controls the display type
-   */
-  display?:
-    | 'inherit'
-    | 'initial'
-    | 'inline'
-    | 'block'
-    | 'inline-block'
-    | 'inline-flex';
-
-  /**
    * If true, the text will not wrap, but instead will truncate with a text overflow ellipsis.
    * Note that text overflow can only happen with block or inline-block level elements (the element needs to have a width in order to overflow).
    */
   noWrap?: boolean;
-
-  /**
-   * If true, the text will have a bottom margin.
-   */
-  paragraph?: boolean;
-
-  /**
-   * 	If true, the text will have a bottom margin.
-   */
-  gutterBottom?: boolean;
 
   variant:
     | 'h1'
@@ -75,22 +58,25 @@ export interface OakTypographyProps {
 
 export function compose(props: OakTypographyProps): string {
   let output = BASE_CLASS_NAME;
+  if (props.baseClass) {
+    output += ` ${props.baseClass}`;
+  }
   output += ` ${BASE_CLASS_NAME}-root`;
   output += ` ${BASE_CLASS_NAME}-${props.variant}`;
-  output += ` ${BASE_CLASS_NAME}-align-${props.align}`;
-  output += ` ${BASE_CLASS_NAME}-display-${props.display}`;
-  output += ` ${BASE_CLASS_NAME}-highlight-${props.highlightColor}`;
-  if (props.paragraph) {
-    output += ` ${BASE_CLASS_NAME}-paragraph`;
+  if (props.align) {
+    output += ` ${BASE_CLASS_NAME}-align-${props.align}`;
   }
   if (props.noWrap) {
     output += ` ${BASE_CLASS_NAME}-noWrap`;
   }
-  if (props.gutterBottom) {
-    output += ' oak-gutter-bottom';
-  }
   if (props.color) {
     output += ` oak-color-fg-${props.color}`;
+  }
+  if (props.highlightColor) {
+    output += ` ${BASE_CLASS_NAME}-highlight-${props.highlightColor}`;
+  }
+  if (props.transform) {
+    output += ` ${BASE_CLASS_NAME}-transform--${props.transform}`;
   }
   return output;
 }

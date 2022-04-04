@@ -1,5 +1,5 @@
 import {LitElement, html, customElement, property} from 'lit-element';
-import {fromEvent} from 'rxjs';
+import {fromEvent, Subscription} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {classMap} from 'lit-html/directives/class-map';
 import {globalStyles} from '../../styles/global-styles';
@@ -102,6 +102,8 @@ export class OakSelect extends LitElement {
 
   private _popperInstance: any = null;
 
+  private _subscriptions: Subscription[] = [];
+
   /**
    * Validators
    *
@@ -122,6 +124,7 @@ export class OakSelect extends LitElement {
   disconnectedCallback() {
     super.disconnectedCallback();
     this._unregisterEvents();
+    this._subscriptions.forEach((item) => item.unsubscribe());
   }
 
   firstUpdated(_changedProperties: any) {
@@ -168,11 +171,13 @@ export class OakSelect extends LitElement {
   }
 
   private _registerEvents() {
-    containerScrolledSubject.asObservable().subscribe(() => {
-      if (this._popperInstance) {
-        this._popperInstance.forceUpdate();
-      }
-    });
+    this._subscriptions.push(
+      containerScrolledSubject.asObservable().subscribe(() => {
+        if (this._popperInstance) {
+          this._popperInstance.forceUpdate();
+        }
+      })
+    );
     fromEvent(document, 'click')
       .pipe(map((event) => event))
       .subscribe((event) => this.clickEventHandler(event));

@@ -30,7 +30,8 @@ export class OakPaginate extends LitElement {
   formElementSize?: 'xsmall' | 'small' | 'medium' | 'large' = 'small';
 
   @property({type: String})
-  formElementShape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' = 'rectangle';
+  formElementShape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' | 'underline' =
+    'rectangle';
 
   @property({type: String})
   color: 'global' | 'container' | 'surface' | 'float' | 'none' = 'surface';
@@ -170,7 +171,7 @@ export class OakPaginate extends LitElement {
             <oak-select
               .value=${this.paginatePref.rowsPerPage}
               name="rowsPerPage"
-              @input-change=${this._onRowsPerPageChange}
+              @select-change=${this._onRowsPerPageChange}
               .options=${this._rowsPerPageVariants}
               .fill=${this.color}
               .size=${this.formElementSize}

@@ -24,6 +24,7 @@ import {UserDefinedValidator} from '../../_internal/validator/UserDefinedValidat
 import {oakInputSizeStyles} from './size-styles';
 import {oakInputBorderStyles} from './border-styles';
 import {oakInputFillStyles} from './fill-styles';
+import {Subscription} from 'rxjs';
 
 let elementIdCounter = 0;
 
@@ -44,6 +45,9 @@ export class OakInput extends LitElement {
 
   @property()
   value?: any;
+
+  @property({type: Boolean})
+  isAutofocus?: boolean = false;
 
   @property({type: String})
   type:
@@ -112,7 +116,7 @@ export class OakInput extends LitElement {
    *
    */
 
-  @property({type: Function})
+  @property({type: Object})
   validatorFunction?: Function;
 
   /**
@@ -151,6 +155,8 @@ export class OakInput extends LitElement {
   @property({type: Array})
   private _errors: ValidationErrorType[] = [];
 
+  private _subscriptions: Subscription[] = [];
+
   constructor() {
     super();
   }
@@ -160,6 +166,11 @@ export class OakInput extends LitElement {
     this.init();
   }
 
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this._subscriptions.forEach((item) => item.unsubscribe());
+  }
+
   private init() {
     if (this.formGroupName) {
       formControlRegisterSubject.next({
@@ -167,13 +178,15 @@ export class OakInput extends LitElement {
         formGroupName: this.formGroupName,
       });
 
-      formControlValidateSubject
-        .asObservable()
-        .subscribe((message: {formGroupName: string | undefined}) => {
-          if (message.formGroupName === this.formGroupName) {
-            this.validate();
-          }
-        });
+      this._subscriptions.push(
+        formControlValidateSubject
+          .asObservable()
+          .subscribe((message: {formGroupName: string | undefined}) => {
+            if (message.formGroupName === this.formGroupName) {
+              this.validate();
+            }
+          })
+      );
     }
   }
 
@@ -269,7 +282,12 @@ export class OakInput extends LitElement {
   };
 
   private propagateEvent = (eventName: string, event: any, value?: any) => {
-    this.value = event.srcElement.value;
+    let _value = value || event.srcElement.value;
+    if (_value && this.type === 'number') {
+      _value = parseInt(_value);
+    }
+    // this.value = event.srcElement.value;
+    this.value = _value;
     this.dispatchEvent(
       new CustomEvent(eventName, {
         bubbles: true,
@@ -277,7 +295,7 @@ export class OakInput extends LitElement {
         detail: {
           id: event.srcElement.id,
           name: event.srcElement.name,
-          value: value || event.srcElement.value,
+          value: _value,
         },
       })
     );
@@ -336,7 +354,7 @@ export class OakInput extends LitElement {
           elementFor=${this.elementId}
           ?noMargin=${this.shape === 'underline'}
         ></oak-label>
-        ${this.type !== 'textarea'
+        ${!['textarea'].includes(this.type)
           ? html`<input
               class=${classMap(this.getClassMap('input'))}
               autocomplete="off"
@@ -346,12 +364,13 @@ export class OakInput extends LitElement {
               .value=${this.type !== 'file' ? this.value : ''}
               placeholder=${this.placeholder}
               ?disabled=${this.disabled}
-              type=${this.type === 'datetime' ? 'datetime-local' : this.type}
+              .type=${this.type === 'datetime' ? 'datetime-local' : this.type}
               ?multiple=${this.multiple}
               @change=${this.handleChange}
               @input=${this.handleInput}
               @keydown=${this.handleKeydown}
               @focus=${this.handleFocus}
+              ?autofocus=${this.isAutofocus}
             />`
           : html``}
         ${this.type === 'textarea'
@@ -369,6 +388,7 @@ export class OakInput extends LitElement {
               @keydown=${this.handleKeydown}
               @focus=${this.handleFocus}
               rows="4"
+              ?autofocus=${this.isAutofocus}
             ></textarea>`
           : html``}
         <oak-internal-form-tooltip

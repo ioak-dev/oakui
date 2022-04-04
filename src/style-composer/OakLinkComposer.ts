@@ -1,38 +1,40 @@
 const BASE_CLASS_NAME = 'oak-link';
 
 export interface OakLinkProps {
-  href?: string | null;
-  underline: 'none' | 'hover' | 'always';
-  block: boolean;
-  blockSize?: 'xsmall' | 'small' | 'medium' | 'large';
-  blockShape?: 'sharp' | 'rectangle' | 'rounded' | 'leaf' | 'icon';
+  baseClass?: string;
+  underlineStyle?: 'none' | 'hover' | 'always';
+  textStyle?: 'none' | 'hover' | 'always';
+  blockStyle?: 'none' | 'hover' | 'always';
+  underlineThickness?: 'thin' | 'normal' | 'thick';
+  dotted?: boolean;
   color?:
-    | 'inherit'
+    | 'default'
+    | 'info'
+    | 'invert'
     | 'primary'
     | 'secondary'
     | 'tertiary'
-    | 'default'
     | 'danger'
     | 'warning'
-    | 'success'
-    | 'invert'
-    | 'info';
+    | 'success';
 }
 
 export function compose(props: OakLinkProps): string {
   let output = BASE_CLASS_NAME;
+  if (props.baseClass) {
+    output += ` ${props.baseClass}`;
+  }
 
-  output += ` ${BASE_CLASS_NAME}-${props.underline || 'hover'}`;
-  output += ` oak-color-fg-${props.color || 'global'}`;
-  output += ` ${props.color || 'global'}`;
-  if (props.block) {
-    output += ` ${BASE_CLASS_NAME}-block`;
-    output += ` size-${props.blockSize || 'small'}`;
-    output += ` oak-shape-${props.blockShape || 'small'}`;
+  output += ` ${BASE_CLASS_NAME}--underline-${props.underlineStyle || 'hover'}`;
+  if (props.dotted) {
+    output += ` ${BASE_CLASS_NAME}--dotted`;
   }
-  if (props.block && props.blockShape === 'icon') {
-    output += ' icon';
-  }
+  output += ` ${BASE_CLASS_NAME}--underline-thickness-${
+    props.underlineThickness || 'normal'
+  }`;
+  output += ` ${BASE_CLASS_NAME}--text-${props.textStyle || 'always'}`;
+  output += ` ${BASE_CLASS_NAME}--color-${props.color || 'primary'}`;
+  output += ` ${BASE_CLASS_NAME}--block-${props.blockStyle || 'none'}`;
 
   return output;
 }

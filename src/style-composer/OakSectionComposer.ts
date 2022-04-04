@@ -1,6 +1,7 @@
 const BASE_CLASS_NAME = 'oak-section-extern';
 
 export interface OakSectionProps {
+  baseClass?: string;
   elevation?:
     | 0
     | 1
@@ -78,6 +79,9 @@ export interface OakSectionProps {
 
 export function compose(props: OakSectionProps): string {
   let output = BASE_CLASS_NAME;
+  if (props.baseClass) {
+    output += ` ${props.baseClass}`;
+  }
   output += ` oak-bs-elevation${props.elevation || 0}`;
   output += ` oak-padding-horizontal${
     props.paddingHorizontal === null ? 2 : props.paddingHorizontal

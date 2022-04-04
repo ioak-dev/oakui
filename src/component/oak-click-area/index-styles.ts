@@ -6,6 +6,9 @@ export const oakClickAreaStyles = css`
     /* overflow: hidden; */
     display: contents;
   }
+  .oak-click-area__container {
+    display: flex;
+  }
   .oak-click-area__container button {
     width: 100%;
     /* display: flex; */

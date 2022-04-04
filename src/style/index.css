@@ -3,6 +3,9 @@
 @import './oak-global-border.css';
 @import './oak-global-shadow.css';
 @import './oak-global-fill.css';
+@import './oak-global-color.css';
+@import './oak-bg.css';
+@import './oak-fg.css';
 @import './oak-typography.css';
 @import './oak-link.css';
 @import './oak-section.css';

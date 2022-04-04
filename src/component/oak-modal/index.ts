@@ -30,10 +30,10 @@ export class OakModal extends LitElement {
   rounded = false;
 
   @property({type: String})
-  height?: 'auto' | 'small' | 'large' | 'full' = 'auto';
+  height?: 'auto' | 'small' | 'medium' | 'large' | 'full' = 'auto';
 
   @property({type: String})
-  width?: 'auto' | 'small' | 'large' | 'full' = 'auto';
+  width?: 'auto' | 'small' | 'medium' | 'large' | 'full' = 'auto';
 
   @property({type: String})
   animationSpeed?: 'slow' | 'normal' | 'fast' | 'none' = 'normal';
@@ -207,6 +207,7 @@ export class OakModal extends LitElement {
       case 'footer':
         return {
           [`${customElementName}__${baseClass}`]: true,
+          [`oak-padding-horizontal${this.paddingHorizontal}`]: true,
         };
       case 'body':
         return {

@@ -2,7 +2,6 @@ import {css} from 'lit-element';
 
 export const oakInternalModalHeaderStyles = css`
   .oak-internal-modal-header {
-    padding: 20px 20px;
     display: flex;
     flex-direction: row;
     align-items: center;

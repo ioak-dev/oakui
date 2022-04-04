@@ -16,6 +16,15 @@ export const oakModalStyles = css`
     justify-items: center;
     z-index: 100;
   }
+  .oak-modal__footer,
+  .oak-modal__heading {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .oak-modal__footer {
+    display: flex;
+    flex-wrap: wrap;
+  }
   .oak-modal__body {
     overflow: auto;
   }
@@ -38,8 +47,11 @@ export const oakModalStyles = css`
   .oak-modal__content-container--height-small {
     height: 40vh;
   }
-  .oak-modal__content-container--height-large {
+  .oak-modal__content-container--height-medium {
     height: 80vh;
+  }
+  .oak-modal__content-container--height-large {
+    height: 94vh;
   }
   .oak-modal__content-container--height-full {
     height: 100vh;
@@ -47,8 +59,11 @@ export const oakModalStyles = css`
   .oak-modal__content-container--width-small {
     width: 40vw;
   }
-  .oak-modal__content-container--width-large {
+  .oak-modal__content-container--width-medium {
     width: 80vw;
+  }
+  .oak-modal__content-container--width-large {
+    width: 94vw;
   }
   .oak-modal__content-container--width-full {
     width: 100vw;
@@ -64,8 +79,11 @@ export const oakModalStyles = css`
     .oak-modal__content-container--width-small {
       width: 60vw;
     }
-    .oak-modal__content-container--width-large {
+    .oak-modal__content-container--width-medium {
       width: 80vw;
+    }
+    .oak-modal__content-container--width-large {
+      width: 94vw;
     }
     .oak-modal__content-container--rounded {
       border-radius: 0px;
@@ -73,6 +91,9 @@ export const oakModalStyles = css`
   }
   @media (max-width: 480px) {
     .oak-modal__content-container--width-small {
+      width: 100vw;
+    }
+    .oak-modal__content-container--width-medium {
       width: 100vw;
     }
     .oak-modal__content-container--width-large {

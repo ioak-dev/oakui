@@ -1,0 +1,42 @@
+.oak-bg-global {
+  background-color: var(--color-global);
+}
+.oak-bg-container {
+  background-color: var(--color-container);
+}
+.oak-bg-surface {
+  background-color: var(--color-surface);
+}
+.oak-bg-float {
+  background-color: var(--color-float);
+}
+.oak-bg-none {
+  background-color: inherit;
+}
+.oak-bg-default {
+  background-color: var(--color-default);
+}
+.oak-bg-info {
+  background-color: var(--color-info);
+}
+.oak-bg-primary {
+  background-color: var(--color-primary);
+}
+.oak-bg-secondary {
+  background-color: var(--color-secondary);
+}
+.oak-bg-tertiary {
+  background-color: var(--color-tertiary);
+}
+.oak-bg-danger {
+  background-color: var(--color-danger);
+}
+.oak-bg-warning {
+  background-color: var(--color-warning);
+}
+.oak-bg-success {
+  background-color: var(--color-success);
+}
+.oak-bg-invert {
+  background-color: var(--color-invert);
+}

@@ -30,6 +30,12 @@ export class OakSelect extends LitElement {
   @property()
   values?: any[] | null;
 
+  @property({type: Boolean})
+  required?: boolean = false;
+
+  @property({type: Array})
+  actionItems?: string[];
+
   @property({type: String})
   placeholder?: string = '';
 
@@ -142,6 +148,8 @@ export class OakSelect extends LitElement {
             .color=${this.color}
             .popupColor=${this.popupColor}
             ?gutterBottom=${this.gutterBottom}
+            .actionItems=${this.actionItems}
+            ?required=${this.required}
           ></oak-internal-select-native>`
         : html`<oak-internal-select-modern
             .formGroupName=${this.formGroupName}
@@ -163,6 +171,8 @@ export class OakSelect extends LitElement {
             .autocomplete=${this.autocomplete}
             .positioningStrategy=${this.positioningStrategy}
             ?gutterBottom=${this.gutterBottom}
+            .actionItems=${this.actionItems}
+            ?required=${this.required}
           ></oak-internal-select-modern>`}
     `;
   }

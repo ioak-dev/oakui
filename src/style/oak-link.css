@@ -1,173 +1,110 @@
-a.oak-link {
-  text-decoration: none;
+.oak-link,
+.oak-link:hover,
+.oak-link:active,
+.oak-link:focus {
   box-shadow: none;
   outline: none;
-}
-a.oak-link.oak-link-hover:hover,
-a.oak-link.oak-link-always {
-  text-decoration: underline;
-}
-
-button.oak-link {
-  border: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-  background: none;
-}
-button.oak-link.oak-link-hover:hover,
-button.oak-link.oak-link-always {
-  text-decoration: underline;
-}
-
-a.oak-link:focus,
-a.oak-link:active,
-button.oak-link:focus {
-  text-decoration: underline;
-}
-
-button.oak-link,
-a.oak-link {
-  --btn-text-color: #fcfcfc;
-  --btn-text-color-dark: #000;
-  border-radius: var(--formelement-border-radius);
-  /* white-space: nowrap; */
-  /* font-size: 12.5px; */
-  /* font-family: 'Roboto', sans-serif; */
-  /* font-weight: 500; */
-  /* background: none; */
-  /* color: var(--color-1); */
-  cursor: pointer;
-  transition: 250ms cubic-bezier(0.5, 1.6, 0.4, 0.7);
-}
-button.oak-link:focus,
-a.oak-link:focus {
-  text-decoration: underline;
-  /* outline: none;
-    box-shadow: var(--oak-userinput-outline-box-shadow); */
-  /* outline-style: var(--oak-userinput-outline-style);
-    outline-width: var(--oak-userinput-outline-width);
-    outline-offset: var(--oak-userinput-outline-offset);
-    outline-color: var(--oak-userinput-outline-color); */
-}
-
-button.oak-link.primary:hover,
-a.oak-link.primary:hover {
-  color: var(--color-primary);
+  color: inherit;
   border: none;
 }
-
-button.oak-link.secondary:hover,
-a.oak-link.secondary:hover {
-  color: var(--color-secondary);
+.oak-link {
+  display: inline;
+  transition: border-color 250ms ease-in-out, background-color 250ms ease-in-out,
+    color 250ms ease-in-out;
 }
 
-button.oak-link.tertiary,
-a.oak-link.tertiary {
-  color: var(--color-tertiary);
-}
-
-button.oak-link.default,
-a.oak-link.default {
-  color: var(--color-1);
-}
-
-button.oak-link.info,
-a.oak-link.info {
-  color: var(--color-1);
-}
-
-button.oak-link.danger,
-a.oak-link.danger {
-  color: var(--color-danger);
-}
-
-button.oak-link.warning,
-a.oak-link.warning {
-  color: var(--color-warning);
-}
-
-button.oak-link.success,
-a.oak-link.success {
-  color: var(--color-success);
-}
-
-button.oak-link.invert,
-a.oak-link.invert {
-  color: var(--color-invert-i);
-}
-
-button.oak-link.oak-link-block,
-a.oak-link.oak-link-block {
+.oak-link,
+.oak-link:hover,
+.oak-link:focus,
+.oak-link:active {
   text-decoration: none;
 }
 
-button.oak-link.oak-link-block:hover,
-button.oak-link.oak-link-block:focus,
-a.oak-link.oak-link-block:hover,
-a.oak-link.oak-link-block:focus {
-  text-decoration: none;
+/* Border thickness variable */
+.oak-link--underline-thickness-thin {
+  --oak-link-border-thickness: 1px;
+}
+.oak-link--underline-thickness-normal {
+  --oak-link-border-thickness: 2px;
+}
+.oak-link--underline-thickness-thick {
+  --oak-link-border-thickness: 3px;
 }
 
-button.oak-link.oak-link-block.primary:hover,
-button.oak-link.oak-link-block.primary:focus,
-a.oak-link.oak-link-block.primary:hover,
-a.oak-link.oak-link-block.primary:focus {
-  background-color: var(--color-primary-transparent);
+/* Border style variable */
+.oak-link {
+  --oak-link-border-style: solid;
+}
+.oak-link--dotted {
+  --oak-link-border-style: dotted;
 }
 
-button.oak-link.oak-link-block.secondary:hover,
-button.oak-link.oak-link-block.secondary:focus,
-a.oak-link.oak-link-block.secondary:hover,
-a.oak-link.oak-link-block.secondary:focus {
-  background-color: var(--color-secondary-transparent);
+/* Color variable */
+.oak-link--color-default {
+  --oak-link-color: var(--color-default);
+  --oak-link-color-transparent: var(--color-default-transparent);
+}
+.oak-link--color-info {
+  --oak-link-color: var(--color-info);
+  --oak-link-color-transparent: var(--color-info-transparent);
+}
+.oak-link--color-invert {
+  --oak-link-color: var(--color-invert);
+  --oak-link-color-transparent: var(--color-invert-transparent);
+}
+.oak-link--color-primary {
+  --oak-link-color: var(--color-primary);
+  --oak-link-color-transparent: var(--color-primary-transparent);
+}
+.oak-link--color-secondary {
+  --oak-link-color: var(--color-secondary);
+  --oak-link-color-transparent: var(--color-secondary-transparent);
+}
+.oak-link--color-tertiary {
+  --oak-link-color: var(--color-tertiary);
+  --oak-link-color-transparent: var(--color-tertiary-transparent);
+}
+.oak-link--color-danger {
+  --oak-link-color: var(--color-danger);
+  --oak-link-color-transparent: var(--color-danger-transparent);
+}
+.oak-link--color-warning {
+  --oak-link-color: var(--color-warning);
+  --oak-link-color-transparent: var(--color-warning-transparent);
+}
+.oak-link--color-success {
+  --oak-link-color: var(--color-success);
+  --oak-link-color-transparent: var(--color-success-transparent);
 }
 
-button.oak-link.oak-link-block.tertiary:hover,
-button.oak-link.oak-link-block.tertiary:focus,
-a.oak-link.oak-link-block.tertiary:hover,
-a.oak-link.oak-link-block.tertiary:focus {
-  background-color: var(--color-tertiary-transparent);
+.oak-link--underline-hover {
+  border-bottom: var(--oak-link-border-thickness) var(--oak-link-border-style)
+    transparent;
+}
+.oak-link--underline-always,
+.oak-link--underline-always:hover,
+.oak-link--underline-always:focus,
+.oak-link--underline-hover:hover,
+.oak-link--underline-hover:focus {
+  border-bottom: var(--oak-link-border-thickness) var(--oak-link-border-style)
+    var(--oak-link-color);
 }
 
-button.oak-link.oak-link-block.default:hover,
-button.oak-link.oak-link-block.default:focus,
-a.oak-link.oak-link-block.default:hover,
-a.oak-link.oak-link-block.default:focus {
-  background-color: var(--color-default-transparent);
+.oak-link--text-always,
+.oak-link--text-always:hover,
+.oak-link--text-always:focus,
+.oak-link--text-hover:hover,
+.oak-link--text-hover:focus {
+  color: var(--oak-link-color);
 }
 
-button.oak-link.oak-link-block.info:hover,
-button.oak-link.oak-link-block.info:focus,
-a.oak-link.oak-link-block.info:hover,
-a.oak-link.oak-link-block.info:focus {
-  background-color: var(--color-info-transparent);
+.oak-link--block-hover {
+  background-color: transparent;
 }
-
-button.oak-link.oak-link-block.danger:hover,
-button.oak-link.oak-link-block.danger:focus,
-a.oak-link.oak-link-block.danger:hover,
-a.oak-link.oak-link-block.danger:focus {
-  background-color: var(--color-danger-transparent);
-}
-
-button.oak-link.oak-link-block.warning:hover,
-button.oak-link.oak-link-block.warning:focus,
-a.oak-link.oak-link-block.warning:hover,
-a.oak-link.oak-link-block.warning:focus {
-  background-color: var(--color-warning-transparent);
-}
-
-button.oak-link.oak-link-block.success:hover,
-button.oak-link.oak-link-block.success:focus,
-a.oak-link.oak-link-block.success:hover,
-a.oak-link.oak-link-block.success:focus {
-  background-color: var(--color-success-transparent);
-}
-
-button.oak-link.oak-link-block.invert:hover,
-button.oak-link.oak-link-block.invert:focus,
-a.oak-link.oak-link-block.invert:hover,
-a.oak-link.oak-link-block.invert:focus {
-  background-color: var(--color-invert-transparent);
+.oak-link--block-always,
+.oak-link--block-always:hover,
+.oak-link--block-always:focus,
+.oak-link--block-hover:hover,
+.oak-link--block-hover:focus {
+  background-color: var(--oak-link-color-transparent);
 }

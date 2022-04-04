@@ -72,6 +72,7 @@ export const oakAppLayoutStyles = css`
     padding-top: var(--oak-app-layout-topbar-height);
     padding-left: 0;
     transition: padding-left 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+    color: var(--color-1);
   }
   .oak-app-layout__main.oak-app-layout__main--notopbar {
     padding-top: 0;

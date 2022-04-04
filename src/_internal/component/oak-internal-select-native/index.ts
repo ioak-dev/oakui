@@ -14,6 +14,7 @@ import {
   SELECT_CHANGE_EVENT,
   SELECT_INPUT_EVENT,
 } from '../../../event/OakSelectEvent';
+import {Subscription} from 'rxjs';
 
 let elementIdCounter = 0;
 const customElementName = 'oak-internal-select-native';
@@ -40,6 +41,9 @@ export class OakInternalSelectNative extends LitElement {
 
   @property({type: Boolean})
   multiple?: boolean = false;
+
+  @property({type: Boolean})
+  required?: boolean = false;
 
   @property({type: Boolean})
   fill?: boolean = false;
@@ -100,6 +104,8 @@ export class OakInternalSelectNative extends LitElement {
   @property({type: Array})
   private _errors: ValidationErrorType[] = [];
 
+  private _subscriptions: Subscription[] = [];
+
   constructor() {
     super();
   }
@@ -109,6 +115,11 @@ export class OakInternalSelectNative extends LitElement {
     this.init();
   }
 
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this._subscriptions.forEach((item) => item.unsubscribe());
+  }
+
   private init() {
     if (this.formGroupName) {
       formControlRegisterSubject.next({
@@ -116,13 +127,15 @@ export class OakInternalSelectNative extends LitElement {
         formGroupName: this.formGroupName,
       });
 
-      formControlValidateSubject
-        .asObservable()
-        .subscribe((message: {formGroupName: string | undefined}) => {
-          if (message.formGroupName === this.formGroupName) {
-            this.validate();
-          }
-        });
+      this._subscriptions.push(
+        formControlValidateSubject
+          .asObservable()
+          .subscribe((message: {formGroupName: string | undefined}) => {
+            if (message.formGroupName === this.formGroupName) {
+              this.validate();
+            }
+          })
+      );
     }
   }
 

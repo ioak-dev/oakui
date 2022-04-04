@@ -1,6 +1,7 @@
 const BASE_CLASS_NAME = 'oak-table';
 
 export interface OakTableProps {
+  baseClass?: string;
   dense?: boolean;
   color?: 'global' | 'container' | 'surface' | 'float' | 'none';
   headerColor?:
@@ -23,6 +24,9 @@ export interface OakTableProps {
 
 export function compose(props: OakTableProps): string {
   let output = BASE_CLASS_NAME;
+  if (props.baseClass) {
+    output += ` ${props.baseClass}`;
+  }
 
   if (props.dense) {
     output += ` ${BASE_CLASS_NAME}--dense`;

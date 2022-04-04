@@ -56,7 +56,9 @@ export const oakInternalSelectModernStyles = css`
     width: 16px;
     display: flex;
   }
-
+  .oak-internal-select-modern__li-action-item {
+    font-style: italic;
+  }
   .oak-internal-select-modern__li-indicator svg path {
     fill: var(--formelement-color-fg);
   }

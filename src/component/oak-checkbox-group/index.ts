@@ -14,6 +14,7 @@ import '../../_internal/component/oak-internal-form-tooltip';
 import '../../_internal/component/oak-internal-form-error';
 
 import {oakCheckboxGroupStyles} from './index-styles';
+import {Subscription} from 'rxjs';
 
 let elementIdCounter = 0;
 
@@ -51,7 +52,7 @@ export class OakCheckboxGroup extends LitElement {
    * Validators
    *
    */
-  @property({type: Function})
+  @property({type: Object})
   validatorFunction?: Function;
 
   /**
@@ -74,6 +75,8 @@ export class OakCheckboxGroup extends LitElement {
 
   private checkboxList: any = {};
 
+  private _subscriptions: Subscription[] = [];
+
   constructor() {
     super();
   }
@@ -83,23 +86,32 @@ export class OakCheckboxGroup extends LitElement {
     this.checkboxInit();
   }
 
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this._subscriptions.forEach((item) => item.unsubscribe());
+  }
+
   private checkboxInit() {
-    checkboxRegisterSubject.asObservable().subscribe((message) => {
-      if (message.checkboxGroupName === this.checkboxGroupName) {
-        this.checkboxList = {
-          ...this.checkboxList,
-          [message.name]: message.value,
-        };
-      }
-    });
-    checkboxChangeSubject.asObservable().subscribe((message) => {
-      if (message.checkboxGroupName === this.checkboxGroupName) {
-        this.checkboxList = {
-          ...this.checkboxList,
-          [message.name]: message.value,
-        };
-      }
-    });
+    this._subscriptions.push(
+      checkboxRegisterSubject.asObservable().subscribe((message) => {
+        if (message.checkboxGroupName === this.checkboxGroupName) {
+          this.checkboxList = {
+            ...this.checkboxList,
+            [message.name]: message.value,
+          };
+        }
+      })
+    );
+    this._subscriptions.push(
+      checkboxChangeSubject.asObservable().subscribe((message) => {
+        if (message.checkboxGroupName === this.checkboxGroupName) {
+          this.checkboxList = {
+            ...this.checkboxList,
+            [message.name]: message.value,
+          };
+        }
+      })
+    );
   }
 
   private formControlInit() {
@@ -109,13 +121,15 @@ export class OakCheckboxGroup extends LitElement {
         formGroupName: this.formGroupName,
       });
 
-      formControlValidateSubject
-        .asObservable()
-        .subscribe((message: {formGroupName: string | undefined}) => {
-          if (message.formGroupName === this.formGroupName) {
-            this._validate();
-          }
-        });
+      this._subscriptions.push(
+        formControlValidateSubject
+          .asObservable()
+          .subscribe((message: {formGroupName: string | undefined}) => {
+            if (message.formGroupName === this.formGroupName) {
+              this._validate();
+            }
+          })
+      );
     }
   }
 

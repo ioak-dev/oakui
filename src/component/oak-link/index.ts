@@ -4,10 +4,10 @@ import {globalStyles} from '../../_internal/styles/global-styles';
 
 import {oakLinkStyles} from './index-styles';
 
-import '../oak-typography';
 import {LINK_CLICK_EVENT} from '../../event/OakLinkEvent';
 import {oakLinkSizeStyles} from './size-styles';
 import {oakButtonSizeStyles} from '../oak-button/size-styles';
+import {compose as typographyCompose} from '../../style-composer/OakTypographyComposer';
 
 let elementIdCounter = 0;
 
@@ -138,14 +138,15 @@ export class OakLink extends LitElement {
           >
             ${this.block
               ? html`<slot></slot>`
-              : html` <oak-typography
-                  .align=${this.align}
-                  .display=${this.display}
-                  .color=${this.color}
-                  .variant=${this.variant}
+              : html`<div
+                  class=${typographyCompose({
+                    align: this.align,
+                    color: this.color,
+                    variant: this.variant,
+                  })}
                 >
                   <slot></slot>
-                </oak-typography>`}
+                </div>`}
           </a>`
         : html` <button
             class=${classMap(this.getClassMap('base'))}
@@ -155,14 +156,15 @@ export class OakLink extends LitElement {
           >
             ${this.block
               ? html`<slot></slot>`
-              : html`<oak-typography
-                  .align=${this.align}
-                  .display=${this.display}
-                  .color=${this.color}
-                  .variant=${this.variant}
+              : html`<div
+                  class=${typographyCompose({
+                    align: this.align,
+                    color: this.color,
+                    variant: this.variant,
+                  })}
                 >
                   <slot></slot>
-                </oak-typography>`}
+                </div>`}
           </button>`}
     </div>`;
   }

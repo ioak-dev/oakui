@@ -203,7 +203,6 @@ export class OakAppLayout extends LitElement {
           [`${customElementName}__${baseClass}--notopbar`]:
             this.topbarVariant === 'none',
           ['oak-color-bg-global']: true,
-          ['oak-color-global-i']: true,
         };
       default:
         return {};

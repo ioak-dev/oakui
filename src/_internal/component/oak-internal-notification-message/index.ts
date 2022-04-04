@@ -1,8 +1,6 @@
 import {LitElement, html, customElement, property} from 'lit-element';
 import {classMap} from 'lit-html/directives/class-map';
 import {globalStyles} from '../../styles/global-styles';
-import '../../../component/oak-typography';
-import '../../../component/oak-link';
 import {
   removeNotification,
   _removeNotifyEvent,
@@ -14,6 +12,7 @@ import {oakInternalNotificationMessageIndicatorCircleStyles} from './indicator-c
 import {oakInternalNotificationMessageIndicatorEllipseStyles} from './indicator-ellipse-styles';
 import {oakInternalNotificationMessageIndicatorFillStyles} from './indicator-fill-styles';
 import {oakInternalNotificationMessageIndicatorOutlineStyles} from './indicator-outline-styles';
+import {compose as typographyCompose} from '../../../style-composer/OakTypographyComposer';
 
 let elementIdCounter = 0;
 
@@ -233,16 +232,20 @@ export class OakInternalNotificationMessage extends LitElement {
                   <div class=${classMap(this.getClassMap('left'))}>
                     ${
                       this.notification.heading
-                        ? html`<oak-typography
-                            variant=${this.headingTypographyVariant}
+                        ? html`<div
+                            class=${typographyCompose({
+                              variant: this.headingTypographyVariant || 'body1',
+                            })}
                           >
                             ${this.notification.heading}
-                          </oak-typography>`
+                          </div>`
                         : html``
                     }
-                    <oak-typography variant=${this.bodyTypographyVariant}>
+                    <div class=${typographyCompose({
+                      variant: this.bodyTypographyVariant || 'body1',
+                    })}>
                       ${this.notification.description}
-                    </oak-typography>
+                    </div>
                   </div>
                   <div class=${classMap(this.getClassMap('right'))}>
                     <oak-button

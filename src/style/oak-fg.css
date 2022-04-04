@@ -1,0 +1,85 @@
+.oak-fg-global {
+  color: var(--color-global);
+}
+.oak-fg-container {
+  color: var(--color-container);
+}
+.oak-fg-surface {
+  color: var(--color-surface);
+}
+.oak-fg-float {
+  color: var(--color-float);
+}
+.oak-fg-none {
+  color: inherit;
+}
+.oak-fg-default {
+  color: var(--color-default);
+}
+.oak-fg-info {
+  color: var(--color-info);
+}
+.oak-fg-primary {
+  color: var(--color-primary);
+}
+.oak-fg-secondary {
+  color: var(--color-secondary);
+}
+.oak-fg-tertiary {
+  color: var(--color-tertiary);
+}
+.oak-fg-danger {
+  color: var(--color-danger);
+}
+.oak-fg-warning {
+  color: var(--color-warning);
+}
+.oak-fg-success {
+  color: var(--color-success);
+}
+.oak-fg-invert {
+  color: var(--color-invert);
+}
+
+.oak-fg-global-i {
+  color: var(--color-global-i);
+}
+.oak-fg-container-i {
+  color: var(--color-container-i);
+}
+.oak-fg-surface-i {
+  color: var(--color-surface-i);
+}
+.oak-fg-float-i {
+  color: var(--color-float-i);
+}
+.oak-fg-none-i {
+  color: inherit;
+}
+.oak-fg-default-i {
+  color: var(--color-default-i);
+}
+.oak-fg-info-i {
+  color: var(--color-info-i);
+}
+.oak-fg-primary-i {
+  color: var(--color-primary-i);
+}
+.oak-fg-secondary-i {
+  color: var(--color-secondary-i);
+}
+.oak-fg-tertiary-i {
+  color: var(--color-tertiary-i);
+}
+.oak-fg-danger-i {
+  color: var(--color-danger-i);
+}
+.oak-fg-warning-i {
+  color: var(--color-warning-i);
+}
+.oak-fg-success-i {
+  color: var(--color-success-i);
+}
+.oak-fg-invert-i {
+  color: var(--color-invert-i);
+}

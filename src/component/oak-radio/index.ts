@@ -1,5 +1,6 @@
 import {LitElement, html, customElement, property} from 'lit-element';
 import {classMap} from 'lit-html/directives/class-map';
+import {Subscription} from 'rxjs';
 import {INPUT_CHANGE_EVENT} from '../../event/OakInputEvent';
 import {radioChangeSubject} from '../../_internal/events/RadioChangeEvent';
 import {radioRegisterSubject} from '../../_internal/events/RadioRegisterEvent';
@@ -51,6 +52,8 @@ export class OakRadio extends LitElement {
   @property({type: Boolean})
   private _value = false;
 
+  private _subscriptions: Subscription[] = [];
+
   constructor() {
     super();
   }
@@ -58,6 +61,11 @@ export class OakRadio extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     this.init();
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this._subscriptions.forEach((item) => item.unsubscribe());
   }
 
   private init() {
@@ -68,11 +76,22 @@ export class OakRadio extends LitElement {
       });
     }
 
-    radioChangeSubject.asObservable().subscribe((message) => {
-      if (message.radioGroupName === this.radioGroupName) {
-        this._value = message.name === this.name;
+    this._subscriptions.push(
+      radioChangeSubject.asObservable().subscribe((message) => {
+        if (message.radioGroupName === this.radioGroupName) {
+          this._value = message.name === this.name;
+        }
+      })
+    );
+  }
+
+  shouldUpdate(_changedProperties: Map<string | number | symbol, unknown>) {
+    _changedProperties.forEach((_, propName) => {
+      if (propName === 'radioGroupName') {
+        this.init();
       }
     });
+    return true;
   }
 
   private _handleChange = () => {

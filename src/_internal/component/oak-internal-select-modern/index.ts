@@ -17,7 +17,9 @@ import {oakInternalSelectModernFillStyles} from './fill-styles';
 import {
   SELECT_CHANGE_EVENT,
   SELECT_INPUT_EVENT,
+  SELECT_ACTION_ITEM_EVENT,
 } from '../../../event/OakSelectEvent';
+import {Subscription} from 'rxjs';
 
 let elementIdCounter = 0;
 const customElementName = 'oak-internal-select-modern';
@@ -36,6 +38,9 @@ export class OakInternalSelectModern extends LitElement {
   @property({type: Boolean})
   private _isActivated = false;
 
+  @property({type: Boolean})
+  required?: boolean = false;
+
   @property({type: Number})
   private _currentIndex = 0;
 
@@ -50,6 +55,12 @@ export class OakInternalSelectModern extends LitElement {
 
   @property()
   value?: any;
+
+  @property({type: Array})
+  actionItems?: string[];
+
+  @property({type: Array})
+  actionItemsWhenNoResults?: string[];
 
   @property({type: String})
   placeholder?: string = '';
@@ -138,6 +149,7 @@ export class OakInternalSelectModern extends LitElement {
    */
   @property({type: Array})
   private _errors: ValidationErrorType[] = [];
+  private _subscriptions: Subscription[] = [];
 
   constructor() {
     super();
@@ -151,6 +163,7 @@ export class OakInternalSelectModern extends LitElement {
   disconnectedCallback() {
     super.disconnectedCallback();
     this._unregisterEvents();
+    this._subscriptions.forEach((item) => item.unsubscribe());
   }
 
   private _registerEvents() {
@@ -160,13 +173,15 @@ export class OakInternalSelectModern extends LitElement {
         formGroupName: this.formGroupName,
       });
 
-      formControlValidateSubject
-        .asObservable()
-        .subscribe((message: {formGroupName: string | undefined}) => {
-          if (message.formGroupName === this.formGroupName) {
-            this.validate();
-          }
-        });
+      this._subscriptions.push(
+        formControlValidateSubject
+          .asObservable()
+          .subscribe((message: {formGroupName: string | undefined}) => {
+            if (message.formGroupName === this.formGroupName) {
+              this.validate();
+            }
+          })
+      );
     }
   }
 
@@ -183,6 +198,14 @@ export class OakInternalSelectModern extends LitElement {
         this._deactivate();
       }
     }
+  };
+
+  private handleActionItemChange = (actionItem: string) => {
+    this.propagateCustomEvent(SELECT_ACTION_ITEM_EVENT, actionItem, {
+      criteria: this._searchCriteria,
+      action: actionItem,
+    });
+    this._deactivate();
   };
 
   private keydownEventHandler = (event: any) => {
@@ -376,7 +399,9 @@ export class OakInternalSelectModern extends LitElement {
 
   private validate = () => {
     this._errors = [];
-    this._errors = this._errors.concat(RequiredValidator(this.value));
+    if (this.required) {
+      this._errors = this._errors.concat(RequiredValidator(this.value));
+    }
     formControlValidatedSubject.next({
       formGroupName: this.formGroupName || '',
       formControlName: this.name,
@@ -390,6 +415,7 @@ export class OakInternalSelectModern extends LitElement {
     baseClass:
       | 'popup'
       | 'ul'
+      | 'li-action-item'
       | 'li'
       | 'li-indicator'
       | 'li-text'
@@ -420,6 +446,10 @@ export class OakInternalSelectModern extends LitElement {
           [`${customElementName}__${baseClass}`]: true,
           [`${customElementName}__${baseClass}--active`]:
             this._currentIndex === index,
+        };
+      case 'li-action-item':
+        return {
+          [`${customElementName}__${baseClass}`]: true,
         };
       case 'margin':
         return {
@@ -461,7 +491,11 @@ export class OakInternalSelectModern extends LitElement {
     ];
   }
 
-  private propagateCustomEvent = (eventName: string, value?: any) => {
+  private propagateCustomEvent = (
+    eventName: string,
+    value?: any,
+    rest = {}
+  ) => {
     let _value: any[] = [];
     if (this.multiple) {
       if (this.value && Array.isArray(this.value)) {
@@ -482,6 +516,7 @@ export class OakInternalSelectModern extends LitElement {
           id: this.elementId,
           name: this.name,
           value: this.multiple ? _value : value,
+          ...rest,
         },
       })
     );
@@ -559,6 +594,26 @@ export class OakInternalSelectModern extends LitElement {
             id=${this.ulElementId}
             class=${classMap(this.getClassMap('ul'))}
           >
+            ${this.actionItems?.map(
+              (item) => html`<li
+                role="option"
+                class=${classMap(this.getClassMap('li-action-item'))}
+                @click=${() => this.handleActionItemChange(item)}
+              >
+                ${item}
+              </li>`
+            )}
+            ${!this._searchResults() || this._searchResults().length === 0
+              ? html`${this.actionItemsWhenNoResults?.map(
+                  (item) => html`<li
+                    role="option"
+                    class=${classMap(this.getClassMap('li-action-item'))}
+                    @click=${() => this.handleActionItemChange(item)}
+                  >
+                    ${item}
+                  </li>`
+                )}`
+              : html``}
             ${this._searchResults()?.map(
               (item: {id: any; value: any}, index: number) =>
                 html`<li
