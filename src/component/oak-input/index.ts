@@ -25,6 +25,8 @@ import {oakInputSizeStyles} from './size-styles';
 import {oakInputBorderStyles} from './border-styles';
 import {oakInputFillStyles} from './fill-styles';
 import {Subscription} from 'rxjs';
+import {RequiredValidator} from '../../_internal/validator/RequiredValidator';
+import {NonZeroValidator} from '../../_internal/validator/NonZeroValidator';
 
 let elementIdCounter = 0;
 
@@ -48,6 +50,12 @@ export class OakInput extends LitElement {
 
   @property({type: Boolean})
   isAutofocus?: boolean = false;
+
+  @property({type: Boolean})
+  required?: boolean = false;
+
+  @property({type: Boolean})
+  nonZero?: boolean = false;
 
   @property({type: String})
   type:
@@ -171,6 +179,20 @@ export class OakInput extends LitElement {
     this._subscriptions.forEach((item) => item.unsubscribe());
   }
 
+  shouldUpdate(_changedProperties: Map<string | number | symbol, unknown>) {
+    _changedProperties.forEach((_, propName) => {
+      if (propName === 'isAutofocus' && this.isAutofocus) {
+        setTimeout(() => {
+          const el = this.shadowRoot?.getElementById(this.elementId);
+          if (el) {
+            el.focus();
+          }
+        }, 0);
+      }
+    });
+    return true;
+  }
+
   private init() {
     if (this.formGroupName) {
       formControlRegisterSubject.next({
@@ -188,10 +210,33 @@ export class OakInput extends LitElement {
           })
       );
     }
+
+    // if (this.isAutofocus) {
+    //   console.log('---------- init set timeout');
+    //   setTimeout(() => {
+    //     const el = this.shadowRoot?.getElementById(this.elementId);
+    //     console.log('---------- init', el);
+    //     if (el) {
+    //       el.focus();
+    //     }
+    //   }, 300);
+    // }
   }
 
   private validate() {
     this._errors = [];
+
+    if (this.required) {
+      let _type: any = 'text';
+      if (['number', 'date'].includes(this.type)) {
+        _type = this.type;
+      }
+      this._errors = this._errors.concat(RequiredValidator(this.value, _type));
+    }
+
+    if (this.nonZero && this.type === 'number') {
+      this._errors = this._errors.concat(NonZeroValidator(this.value));
+    }
 
     if (
       this.type &&
@@ -324,6 +369,7 @@ export class OakInput extends LitElement {
           [`${customElementName}--no-underline`]: this.shape !== 'underline',
           [`oak-shape-${this.shape}`]: this.shape !== 'underline',
           'validation-failure': this._errors.length > 0,
+          [`${customElementName}--font`]: this.type === 'date',
         };
       default:
         return {};
@@ -346,7 +392,7 @@ export class OakInput extends LitElement {
     return html`
       <div
         class=${classMap(this.getClassMap('base'))}
-        id=${this.elementFor ? this.elementFor : this.elementId}
+        id=${this.elementFor ? this.elementFor : `${this.elementId}-base`}
       >
         <oak-label
           .label=${this.label}
@@ -370,7 +416,6 @@ export class OakInput extends LitElement {
               @input=${this.handleInput}
               @keydown=${this.handleKeydown}
               @focus=${this.handleFocus}
-              ?autofocus=${this.isAutofocus}
             />`
           : html``}
         ${this.type === 'textarea'
@@ -388,7 +433,6 @@ export class OakInput extends LitElement {
               @keydown=${this.handleKeydown}
               @focus=${this.handleFocus}
               rows="4"
-              ?autofocus=${this.isAutofocus}
             ></textarea>`
           : html``}
         <oak-internal-form-tooltip

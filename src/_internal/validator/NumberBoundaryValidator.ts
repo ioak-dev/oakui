@@ -11,18 +11,18 @@ export const NumberBoundaryValidator = (
   if (min && max && (value < min || value > max)) {
     outcome.push({
       type: ValidatorType.NUMBER_RANGE,
-      expected: `${min}-${max}`,
+      expected: `${min} and ${max}`,
       actual: value,
     });
   } else if (min && value < min) {
     outcome.push({
-      type: ValidatorType.MIN_TEXT_LENGTH,
+      type: ValidatorType.MIN_NUMBER,
       expected: min - 1,
       actual: value,
     });
   } else if (max && value > max) {
     outcome.push({
-      type: ValidatorType.MAX_TEXT_LENGTH,
+      type: ValidatorType.MAX_NUMBER,
       expected: max + 1,
       actual: value,
     });

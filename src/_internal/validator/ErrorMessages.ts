@@ -5,6 +5,7 @@ import {parseTemplate} from '../../_internal/utils/StringUtils';
 const errorMessageTemplates = {
   [ValidatorType.USER_DEFINED]: `{{actual}}`,
   [ValidatorType.REQUIRED]: 'Cannot be empty',
+  [ValidatorType.NON_ZERO_NUMBER]: 'Cannot be zero',
   [ValidatorType.MIN_TEXT_LENGTH]: `Should be minimum {{expected}} characters long`,
   [ValidatorType.MAX_TEXT_LENGTH]: `Should be less than {{expected}} characters long`,
   [ValidatorType.TEXT_LENGTH]: `Should be between {{expected}} characters`,

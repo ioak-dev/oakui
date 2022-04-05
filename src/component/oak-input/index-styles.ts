@@ -4,6 +4,9 @@ export const oakInputStyles = css`
   .oak-input {
     text-align: left;
   }
+  .oak-input--font {
+    font-family: inherit;
+  }
   input {
     width: 100%;
     box-sizing: border-box;

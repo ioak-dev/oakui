@@ -2,17 +2,36 @@ import {isEmptyOrSpaces, toString} from '../../_internal/utils/StringUtils';
 import {ValidationErrorType} from '../../types/ValidationResultType';
 import {ValidatorType} from './ValidatorType';
 
-export const RequiredValidator = (value: any): ValidationErrorType[] => {
+export const RequiredValidator = (
+  value: any,
+  datatype?: 'text' | 'string' | 'number' | 'date'
+): ValidationErrorType[] => {
   const outcome: ValidationErrorType[] = [];
 
-  console.log('****', value, isEmptyOrSpaces(toString(value)));
+  switch (datatype) {
+    case 'number':
+      if (isEmptyOrSpaces(toString(value))) {
+        outcome.push({
+          type: ValidatorType.REQUIRED,
+          expected: 'required',
+          actual: 'empty',
+        });
+      }
+      break;
 
-  if (isEmptyOrSpaces(toString(value))) {
-    outcome.push({
-      type: ValidatorType.REQUIRED,
-      expected: 'required',
-      actual: 'empty',
-    });
+    case 'date':
+    case 'string':
+    case 'text':
+    default:
+      if (isEmptyOrSpaces(toString(value))) {
+        outcome.push({
+          type: ValidatorType.REQUIRED,
+          expected: 'required',
+          actual: 'empty',
+        });
+      }
+      break;
   }
+
   return outcome;
 };
